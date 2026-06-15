@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UC02 | Software House Experience</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{
+      --bg:#020617;--bg2:#0f172a;--card:#111827;--card2:#1f2937;--text:#f8fafc;--muted:#cbd5e1;--line:#334155;
+      --accent:#38bdf8;--accent2:#22c55e;--warn:#f59e0b;--danger:#ef4444;--purple:#a78bfa;--shadow:0 16px 40px rgba(0,0,0,.28);--radius:22px
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#020617 0%,#0f172a 48%,#111827 100%);color:var(--text);line-height:1.58}
+    header{padding:clamp(34px,6vw,72px) 24px 38px;text-align:center;border-bottom:1px solid var(--line);background:radial-gradient(circle at 20% 0%,rgba(56,189,248,.22),transparent 34%),radial-gradient(circle at 80% 0%,rgba(167,139,250,.18),transparent 38%)}
+    .tag{display:inline-block;padding:7px 13px;border:1px solid rgba(56,189,248,.48);color:var(--accent);border-radius:999px;font-weight:bold;font-size:13px;margin-bottom:14px;background:rgba(56,189,248,.06)}
+    h1{margin:0 auto 14px;max-width:1150px;font-size:clamp(30px,5vw,58px);line-height:1.05;letter-spacing:-1.5px} header p{max-width:1020px;margin:0 auto;color:var(--muted);font-size:clamp(16px,2vw,19px)}
+    nav{position:sticky;top:0;z-index:20;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:14px 18px;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    nav button{color:var(--text);font-size:14px;padding:9px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);cursor:pointer;font:inherit}
+    nav button:hover,nav button.active{background:rgba(56,189,248,.18);color:var(--accent);border-color:rgba(56,189,248,.40)}
+    main{width:min(100% - 32px,1500px);margin:0 auto;padding:28px 0 70px}.tab-panel{display:none}.tab-panel.active{display:block}
+    section,.panel-card,details{margin:22px 0;padding:clamp(22px,3vw,34px);border:1px solid var(--line);background:rgba(15,23,42,.82);border-radius:var(--radius);box-shadow:var(--shadow)} details{padding:0;overflow:hidden}
+    h2{margin:0 0 14px;font-size:clamp(24px,3vw,32px);letter-spacing:-.4px} h3{margin:18px 0 8px;color:#fff} h4{margin:16px 0 6px} p{margin-top:0}.muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:16px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:16px}.two-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
+    .info-card,.mini-card,.delivery-card,.day-card{background:rgba(31,41,55,.84);border:1px solid var(--line);border-radius:18px;padding:20px;min-width:0}.info-card{min-height:86px;display:flex;flex-direction:column;justify-content:center}.info-card strong,.accent{color:var(--accent)}
+    ul,ol{padding-left:22px} li{margin:6px 0}.highlight{border-left:4px solid var(--accent);padding:14px 16px;background:rgba(56,189,248,.09);border-radius:12px;margin:14px 0}.warning{border-left-color:var(--warn);background:rgba(245,158,11,.10)}.success{border-left-color:var(--accent2);background:rgba(34,197,94,.10)}.purple{border-left-color:var(--purple);background:rgba(167,139,250,.10)}
+    .students{display:grid;grid-template-columns:1fr;gap:14px;max-width:1180px;margin:0 auto}.student-row{width:100%}
+    summary{cursor:pointer;padding:18px;list-style:none;display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:14px} summary::-webkit-details-marker{display:none}
+    summary .name{font-size:20px;font-weight:bold} summary .summary-client{color:var(--muted)} summary .budget{color:#03131d;background:var(--accent);border-radius:999px;padding:5px 10px;font-weight:bold;white-space:nowrap;font-size:13px} details[open] summary{border-bottom:1px solid var(--line);background:rgba(56,189,248,.07)}
+    .detail-body{padding:18px}.client{color:var(--accent2);font-weight:bold}.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pill{padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.08);color:var(--muted);font-size:13px}.pill.hot{background:rgba(245,158,11,.14);color:#fde68a;border:1px solid rgba(245,158,11,.25)}
+    table{width:100%;border-collapse:collapse;margin:12px 0;overflow:hidden;border-radius:12px} th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top} th{background:rgba(56,189,248,.12);color:var(--accent)}.rubric td:last-child,.rubric th:last-child{text-align:center;width:110px}.day-list{display:grid;gap:16px;margin-top:18px}.day-card h3{margin-top:0;color:var(--accent)}.day-meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}.day-meta span{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);border-radius:999px;padding:5px 9px;color:var(--muted);font-size:13px}
+    .deliver-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.deliver-tools span{padding:5px 9px;border-radius:999px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.35);color:#ddd6fe;font-size:13px}
+    form{display:grid;gap:14px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px} label{display:block;font-weight:bold;margin-bottom:6px;color:var(--muted)} input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 13px;background:rgba(2,6,23,.54);color:var(--text);font:inherit} input:focus,select:focus,textarea:focus{outline:2px solid rgba(56,189,248,.32);border-color:rgba(56,189,248,.7)}.check-row{display:grid;gap:10px;background:rgba(2,6,23,.28);border:1px solid var(--line);border-radius:16px;padding:14px}.check-row label{display:flex;gap:10px;align-items:flex-start;margin:0;color:var(--text);font-weight:normal}.check-row input{width:auto;margin-top:5px}.submit-btn{background:var(--accent2);color:#04130a;border:none;border-radius:999px;padding:13px 18px;font-weight:bold;cursor:pointer;font-size:16px}.submit-btn:hover{filter:brightness(1.08)}.status{display:none;padding:13px 14px;border-radius:14px;border:1px solid var(--line)}.status.ok{display:block;background:rgba(34,197,94,.12);color:#bbf7d0;border-color:rgba(34,197,94,.45)}.status.err{display:block;background:rgba(239,68,68,.12);color:#fecaca;border-color:rgba(239,68,68,.45)}.btn-print{position:fixed;right:18px;bottom:18px;background:var(--accent);color:#03131d;border:none;border-radius:999px;padding:12px 18px;font-weight:bold;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35)} footer{text-align:center;color:var(--muted);border-top:1px solid var(--line);padding:28px 18px;background:#020617}
+    @media(max-width:980px){.grid,.grid4{grid-template-columns:1fr}.two-cols,.form-grid{grid-template-columns:1fr}main{width:min(100% - 24px,1500px)}summary{grid-template-columns:1fr;align-items:flex-start}.btn-print{position:static;margin:18px;width:calc(100% - 36px)}}
+    @media print{body{background:white;color:black}header,section,.panel-card,details,footer,.mini-card,.day-card{background:white!important;color:black!important;box-shadow:none}nav,.btn-print,.submit-area{display:none!important}.tab-panel{display:block!important}section,details,.mini-card,.day-card{border:1px solid #999;break-inside:avoid}.muted,.client,h2,h3{color:black!important}summary .budget,.pill{border:1px solid #333;color:black;background:white}}
+  </style>
+</head>
+<body>
+  <header>
+    <span class="tag">UC02 | Auxiliar na Gestão de Projetos de Tecnologia da Informação</span>
+    <h1>Software House Experience: Planejamento de Projetos de Software</h1>
+    <p>Cada aluno assume o papel de dev/consultor júnior da Nexus Software House, recebe um briefing individual de cliente e transforma informações soltas em diagnóstico, Matriz CSD, escopo, requisitos, backlog, cronograma, riscos e proposta executiva.</p>
+  </header>
+
+  <nav aria-label="Menu da atividade">
+    <button class="active" type="button" data-tab="contexto">Contexto</button>
+    <button type="button" data-tab="cronograma">Dias e Demandas</button>
+    <button type="button" data-tab="alunos">Situações Individuais</button>
+    <button type="button" data-tab="entregaveis">Entregáveis</button>
+    <button type="button" data-tab="entrega">Enviar Atividade</button>
+    <button type="button" data-tab="avaliacao">Avaliação</button>
+  </nav>
+
+  <main>
+    <section id="contexto" class="tab-panel active">
+      <h2>Contexto da Atividade</h2>
+      <p>A Nexus Software House atende pequenos negócios que precisam iniciar projetos de sistemas digitais. Nesta atividade, o aluno não vai programar. Ele vai atuar antes do desenvolvimento: entender o cliente, organizar o briefing, levantar dúvidas, definir escopo e planejar o projeto.</p>
+      <div class="highlight"><strong>Objetivo principal:</strong> transformar um briefing com detalhes misturados em uma proposta técnica clara, coerente, viável e defensável.</div>
+      <div class="grid4">
+        <div class="info-card"><strong>Modalidade</strong><br>Individual</div>
+        <div class="info-card"><strong>Produto final</strong><br>Documento técnico + quadro visual</div>
+        <div class="info-card"><strong>Foco</strong><br>Planejamento, não programação</div>
+        <div class="info-card"><strong>Defesa</strong><br>Apresentação oral com mudança de escopo</div>
+      </div>
+      <div class="two-cols">
+        <div class="mini-card">
+          <h3>Competências trabalhadas</h3>
+          <ul><li>Refinamento de escopo.</li><li>Identificação de stakeholders.</li><li>Levantamento inicial de requisitos.</li><li>Priorização de demandas.</li><li>Escolha de metodologia e ferramenta de gestão.</li><li>Planejamento de cronograma, orçamento, riscos e comunicação.</li><li>Defesa técnica das decisões.</li></ul>
+        </div>
+        <div class="mini-card">
+          <h3>Matriz CSD</h3>
+          <p>A Matriz CSD não vem pronta. O próprio aluno/dev deve criá-la a partir do briefing, separando o que já é certeza, o que é suposição e o que ainda precisa ser descoberto com o cliente.</p>
+          <div class="highlight warning"><strong>Regra de ouro:</strong> não proponha solução antes de organizar o problema.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cronograma" class="tab-panel">
+      <h2>Separação por Dia e Demanda</h2>
+      <p class="muted">A atividade foi organizada para evoluir por encontros. Cada dia gera um entregável que alimenta a etapa seguinte.</p>
+      <div class="day-list" id="dayCards"></div>
+    </section>
+
+    <section id="alunos" class="tab-panel">
+      <h2>Situações Individuais dos Alunos</h2>
+      <p class="muted">Cada pessoa aparece em uma linha. Clique no nome para expandir o briefing detalhado e a demanda do Encontro 1.</p>
+      <div class="students" id="studentCards"></div>
+    </section>
+
+    <section id="entregaveis" class="tab-panel">
+      <h2>Entregáveis da Atividade</h2>
+      <div class="two-cols">
+        <div class="delivery-card">
+          <span class="pill hot">Documento técnico</span>
+          <h3>Notion, Google Docs ou documento estruturado</h3>
+          <p>É o material oficial de análise e auditoria. Deve concentrar os detalhes técnicos do planejamento.</p>
+          <div class="deliver-tools"><span>Notion</span><span>Google Docs</span><span>Microsoft Word Online</span><span>Confluence</span><span>GitHub Wiki</span></div>
+          <ol>
+            <li>Identificação do aluno e cliente recebido.</li><li>Briefing organizado com informações extraídas.</li><li>Matriz CSD criada pelo aluno.</li><li>Diagnóstico do problema e objetivo do projeto.</li><li>Stakeholders e personas.</li><li>Escopo dentro, fora e evolução futura.</li><li>Requisitos funcionais e não funcionais.</li><li>Backlog inicial com pelo menos 12 itens.</li><li>Priorização usando MoSCoW ou esforço x impacto.</li><li>Metodologia escolhida e justificativa.</li><li>Comparação entre duas ferramentas de gestão.</li><li>Cronograma, orçamento, riscos, comunicação e critérios de aceite.</li>
+          </ol>
+        </div>
+        <div class="delivery-card">
+          <span class="pill hot">Quadro visual</span>
+          <h3>Miro, FigJam, Figma, Excalidraw ou Canva</h3>
+          <p>É a apresentação visual para o cliente. Deve ser claro, objetivo e visual, sem repetir todo o conteúdo técnico do documento.</p>
+          <div class="deliver-tools"><span>Miro</span><span>FigJam</span><span>Figma</span><span>Excalidraw</span><span>Canva</span></div>
+          <ol>
+            <li>Nome do cliente e problema resumido.</li><li>Matriz CSD visual ou síntese das descobertas.</li><li>Persona principal e impacto do problema.</li><li>Solução proposta e MVP.</li><li>Backlog resumido ou quadro de prioridades.</li><li>Cronograma visual.</li><li>Principais riscos e benefícios esperados.</li><li>Conclusão: por que a proposta é viável.</li>
+          </ol>
+          <div class="highlight warning"><strong>Atenção:</strong> o quadro visual é executivo. Os detalhes técnicos ficam no documento oficial.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="entrega" class="tab-panel">
+      <h2>Enviar Atividade</h2>
+      <p>Compartilhe o documento técnico e o quadro visual com permissão de visualização antes de enviar os links.</p>
+      <div class="panel-card submit-area">
+        <form id="submissionForm">
+          <div class="form-grid">
+            <div><label for="aluno">Aluno</label><select id="aluno" name="aluno" required><option value="">Selecione seu nome</option></select></div>
+            <div><label for="cliente">Cliente/Situação</label><input id="cliente" name="cliente" type="text" readonly required placeholder="Preenchido automaticamente" /></div>
+          </div>
+          <div class="form-grid">
+            <div><label for="link_documento">Link do documento técnico</label><input id="link_documento" name="link_documento" type="url" required placeholder="Notion, Google Docs, Word Online, GitHub Wiki..." /></div>
+            <div><label for="link_visual">Link do quadro visual</label><input id="link_visual" name="link_visual" type="url" required placeholder="Miro, FigJam, Figma, Excalidraw, Canva..." /></div>
+          </div>
+          <div><label for="observacoes">Observações, se houver</label><textarea id="observacoes" name="observacoes" rows="3" placeholder="Exemplo: dúvida crítica ainda aberta, mudança de escopo considerada, restrição técnica etc."></textarea></div>
+          <div class="check-row">
+            <label><input type="checkbox" id="csd_criada" required /> Confirmo que criei minha própria Matriz CSD com base no briefing.</label>
+            <label><input type="checkbox" id="escopo_definido" required /> Confirmo que defini escopo dentro, fora e evolução futura.</label>
+            <label><input type="checkbox" id="declaracao_autoria" required /> Confirmo que consigo defender tecnicamente as decisões do meu planejamento.</label>
+          </div>
+          <button class="submit-btn" type="submit">Enviar atividade</button>
+          <div id="submitStatus" class="status"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="avaliacao" class="tab-panel">
+      <h2>Avaliação e Defesa Oral</h2>
+      <div class="two-cols">
+        <div class="mini-card">
+          <h3>Critérios de XP</h3>
+          <table class="rubric"><tr><th>Critério</th><th>XP</th></tr><tr><td>Leitura do briefing e Matriz CSD</td><td>10</td></tr><tr><td>Diagnóstico do problema</td><td>15</td></tr><tr><td>Escopo e requisitos</td><td>15</td></tr><tr><td>Backlog e priorização</td><td>15</td></tr><tr><td>Metodologia e ferramenta</td><td>15</td></tr><tr><td>Cronograma e orçamento</td><td>10</td></tr><tr><td>Riscos e comunicação</td><td>10</td></tr><tr><td>Quadro visual</td><td>5</td></tr><tr><td>Defesa oral</td><td>5</td></tr><tr><th>Total</th><th>100</th></tr></table>
+        </div>
+        <div class="mini-card">
+          <h3>Perguntas da defesa oral</h3>
+          <ul><li>Quais informações do briefing são certezas?</li><li>Quais suposições você fez e como validaria?</li><li>Qual dúvida é mais crítica antes do projeto iniciar?</li><li>Qual é o problema real do cliente?</li><li>Por que você escolheu essa metodologia?</li><li>O que ficou fora do MVP e por quê?</li><li>Qual risco pode comprometer mais o projeto?</li><li>Como o cliente acompanhará o andamento?</li></ul>
+        </div>
+      </div>
+      <div class="highlight purple"><strong>Mudança surpresa:</strong> durante a defesa, o professor pode alterar orçamento, prazo, equipe ou prioridade. O aluno deverá adaptar o planejamento e justificar a decisão.</div>
+    </section>
+  </main>
+
+  <button class="btn-print" onclick="window.print()">Imprimir ou salvar em PDF</button>
+  <footer><p>Atividade desenvolvida para UC02: Auxiliar na Gestão de Projetos de Tecnologia da Informação.</p></footer>
+
+  <script>
+    const SUPABASE_URL='COLE_AQUI_A_URL_DO_SUPABASE';
+    const SUPABASE_ANON_KEY='COLE_AQUI_A_ANON_KEY_DO_SUPABASE';
+    const SUPABASE_TABLE='entregas_uc02_software_house';
+
+    const days=[
+      {day:'Encontro 1',title:'Briefing, diagnóstico inicial e Matriz CSD',demand:'Ler a situação individual, extrair informações do briefing e separar certezas, suposições e dúvidas.',output:'Resumo do cliente, problema percebido, Matriz CSD criada pelo aluno e 10 perguntas iniciais ao cliente.',concepts:['Briefing','CSD','Cliente x usuário','Problema x solução'],xp:'10 XP'},
+      {day:'Encontro 2',title:'Stakeholders, personas e jornada',demand:'Identificar quem influencia, quem usa, quem aprova e quem sofre com o problema.',output:'Mapa de stakeholders, 2 personas e jornada atual do usuário.',concepts:['Stakeholders','Personas','Jornada'],xp:'10 XP'},
+      {day:'Encontro 3',title:'Escopo e requisitos',demand:'Transformar o diagnóstico em escopo e requisitos iniciais.',output:'Escopo dentro/fora/evolução, 8 requisitos funcionais e 5 não funcionais.',concepts:['Escopo','RF','RNF','Restrições'],xp:'15 XP'},
+      {day:'Encontro 4',title:'Backlog e priorização',demand:'Organizar as demandas em backlog e decidir o que entra no MVP.',output:'Backlog com 12 itens e priorização por MoSCoW ou esforço x impacto.',concepts:['Backlog','MVP','MoSCoW'],xp:'15 XP'},
+      {day:'Encontro 5',title:'Metodologia e ferramenta',demand:'Escolher como o projeto será conduzido e por qual ferramenta será acompanhado.',output:'Metodologia escolhida, ferramenta definida e comparação com uma alternativa descartada.',concepts:['Scrum','Kanban','Scrumban','Ferramentas'],xp:'15 XP'},
+      {day:'Encontro 6',title:'Cronograma e orçamento',demand:'Montar um plano realista de execução respeitando prazo, equipe e orçamento.',output:'Cronograma por etapas/sprints, orçamento e justificativa de viabilidade.',concepts:['Cronograma','Custos','Capacidade'],xp:'10 XP'},
+      {day:'Encontro 7',title:'Riscos e comunicação',demand:'Antecipar problemas e definir como o cliente será informado.',output:'Matriz de riscos e plano de comunicação.',concepts:['Riscos','Mitigação','Comunicação'],xp:'10 XP'},
+      {day:'Encontro 8',title:'Critérios de aceite e acompanhamento',demand:'Definir como saber se a entrega está pronta e como acompanhar o projeto.',output:'Critérios de aceite, Definition of Done e relatório de acompanhamento.',concepts:['Aceite','DoD','Indicadores'],xp:'10 XP'},
+      {day:'Encontro 9',title:'Quadro visual executivo e revisão da proposta',demand:'Transformar o planejamento técnico em um quadro visual para o cliente.',output:'Quadro em Miro, FigJam, Figma, Excalidraw ou Canva com problema, solução, MVP, cronograma, riscos e benefícios.',concepts:['Pitch','Síntese executiva','Argumentação'],xp:'5 XP'},
+      {day:'Encontro 10',title:'Defesa oral e mudança de escopo',demand:'Apresentar a proposta e responder a uma mudança surpresa.',output:'Defesa de até 5 minutos e adaptação oral do planejamento.',concepts:['Defesa','Negociação','Mudança de escopo'],xp:'10 XP'}
+    ];
+
+    const students=[
+      {name:'Claudio',budget:'R$ 25.000',deadline:'90 dias',team:'1 PO, 2 devs, 1 UX parcial e 1 QA parcial',client:'PetVille',segment:'Petshop',difficulty:'Média',briefing:'A PetVille é um petshop de bairro que cresceu rápido nos últimos meses. O principal problema informado pela dona é que muitos clientes esquecem o horário do banho e tosa, causando buracos na agenda, atrasos e perda de faturamento. Hoje os agendamentos ficam em um caderno na recepção e também em mensagens de WhatsApp. Uma funcionária tenta confirmar os horários manualmente, mas nem sempre consegue. A dona quer algo simples para organizar agenda, clientes, pets e confirmações. Ela comentou que gostaria de integração automática com WhatsApp no futuro, mas o orçamento atual não permite começar por algo muito complexo.',problem:'Faltas e confusão na agenda de banho e tosa geram perda de faturamento.',objective:'Planejar sistema web simples para agenda, clientes, pets e confirmação de horários.',restrictions:['Não desenvolver aplicativo mobile no MVP.','Integração automática com WhatsApp fica para evolução.','Equipe da recepção tem pouco tempo para treinamento.'],priorities:['Agenda de banho e tosa.','Cadastro de cliente e pet.','Confirmação de horário.'],risks:['Cliente pedir automações avançadas sem orçamento.','Recepção continuar usando caderno.','Dados antigos incompletos.'],tags:['Petshop','Agenda','MVP enxuto','WhatsApp futuro']},
+      {name:'Nereyev',budget:'R$ 32.000',deadline:'75 dias',team:'1 analista, 2 devs e 1 QA parcial',client:'StrongFit Academia',segment:'Academia',difficulty:'Média',briefing:'A StrongFit possui cerca de 420 alunos ativos. O controle de mensalidades é feito em planilhas separadas por mês, e a recepção consulta pagamentos manualmente. Em horários de pico, formam-se filas porque os alunos querem saber vencimento, planos disponíveis e pendências. O proprietário deseja reduzir erros financeiros e quer relatórios simples de alunos ativos, inadimplentes e planos mais vendidos. Ele não quer contratar uma ferramenta mensal agora e prefere uma solução própria. Ainda não foram definidas regras claras de desconto, congelamento de plano e dependentes.',problem:'Controle manual de mensalidades gera filas, erros e dificuldade de acompanhar inadimplência.',objective:'Planejar sistema de alunos, planos, vencimentos, pagamentos e relatórios básicos.',restrictions:['Cliente não quer mensalidade de software.','Regras de desconto ainda não estão fechadas.','Não incluir catraca integrada no MVP.'],priorities:['Mensalidades.','Inadimplência.','Relatórios simples.'],risks:['Regras financeiras mudarem.','Recepção não alimentar dados corretamente.','Cliente pedir catraca ou app sem orçamento.'],tags:['Academia','Financeiro','Sem mensalidade','Relatórios']},
+      {name:'Jose',budget:'R$ 18.000',deadline:'45 dias',team:'1 analista e 1 dev',client:'Restaurante Sabor Caseiro',segment:'Restaurante',difficulty:'Média',briefing:'O Restaurante Sabor Caseiro recebe pedidos pelo WhatsApp, telefone e balcão. Nos horários de almoço, os pedidos são anotados em papéis e repassados à cozinha. O problema é que pratos saem errados, pedidos se perdem e alguns clientes reclamam da demora. A dona quer visualizar pedidos em aberto, em preparo, prontos e entregues. Ela perguntou se seria possível criar um aplicativo para clientes, mas o orçamento e o prazo são curtos. A equipe da cozinha não tem muita familiaridade com computador, então a solução precisa ser objetiva.',problem:'Pedidos desorganizados causam erros, atrasos e reclamações.',objective:'Planejar painel simples de pedidos com status para cozinha e atendimento.',restrictions:['Aplicativo para cliente fica fora do MVP.','Prazo curto.','Equipe da cozinha precisa de interface simples.'],priorities:['Registro de pedido.','Status de preparo.','Comunicação entre atendimento e cozinha.'],risks:['Escopo crescer para delivery completo.','Equipe não atualizar status.','Pico de demanda no almoço.'],tags:['Restaurante','Pedidos','Prazo curto','Painel']},
+      {name:'Ronnivon',budget:'R$ 28.000',deadline:'80 dias',team:'1 PO, 2 devs, 1 UX e 1 QA',client:'Clínica Vida Plena',segment:'Clínica médica',difficulty:'Alta',briefing:'A Clínica Vida Plena possui quatro médicos e duas recepcionistas. A agenda é compartilhada por planilha, mas frequentemente ocorrem conflitos de horários e encaixes sem registro. Pacientes ligam para confirmar consulta, mas a recepção perde tempo procurando informações. A direção quer reduzir faltas, organizar agendamentos e controlar status de atendimento. Existem dados sensíveis de pacientes, então segurança e acesso por perfil são importantes. A clínica pensa em teleatendimento no futuro, mas não quer isso no MVP.',problem:'Agenda descentralizada causa conflitos, faltas e lentidão no atendimento.',objective:'Planejar sistema de agenda médica, cadastro de pacientes, confirmações e controle de status.',restrictions:['Teleatendimento fica fora do MVP.','Controle de acesso é obrigatório.','Dados de saúde exigem cuidado e sigilo.'],priorities:['Agenda por profissional.','Confirmação de consulta.','Cadastro de pacientes.'],risks:['Dados sensíveis.','Conflito entre regras dos médicos.','Equipe pedir prontuário completo sem orçamento.'],tags:['Clínica','Agenda','Segurança','Pacientes']},
+      {name:'Hudson',budget:'R$ 22.000',deadline:'60 dias',team:'1 analista, 2 devs e 1 QA parcial',client:'Loja Estilo Urbano',segment:'Loja de roupas',difficulty:'Média',briefing:'A Loja Estilo Urbano vende presencialmente e pelo Instagram. O estoque é atualizado em caderno e planilhas, mas frequentemente há divergência entre o que aparece nas redes sociais e o que está disponível. Vendedores reservam peças por mensagem, mas esquecem de baixar do estoque. A dona quer visualizar estoque por tamanho, cor e categoria, além de registrar vendas básicas. Ela não precisa de e-commerce agora, mas quer preparar a loja para vender online no futuro. O orçamento não permite um projeto grande.',problem:'Controle manual de estoque gera divergência, reservas perdidas e vendas frustradas.',objective:'Planejar sistema simples de produtos, estoque, reservas e vendas básicas.',restrictions:['E-commerce fica para evolução.','Orçamento moderado.','Cadastro precisa ser rápido.'],priorities:['Estoque por variação.','Reserva de peças.','Registro de venda.'],risks:['Cadastro inicial trabalhoso.','Vendedores continuarem usando Instagram sem registrar.','Cliente pedir loja virtual no MVP.'],tags:['Estoque','Roupas','Instagram','Reservas']},
+      {name:'Maycon',budget:'R$ 17.000',deadline:'50 dias',team:'1 analista, 1 dev e 1 QA parcial',client:'Oficina Roda Forte',segment:'Oficina mecânica',difficulty:'Alta',briefing:'A Oficina Roda Forte registra serviços em fichas de papel. Quando um cliente retorna, a equipe não encontra rapidamente o histórico do veículo, peças trocadas ou orçamento anterior. A internet da oficina é instável e o ambiente de trabalho é corrido. O dono quer controlar ordens de serviço, clientes, veículos e status do serviço. Ele também gostaria de controlar estoque de peças, mas isso pode deixar o projeto maior do que o orçamento permite.',problem:'Histórico e ordens de serviço em papel dificultam atendimento e controle.',objective:'Planejar sistema de OS, clientes, veículos e histórico de manutenção.',restrictions:['Não incluir emissão fiscal.','Internet da oficina é instável.','Estoque completo fica para evolução.'],priorities:['Histórico por placa.','Status da OS.','Controle básico de serviços.'],risks:['Ambiente com pouca disciplina de registro.','Internet instável.','Cliente querer controle financeiro completo.'],tags:['Oficina','OS','Internet instável','Histórico']},
+      {name:'Paulo Victor',budget:'R$ 26.000',deadline:'70 dias',team:'1 PO, 2 devs, 1 UX e 1 QA',client:'Escola Crescer',segment:'Escola particular',difficulty:'Média',briefing:'A Escola Crescer atende turmas do ensino fundamental. A direção relata dificuldade para comunicar avisos aos responsáveis. Hoje os comunicados são enviados por grupos de WhatsApp, mas muitos responsáveis não leem, outros respondem em conversas paralelas e a escola não consegue comprovar ciência. A direção quer organizar avisos por turma, responsável e aluno, com confirmação de leitura. Não deseja criar uma rede social escolar. Como envolve dados de menores, privacidade e controle de acesso são importantes.',problem:'Comunicação com responsáveis é desorganizada e sem confirmação de leitura.',objective:'Planejar plataforma de avisos, turmas, responsáveis e confirmações.',restrictions:['Não criar rede social escolar.','Responsáveis usam celulares diferentes.','Dados de menores exigem cuidado.'],priorities:['Comunicação por turma.','Confirmação de leitura.','Relatórios simples.'],risks:['Baixa adesão dos responsáveis.','Pedido de chat em tempo real.','Dados de menores de idade.'],tags:['Educação','Comunicação','Responsáveis','Privacidade']},
+      {name:'Pedro Augusto',budget:'R$ 30.000',deadline:'85 dias',team:'1 analista, 3 devs, 1 QA e 1 designer parcial',client:'Hotel Boa Vista',segment:'Hotelaria',difficulty:'Alta',briefing:'O Hotel Boa Vista controla reservas em agenda física e planilhas. Já ocorreram reservas duplicadas em datas movimentadas. A recepção precisa visualizar quartos disponíveis, ocupados, em limpeza e bloqueados. O gerente quer controlar check-in e check-out, mas relatórios financeiros podem ficar para depois. O hotel gostaria no futuro de integrar com plataformas como Booking e Airbnb, porém o orçamento atual não permite. A prioridade é evitar overbooking e organizar a operação diária da recepção.',problem:'Reservas manuais causam overbooking e falta de visão da ocupação.',objective:'Planejar sistema de reservas, ocupação de quartos, check-in, check-out e status de limpeza.',restrictions:['Sem integração com Booking/Airbnb no MVP.','Relatórios financeiros ficam para evolução.','Interface simples para recepção.'],priorities:['Reservas.','Disponibilidade de quartos.','Check-in e check-out.'],risks:['Overbooking durante implantação.','Resistência da equipe antiga.','Cliente insistir em integrações externas.'],tags:['Hotel','Reservas','Overbooking','Check-in']},
+      {name:'João Pedro',budget:'R$ 16.000',deadline:'40 dias',team:'1 analista e 1 dev',client:'Barbearia Dom Corte',segment:'Barbearia',difficulty:'Média',briefing:'A Barbearia Dom Corte possui três barbeiros e atende muitos clientes por indicação. Os horários são marcados por WhatsApp pessoal dos barbeiros, causando conflitos de agenda e clientes esquecidos. O dono quer uma solução simples para cadastro de clientes, agenda e histórico de serviços. O orçamento é baixo e o prazo é curto. Pagamento online e aplicativo próprio foram mencionados pelo cliente, mas não cabem no MVP. A solução precisa ser fácil de usar no celular.',problem:'Agendamentos por WhatsApp pessoal causam conflitos e perda de clientes.',objective:'Planejar solução simples de agendamento, cadastro de clientes e histórico de serviços.',restrictions:['Orçamento baixo.','Prazo curto.','Pagamento online fica fora do MVP.'],priorities:['Agenda simples.','Lembrete manual ou semi-automatizado.','Histórico de clientes.'],risks:['Cliente querer app próprio.','Barbeiros não registrarem atendimentos.','Agenda lotada aos finais de semana.'],tags:['Barbearia','Agenda','Baixo orçamento','Celular']},
+      {name:'Ricardo',budget:'R$ 24.000',deadline:'65 dias',team:'1 PO, 2 devs e 1 QA',client:'ONG Mãos Unidas',segment:'ONG',difficulty:'Média',briefing:'A ONG Mãos Unidas organiza campanhas de doação e ações sociais com voluntários. Hoje os dados ficam espalhados em planilhas, grupos de mensagem e cadernos. A coordenação não sabe com clareza quem participou de cada ação, quais doações chegaram e quais campanhas ainda precisam de apoio. A ONG não possui orçamento para ferramenta paga mensal e os usuários têm pouca experiência digital. O sistema precisa ser simples e ajudar na transparência das ações.',problem:'Dados de voluntários, doações e campanhas ficam dispersos.',objective:'Planejar sistema para voluntários, campanhas, doações e participação em ações.',restrictions:['Sem ferramenta paga mensal.','Usuários com pouca experiência digital.','Equipe voluntária tem horários limitados.'],priorities:['Cadastro de voluntários.','Controle de campanhas.','Registro de doações.'],risks:['Dados incompletos.','Mudança de responsáveis.','Dificuldade de uso por voluntários.'],tags:['ONG','Voluntários','Doações','Sem mensalidade']},
+      {name:'JosueKaic',budget:'R$ 21.000',deadline:'55 dias',team:'1 analista, 2 devs e 1 QA parcial',client:'Delivery Rápido Local',segment:'Delivery',difficulty:'Alta',briefing:'O Delivery Rápido Local atende pequenos restaurantes do bairro. Os pedidos chegam por WhatsApp e são repassados manualmente aos entregadores. O responsável não consegue saber em tempo real quais pedidos estão pendentes, em preparo, em rota ou entregues. Ele quer atribuir entregador, controlar status e confirmar entrega. O cliente perguntou sobre mapa e rastreamento, mas não há orçamento para geolocalização avançada neste momento. A solução precisa funcionar em notebook e celular.',problem:'Falta de controle dos pedidos e entregadores causa atrasos e reclamações.',objective:'Planejar painel de pedidos, status, entregadores e confirmação de entrega.',restrictions:['Sem rastreamento em tempo real no MVP.','Uso interno.','Precisa funcionar bem em celular e notebook.'],priorities:['Status dos pedidos.','Atribuição de entregador.','Confirmação de entrega.'],risks:['Cliente pedir geolocalização avançada.','Entregadores não atualizarem status.','Picos de demanda à noite.'],tags:['Delivery','Pedidos','Entregadores','Sem rastreamento']},
+      {name:'Emerson',budget:'R$ 27.000',deadline:'70 dias',team:'1 PO, 2 devs, 1 QA e 1 suporte parcial',client:'Contábil Prime',segment:'Escritório contábil',difficulty:'Alta',briefing:'O Escritório Contábil Prime recebe documentos de clientes por WhatsApp, e-mail e pendrive. Alguns arquivos se perdem, chegam fora do prazo ou são enviados para pessoas erradas. A equipe perde tempo cobrando documentos e organizando pastas. O sócio quer um portal simples para envio de documentos por cliente e competência mensal, com status de pendência, recebido e validado. Como há documentos sensíveis, segurança e controle de acesso são prioridade. Assinatura digital não entra no MVP.',problem:'Documentos contábeis espalhados causam perda de arquivos, retrabalho e risco de segurança.',objective:'Planejar portal para envio, organização e acompanhamento de documentos por cliente.',restrictions:['Sem assinatura digital no MVP.','Controle de acesso obrigatório.','Usuários externos com pouca familiaridade.'],priorities:['Upload de documentos.','Status por cliente.','Organização por mês/competência.'],risks:['Documentos sensíveis.','Clientes continuarem usando WhatsApp.','Falhas de permissão.'],tags:['Contabilidade','Documentos','Segurança','Portal']},
+      {name:'Marimar',budget:'R$ 19.000',deadline:'50 dias',team:'1 analista, 1 dev e 1 designer parcial',client:'Agência Viajar Mais',segment:'Turismo',difficulty:'Média',briefing:'A Agência Viajar Mais organiza pacotes de viagens para grupos. As informações de clientes, pagamentos, datas, hotéis e passeios ficam em planilhas separadas. Quando um fornecedor muda data ou valor, a equipe demora para atualizar tudo. A agência quer acompanhar pacotes, status de pagamento e datas importantes por cliente. Não precisa vender online agora. O sistema deve ser visual e simples porque a equipe é pequena e trabalha com muitos contatos pelo WhatsApp.',problem:'Pacotes, pagamentos e datas ficam dispersos, gerando risco de erro com clientes.',objective:'Planejar sistema de acompanhamento de pacotes, clientes, pagamentos e datas importantes.',restrictions:['Sem venda online no MVP.','Equipe pequena.','Visualização simples por cliente e viagem.'],priorities:['Controle de pacotes.','Status de pagamento.','Datas importantes.'],risks:['Mudanças de datas por fornecedores.','Pedido de contrato automático.','Planilhas antigas desorganizadas.'],tags:['Turismo','Pacotes','Pagamentos','Datas']},
+      {name:'Caio',budget:'R$ 34.000',deadline:'95 dias',team:'1 PO, 3 devs, 1 UX, 1 QA e 1 suporte parcial',client:'Assistência Técnica TechFix',segment:'Assistência técnica',difficulty:'Alta',briefing:'A TechFix recebe celulares, notebooks e impressoras para manutenção. O atendimento abre ordens de serviço em fichas de papel, e os clientes ligam várias vezes para saber status. A empresa também perde controle de orçamento aprovado, peças utilizadas e histórico por cliente. O dono quer organizar atendimento, orçamento, status de reparo e histórico. Consulta de status pelo cliente seria interessante, mas pode ficar para evolução. Controle de estoque completo também não entra no MVP.',problem:'Ordens de serviço em papel dificultam status, orçamento, peças e histórico.',objective:'Planejar sistema de OS, orçamento, status de reparo e histórico de atendimento.',restrictions:['Sem estoque completo no MVP.','Consulta pública de status fica para evolução.','Tela simples para atendimento.'],priorities:['Ordem de serviço.','Status do reparo.','Aprovação de orçamento.'],risks:['Escopo crescer para estoque completo.','Clientes cobrarem status em tempo real.','Dados antigos desorganizados.'],tags:['Assistência técnica','OS','Orçamento','Status']}
+    ];
+
+    const tabButtons=document.querySelectorAll('nav button[data-tab]');
+    const panels=document.querySelectorAll('.tab-panel');
+    tabButtons.forEach(button=>button.addEventListener('click',()=>{const target=button.dataset.tab;tabButtons.forEach(btn=>btn.classList.remove('active'));panels.forEach(panel=>panel.classList.remove('active'));button.classList.add('active');document.getElementById(target).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}));
+
+    const dayCards=document.getElementById('dayCards');
+    days.forEach(item=>{const card=document.createElement('div');card.className='day-card';card.innerHTML=`<h3>${item.day} | ${item.title}</h3><div class="day-meta"><span>${item.xp}</span>${item.concepts.map(c=>`<span>${c}</span>`).join('')}</div><p><strong>Demanda:</strong> ${item.demand}</p><p><strong>Entregável do dia:</strong> ${item.output}</p>`;dayCards.appendChild(card);});
+
+    const studentCards=document.getElementById('studentCards');
+    const alunoSelect=document.getElementById('aluno');
+    const clienteInput=document.getElementById('cliente');
+    students.forEach(student=>{const details=document.createElement('details');details.className='student-row';details.innerHTML=`<summary><span class="name">${student.name}</span><span class="summary-client">${student.client} | ${student.segment}</span><span class="budget">${student.budget}</span></summary><div class="detail-body"><p class="client">Cliente: ${student.client}</p><table><tr><th>Segmento</th><td>${student.segment}</td></tr><tr><th>Prazo máximo</th><td>${student.deadline}</td></tr><tr><th>Equipe disponível</th><td>${student.team}</td></tr><tr><th>Dificuldade</th><td>${student.difficulty}</td></tr></table><h4>Encontro 1 | Briefing do cliente</h4><div class="highlight"><p>${student.briefing}</p></div><h4>Demanda do Encontro 1</h4><ol><li>Ler o briefing e destacar informações importantes.</li><li>Criar sua própria Matriz CSD em uma ferramenta visual ou documento estruturado.</li><li>Separar certezas, suposições e dúvidas.</li><li>Identificar o problema aparente e o possível problema real.</li><li>Criar 10 perguntas para entrevista com o cliente.</li><li>Registrar o primeiro objetivo do projeto em uma frase.</li></ol><div class="highlight purple"><strong>Matriz CSD:</strong> esta página não entrega a matriz pronta. Você deve criá-la com base no briefing, usando Notion, Miro, FigJam, Figma, Excalidraw, Canva ou ferramenta equivalente.</div><h4>Problema aparente</h4><p>${student.problem}</p><h4>Objetivo inicial</h4><p>${student.objective}</p><h4>Restrições</h4><ul>${student.restrictions.map(item=>`<li>${item}</li>`).join('')}</ul><h4>Prioridades</h4><ul>${student.priorities.map(item=>`<li>${item}</li>`).join('')}</ul><h4>Riscos iniciais</h4><ul>${student.risks.map(item=>`<li>${item}</li>`).join('')}</ul><div class="pill-row">${student.tags.map(tag=>`<span class="pill">${tag}</span>`).join('')}</div></div>`;studentCards.appendChild(details);const option=document.createElement('option');option.value=student.name;option.textContent=student.name;alunoSelect.appendChild(option);});
+    alunoSelect.addEventListener('change',()=>{const selected=students.find(s=>s.name===alunoSelect.value);clienteInput.value=selected?selected.client:'';});
+
+    const form=document.getElementById('submissionForm');
+    const statusBox=document.getElementById('submitStatus');
+    function showStatus(message,type){statusBox.textContent=message;statusBox.className=`status ${type}`;}
+    form.addEventListener('submit',async(event)=>{event.preventDefault();const selected=students.find(s=>s.name===alunoSelect.value);if(!selected){showStatus('Selecione seu nome antes de enviar.','err');return;}if(SUPABASE_URL.includes('COLE_AQUI')||SUPABASE_ANON_KEY.includes('COLE_AQUI')){showStatus('Envio ainda não configurado. O professor precisa inserir a URL e a anon key do Supabase no arquivo HTML.','err');return;}const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);const payload={aluno:alunoSelect.value,cliente:selected.client,link_documento:document.getElementById('link_documento').value.trim(),link_visual:document.getElementById('link_visual').value.trim(),csd_criada:document.getElementById('csd_criada').checked,escopo_definido:document.getElementById('escopo_definido').checked,declaracao_autoria:document.getElementById('declaracao_autoria').checked,observacoes:document.getElementById('observacoes').value.trim()||null,user_agent:navigator.userAgent};showStatus('Enviando atividade...','ok');const{error}=await client.from(SUPABASE_TABLE).insert(payload);if(error){showStatus('Não foi possível enviar. Verifique os links, tente novamente ou avise o professor.','err');console.error(error);return;}form.reset();clienteInput.value='';showStatus('Atividade enviada com sucesso. Seus links foram registrados.','ok');});
+  </script>
+</body>
+</html>
