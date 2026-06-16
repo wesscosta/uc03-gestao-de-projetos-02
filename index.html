@@ -28,10 +28,152 @@
     .sprint-summary{display:grid!important;grid-template-columns:180px 1fr auto!important}.sprint-summary .name,.student-name{font-size:20px;font-weight:800}.sprint-summary .title,.summary-client{color:var(--muted)}.budget{color:#03131d;background:var(--cyan);border-radius:999px;padding:6px 10px;font-weight:900;white-space:nowrap;font-size:13px}.budget.purple{color:#fff;background:var(--purple)}
     .sprint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.checklist{display:grid;gap:9px;margin:10px 0}.check{display:flex;gap:10px;align-items:flex-start;border:1px solid rgba(255,255,255,.08);background:rgba(2,6,23,.30);border-radius:12px;padding:10px}.box{width:18px;height:18px;border:2px solid var(--cyan);border-radius:5px;flex:0 0 auto;margin-top:3px}ul,ol{padding-left:22px}li{margin:6px 0}
     .inbox{border:1px solid var(--line);background:rgba(2,6,23,.35);border-radius:18px;overflow:hidden;margin:14px 0}.inbox-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line);background:rgba(34,211,238,.08)}.inbox-body{padding:16px}.email-meta{color:var(--muted);font-size:14px;margin-bottom:8px}.client{color:var(--green);font-weight:900}
+    .email-thread{display:grid;gap:18px;margin:18px 0}.email-card{border:1px solid var(--line);background:rgba(2,6,23,.34);border-radius:18px;overflow:hidden}.email-card.new{border-color:rgba(34,211,238,.55);box-shadow:0 0 0 1px rgba(34,211,238,.14) inset}.email-card .inbox-head{border-bottom:1px solid var(--line)}.email-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.35);color:#bbf7d0;font-size:12px;font-weight:800}.email-badge.warn{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.35);color:#fde68a}.attachments{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.attachment{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.06);color:var(--muted);padding:6px 10px;border-radius:999px;font-size:13px}
     .students{display:grid;grid-template-columns:1fr;gap:14px;max-width:1220px;margin:0 auto}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}th{background:rgba(34,211,238,.10);color:var(--cyan)}.rubric td:last-child,.rubric th:last-child{text-align:center;width:110px}
     .library-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.footer-note{color:var(--muted);text-align:center;margin-top:20px}.btn-print{position:fixed;right:18px;bottom:18px;background:var(--cyan);color:#03131d;border:none;border-radius:999px;padding:12px 18px;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35)}footer{text-align:center;color:var(--muted);border-top:1px solid var(--line);padding:28px 18px;background:#020617}
     @media(max-width:1100px){.grid2,.grid3,.grid4,.grid5,.hero,.sprint-grid,.library-grid{grid-template-columns:1fr}details summary,.sprint-summary{grid-template-columns:1fr!important;align-items:flex-start}main{width:min(100% - 24px,1540px)}.btn-print{position:static;margin:18px;width:calc(100% - 36px)}}
     @media print{body{background:white;color:black}header,section,.card,details,footer{background:white!important;color:black!important;box-shadow:none}nav,.btn-print{display:none!important}.tab-panel{display:block!important}section,details,.card{border:1px solid #999;break-inside:avoid}.muted,.client,h2,h3{color:black!important}.pill,.budget{border:1px solid #333;color:black;background:white}}
+
+
+    /* Ajustes v2.1: respiro visual e espaçamento entre componentes */
+    main{
+      width:min(100% - 48px,1480px);
+      padding:44px 0 88px;
+    }
+    section{
+      padding:clamp(32px,3.6vw,52px);
+      margin:34px 0;
+    }
+    section > h2{
+      margin-bottom:18px;
+    }
+    section > p.muted{
+      margin-bottom:26px;
+      max-width:980px;
+    }
+    .hero{
+      gap:28px;
+      margin-bottom:26px;
+    }
+    .hero .card{
+      min-height:290px;
+    }
+    .card{
+      padding:26px;
+      border-radius:20px;
+    }
+    .card h3:first-child,
+    .card h2:first-child{
+      margin-top:0;
+    }
+    .card p:last-child,
+    .metric p:last-child{
+      margin-bottom:0;
+    }
+    .grid2,.grid3,.grid4,.grid5,.library-grid,.sprint-grid{
+      gap:24px;
+    }
+    .grid4,.grid5,.grid2,.library-grid{
+      margin-top:24px;
+    }
+    .metric{
+      padding:24px;
+      min-height:112px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:8px;
+    }
+    .metric small{
+      margin-bottom:0;
+    }
+    .metric strong{
+      line-height:1.18;
+    }
+    .highlight{
+      margin:22px 0;
+      padding:18px 20px;
+    }
+    .tags,.tools,.pill-row{
+      gap:10px;
+      margin-top:18px;
+    }
+    .pill,.tag2{
+      padding:7px 12px;
+    }
+    #dashboard .grid5{
+      margin-bottom:28px;
+    }
+    #dashboard > .card{
+      margin:28px 0;
+      padding:28px 30px;
+    }
+    #dashboard .grid2{
+      align-items:stretch;
+      margin-top:28px;
+    }
+    #dashboard .grid2 .card{
+      min-height:170px;
+    }
+    .timeline{
+      gap:14px;
+      padding:8px 2px 12px;
+    }
+    .timeline-item{
+      padding:16px 12px;
+      min-width:88px;
+      min-height:98px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:6px;
+    }
+    details{
+      margin:22px 0;
+    }
+    details summary{
+      padding:22px 24px;
+    }
+    .detail-body{
+      padding:26px;
+    }
+    .sprint-grid{
+      margin-top:22px;
+      margin-bottom:22px;
+    }
+    .checklist{
+      gap:12px;
+      margin:16px 0;
+    }
+    .check{
+      padding:14px 16px;
+    }
+    .inbox{
+      margin:22px 0;
+    }
+    .inbox-head{
+      padding:18px 22px;
+    }
+    .inbox-body{
+      padding:22px;
+    }
+    .students{
+      gap:20px;
+    }
+    table{
+      margin:18px 0;
+    }
+    th,td{
+      padding:14px;
+    }
+    @media(max-width:1100px){
+      main{width:min(100% - 28px,1480px);padding-top:28px}
+      section{padding:24px;margin:24px 0}
+      .hero .card{min-height:auto}
+      .grid2,.grid3,.grid4,.grid5,.library-grid,.sprint-grid{gap:16px}
+      .metric{min-height:96px}
+    }
+
   </style>
 </head>
 <body>
@@ -165,6 +307,25 @@
       {name:'Maria Francisca',budget:'R$ 20.000',deadline:'58 dias',team:'1 analista, 1 dev, 1 UX parcial e 1 QA parcial',client:'Farmácia Popular São Lucas',segment:'Farmácia',difficulty:'Média',from:'Ana Paula, gerente da Farmácia São Lucas',subject:'Entregas e pedidos por WhatsApp estão desorganizados',briefing:'A Farmácia Popular São Lucas recebe muitos pedidos por WhatsApp, principalmente de clientes idosos e famílias do bairro. Os atendentes anotam os pedidos em papel, conferem estoque manualmente e depois repassam para o entregador. O problema é que alguns pedidos atrasam, outros saem incompletos e às vezes ninguém sabe se a entrega foi concluída. A gerente quer controlar pedido, separação, saída para entrega e confirmação de recebimento. Ela também gostaria de lembrar clientes sobre medicamentos recorrentes no futuro, mas isso não deve entrar na primeira versão. A farmácia precisa de algo simples e com controle de acesso para os atendentes.',problem:'Pedidos e entregas por WhatsApp ficam desorganizados, causando atrasos e falhas.',objective:'Planejar sistema interno para pedidos, separação, entregas e confirmação de recebimento.',restrictions:['Lembretes automáticos de medicamento ficam para evolução.','Controle de acesso para atendentes é necessário.','Sistema deve ser simples para uso durante atendimento.'],priorities:['Registro de pedidos.','Status de separação e entrega.','Confirmação de recebimento.'],risks:['Pedidos com dados sensíveis.','Atendentes continuarem usando papel.','Cliente pedir automação de WhatsApp sem orçamento.'],tags:['Farmácia','Entregas','Pedidos','Controle de acesso']}
     ];
 
+    const secondEmails = {
+      'Claudio': {from:'Mariana Lima, proprietária da PetVille', subject:'Mais detalhes sobre a rotina da recepção', body:'Bom dia, equipe. Lembrei de alguns pontos importantes. Temos três atendentes, mas apenas uma pessoa costuma ficar responsável pela agenda. Aos sábados, a demanda dobra e é quando mais ocorrem faltas e encaixes. Muitos clientes têm mais de um pet, então às vezes um único cliente ocupa dois ou três horários. Hoje não temos uma lista confiável de quem faltou mais vezes. Também preciso que a solução seja simples, porque não posso parar a recepção por muitos dias para treinamento. Antes de pensarem em sistema, preciso que entendam esse fluxo.', attachments:['agenda-sabado.pdf','lista-clientes-recorrentes.xlsx']},
+      'Nereyev': {from:'Rafael Moura, proprietário da StrongFit', subject:'Regras de planos e dificuldades da recepção', body:'Olá, consultor. Conversei com a recepção e percebi que o problema não é só saber quem pagou. Temos plano mensal, trimestral e semestral. Alguns alunos pagam em dinheiro, outros no Pix. Também existem alunos que congelam o plano por viagem ou problema de saúde, mas isso não está padronizado. A recepção anota observações em campos diferentes da planilha. O que mais me preocupa é a inadimplência, mas também quero evitar constrangimento na entrada da academia. Precisamos de organização antes de qualquer automação.', attachments:['modelo-planilha-mensalidades.xlsx','regras-planos.txt']},
+      'Jose': {from:'Dona Celina, gerente do Sabor Caseiro', subject:'Fluxo real dos pedidos no almoço', body:'Bom dia. Falei com a equipe e descobri que os pedidos se perdem principalmente entre 11h30 e 13h30. O atendente recebe pelo WhatsApp, grita para a cozinha ou anota em papel. Às vezes falta endereço, às vezes falta forma de pagamento, e às vezes o cliente altera algo depois do pedido já estar na cozinha. Não queremos aplicativo agora. Queremos primeiro saber o que está pendente, o que está em preparo e o que já saiu. A cozinha precisa de uma tela muito simples.', attachments:['cardapio-resumido.pdf','fluxo-pedidos-atual.png']},
+      'Ronnivon': {from:'Dra. Patrícia, diretora administrativa', subject:'Informações sobre agenda e acesso aos dados', body:'Olá. Antes de avançarmos, preciso reforçar que não queremos prontuário completo agora. O problema principal é agenda. Cada médico tem horários diferentes, alguns aceitam encaixe e outros não. As recepcionistas precisam ver rapidamente quem está confirmado, quem faltou e quem já foi atendido. Também precisamos evitar que qualquer funcionário acesse todos os dados dos pacientes. O sistema precisa respeitar perfis de acesso e registrar mudanças importantes.', attachments:['horarios-medicos.pdf','politica-acesso-clinica.docx']},
+      'Hudson': {from:'Amanda Reis, dona da Estilo Urbano', subject:'Reservas pelo Instagram e variações dos produtos', body:'Oi. Percebi que esqueci de explicar uma coisa: vendemos muitas peças com variação de tamanho e cor. Às vezes uma blusa P está disponível, mas a M acabou. O problema no Instagram é que a vendedora reserva no direct e esquece de baixar no controle. Também temos peças que ficam separadas por até 24 horas esperando pagamento. Não quero loja virtual agora, mas quero parar de vender peça que não existe mais no estoque.', attachments:['categorias-produtos.xlsx','exemplo-reserva-instagram.png']},
+      'Maycon': {from:'Sérgio, dono da Oficina Roda Forte', subject:'Como uma ordem de serviço acontece hoje', body:'Bom dia. Hoje quando o cliente chega, anotamos nome, telefone, placa e problema relatado. Depois o mecânico avalia e passa um orçamento. Muitas vezes o cliente só aprova no dia seguinte. O status pode ser: aguardando avaliação, aguardando aprovação, em manutenção, aguardando peça ou finalizado. A internet cai às vezes, então precisamos pensar em algo que não trave a oficina. O controle de peças é importante, mas pode ficar para outra fase.', attachments:['ficha-os-papel.pdf','status-servicos.txt']},
+      'Paulo Victor': {from:'Direção da Escola Crescer', subject:'Comunicados críticos e confirmação dos responsáveis', body:'Olá. A maior dor acontece com avisos importantes, como reunião, prova, falta de professor e autorização de passeio. Alguns responsáveis dizem que não receberam, outros recebem em grupo errado. Não queremos chat aberto porque isso pode virar confusão. Precisamos enviar comunicado por turma e saber quem leu. A coordenação também quer emitir uma lista simples de pendentes. Lembre que lidamos com dados de alunos menores de idade.', attachments:['tipos-comunicados.pdf','turmas-exemplo.xlsx']},
+      'Pedro Augusto': {from:'Gerência do Hotel Boa Vista', subject:'Detalhes sobre reservas e status dos quartos', body:'Prezados. A recepção trabalha com 18 quartos. Cada quarto pode estar disponível, ocupado, reservado, em limpeza ou bloqueado para manutenção. O maior problema é quando a reserva é feita por telefone e alguém esquece de atualizar a planilha. Não precisamos de integração com plataformas externas agora, mas precisamos evitar reserva duplicada. O check-in e o check-out devem ser simples. A equipe da limpeza também precisa informar quando um quarto foi liberado.', attachments:['mapa-quartos.pdf','planilha-reservas-exemplo.xlsx']},
+      'João Pedro': {from:'Bruno, proprietário da Barbearia Dom Corte', subject:'Agenda por barbeiro e clientes recorrentes', body:'Fala, equipe. Cada barbeiro controla alguns horários pelo próprio WhatsApp, e aí acontecem conflitos. Temos clientes recorrentes que cortam cabelo toda semana ou a cada quinze dias. Seria bom saber o histórico do cliente, mas não quero nada complicado. Se tiver que instalar aplicativo, a equipe vai resistir. Quero algo simples, que funcione bem no celular e ajude a ver agenda por barbeiro.', attachments:['servicos-barbearia.pdf','agenda-manual-foto.png']},
+      'Ricardo': {from:'Coordenação da ONG Mãos Unidas', subject:'Campanhas, voluntários e prestação de contas', body:'Olá. Nossas campanhas mudam bastante. Às vezes arrecadamos alimentos, às vezes roupas, às vezes material escolar. O problema é que não sabemos rapidamente quem doou, quem participou e o que ainda falta. Também precisamos prestar contas para parceiros, mas não temos relatório organizado. Como somos ONG, não podemos assumir custo mensal alto. Muitos voluntários usam apenas celular.', attachments:['campanhas-ativas.xlsx','modelo-prestacao-contas.pdf']},
+      'Josue': {from:'Márcio, gestor do Delivery Rápido Local', subject:'Status dos pedidos e rotina dos entregadores', body:'Bom dia. Os entregadores trabalham por turno e alguns usam moto própria. O pedido passa por recebido, em preparo, pronto para coleta, em rota e entregue. O maior problema é que ninguém sabe onde cada pedido está, e o cliente fica perguntando. Não precisamos de mapa agora, mas precisamos atribuir entregador e registrar confirmação de entrega. À noite o volume aumenta muito.', attachments:['status-pedidos.txt','turnos-entregadores.xlsx']},
+      'Kaic': {from:'Larissa, coordenadora do Curso Evoluir', subject:'Turmas, pagamentos e declarações dos alunos', body:'Olá. Temos turmas pequenas, mas muitas começam e terminam em datas diferentes. O pagamento pode ser à vista ou parcelado. A frequência é importante porque alguns alunos pedem declaração no final. Hoje fica difícil saber quem concluiu, quem faltou demais e quem ainda deve parcela. Não precisamos de certificado digital automático agora. Primeiro precisamos organizar aluno, turma, pagamento e presença.', attachments:['turmas-exemplo.xlsx','lista-presenca.pdf']},
+      'Emerson': {from:'Sócio da Contábil Prime', subject:'Tipos de documentos e prazos mensais', body:'Prezados. Os documentos chegam principalmente entre os dias 1 e 10 de cada mês. Cada cliente envia notas, extratos, comprovantes e folha de pagamento. O problema é que os arquivos chegam por vários canais e ninguém sabe o que ainda está pendente. Precisamos controlar documento por cliente e por competência mensal. Segurança é essencial, pois um cliente não pode acessar documentos de outro.', attachments:['tipos-documentos.pdf','competencia-mensal.xlsx']},
+      'Marimar': {from:'Rita, gerente da Agência Viajar Mais', subject:'Atualizações de fornecedores e controle de pagamentos', body:'Olá. Os pacotes dependem de hotéis, empresas de ônibus e passeios. Quando um fornecedor muda valor ou data, precisamos atualizar todos os clientes daquele pacote. O controle de pagamento também é confuso, pois alguns pagam entrada e parcelam o restante. Não quero venda online agora. Quero acompanhar pacote, cliente, datas e pagamento sem depender de várias planilhas.', attachments:['pacotes-ativos.xlsx','fornecedores.pdf']},
+      'Caio': {from:'Henrique, proprietário da TechFix', subject:'Status de reparo e aprovação de orçamento', body:'Bom dia. Quando o aparelho chega, abrimos uma ficha, avaliamos o defeito e depois enviamos orçamento para aprovação. Muitos clientes ligam perguntando se já avaliou, se aprovou, se a peça chegou ou se ficou pronto. Os status principais são: recebido, em diagnóstico, aguardando aprovação, aguardando peça, em reparo e finalizado. Consulta pública pode ficar para depois, mas internamente precisamos controlar melhor.', attachments:['ficha-atendimento.pdf','status-reparo.txt']},
+      'Maria Francisca': {from:'Ana Paula, gerente da Farmácia São Lucas', subject:'Pedidos recorrentes e confirmação de entrega', body:'Olá. Alguns clientes pedem os mesmos medicamentos todo mês, mas não queremos automatizar lembretes agora. O problema imediato é saber se o pedido foi separado, saiu para entrega e foi recebido. Também precisamos registrar quem atendeu e quem entregou. Como lidamos com dados sensíveis, não quero que qualquer pessoa veja tudo. O sistema precisa ser simples, porque o atendimento não pode parar.', attachments:['fluxo-entrega.pdf','tipos-pedido.xlsx']}
+    };
+
     function el(id){return document.getElementById(id)}
     document.querySelectorAll('nav button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');el(btn.dataset.tab).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}));
 
@@ -176,7 +337,20 @@
 
     el('sprintCards').innerHTML=sprints.map((s,i)=>`<details ${i===0?'open':''}><summary class="sprint-summary"><span class="name">${s.day}</span><span class="title">${s.title}</span><span class="budget purple">${s.xp}</span></summary><div class="detail-body"><div class="tags"><span class="pill go">${s.phase}</span><span class="pill blue">${s.status}</span><span class="pill">${s.time}</span><span class="pill hot">${s.coins}</span></div><div class="highlight success"><strong>Sprint Goal:</strong> ${s.goal}</div><p><strong>Contexto:</strong> ${s.context}</p><p><strong>Demanda:</strong> ${s.demand}</p><p><strong>Entrega oficial no Teams:</strong> ${s.output}</p><div class="sprint-grid"><div class="card"><h3>Checklist da Sprint</h3><div class="checklist">${s.checklist.map(c=>`<div class="check"><span class="box"></span><span>${c}</span></div>`).join('')}</div></div><div class="card"><h3>Definition of Done</h3><ul>${s.dod.map(d=>`<li>${d}</li>`).join('')}</ul><h3>Critérios de Aceite</h3><ul>${s.acceptance.map(a=>`<li>${a}</li>`).join('')}</ul></div></div><div class="grid2"><div class="card"><h3>Ferramentas sugeridas</h3><div class="tools">${s.tools.map(t=>`<span>${t}</span>`).join('')}</div></div><div class="card"><h3>Competências desenvolvidas</h3><div class="tools">${s.competencies.map(t=>`<span>${t}</span>`).join('')}</div></div></div></div></details>`).join('');
 
-    el('studentCards').innerHTML=students.map(st=>`<details class="student-row"><summary><span class="student-name">${st.name}</span><span class="summary-client">${st.client} | ${st.segment}</span><span class="budget">${st.budget}</span></summary><div class="detail-body"><div class="grid2"><div class="card"><h3>Ficha do Cliente</h3><table><tr><th>Cliente</th><td>${st.client}</td></tr><tr><th>Segmento</th><td>${st.segment}</td></tr><tr><th>Prazo</th><td>${st.deadline}</td></tr><tr><th>Equipe</th><td>${st.team}</td></tr><tr><th>Dificuldade</th><td>${st.difficulty}</td></tr></table></div><div class="card"><h3>Status do Projeto</h3><div class="tags"><span class="pill go">Ativo</span><span class="pill blue">Em descoberta</span><span class="pill hot">Sprint 01</span></div><p class="muted">O aluno deve interpretar o briefing e criar seus próprios artefatos. O problema real ainda é hipótese.</p></div></div><div class="inbox"><div class="inbox-head"><strong>📥 Caixa de Entrada</strong><span>Mensagem inicial do cliente</span></div><div class="inbox-body"><div class="email-meta"><strong>De:</strong> ${st.from}<br><strong>Assunto:</strong> ${st.subject}</div><p>${st.briefing}</p></div></div><div class="highlight purple"><strong>Missão inicial:</strong> leia como analista. Separe certezas, suposições e dúvidas. Não proponha tela, tecnologia ou backlog antes de compreender o problema.</div><h4>Informações de apoio</h4><p><strong>Problema aparente:</strong> ${st.problem}</p><p><strong>Objetivo inicial informado:</strong> ${st.objective}</p><div class="grid3"><div class="card"><h3>Restrições</h3><ul>${st.restrictions.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>Prioridades</h3><ul>${st.priorities.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>Riscos iniciais</h3><ul>${st.risks.map(x=>`<li>${x}</li>`).join('')}</ul></div></div><div class="tags">${st.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div></div></details>`).join('');
+    function renderStudent(st){
+      const mail2 = secondEmails[st.name] || null;
+      const secondMailHtml = mail2 ? `
+        <div class="email-card new">
+          <div class="inbox-head"><strong>📧 Novo e-mail recebido</strong><span class="email-badge">Sprint 02</span></div>
+          <div class="inbox-body">
+            <div class="email-meta"><strong>De:</strong> ${mail2.from}<br><strong>Assunto:</strong> ${mail2.subject}</div>
+            <p>${mail2.body}</p>
+            <div class="attachments">${mail2.attachments.map(a=>`<span class="attachment">📎 ${a}</span>`).join('')}</div>
+          </div>
+        </div>` : '';
+      return `<details class="student-row"><summary><span class="student-name">${st.name}</span><span class="summary-client">${st.client} | ${st.segment}</span><span class="budget">${st.budget}</span></summary><div class="detail-body"><div class="grid2"><div class="card"><h3>Ficha do Cliente</h3><table><tr><th>Cliente</th><td>${st.client}</td></tr><tr><th>Segmento</th><td>${st.segment}</td></tr><tr><th>Prazo</th><td>${st.deadline}</td></tr><tr><th>Equipe</th><td>${st.team}</td></tr><tr><th>Dificuldade</th><td>${st.difficulty}</td></tr></table></div><div class="card"><h3>Status do Projeto</h3><div class="tags"><span class="pill go">Ativo</span><span class="pill blue">Em descoberta</span><span class="pill hot">Sprint 02 liberada</span></div><p class="muted">O aluno deve interpretar os e-mails e criar seus próprios artefatos. O problema real ainda deve ser validado com perguntas ao cliente.</p></div></div><div class="email-thread"><div class="email-card"><div class="inbox-head"><strong>📥 Caixa de Entrada</strong><span class="email-badge warn">E-mail 01</span></div><div class="inbox-body"><div class="email-meta"><strong>De:</strong> ${st.from}<br><strong>Assunto:</strong> ${st.subject}</div><p>${st.briefing}</p></div></div>${secondMailHtml}</div><div class="highlight purple"><strong>Missão inicial:</strong> leia como analista. Separe certezas, suposições e dúvidas. Não proponha tela, tecnologia ou backlog antes de compreender o problema.</div><h4>Informações de apoio</h4><p><strong>Problema aparente:</strong> ${st.problem}</p><p><strong>Objetivo inicial informado:</strong> ${st.objective}</p><div class="grid3"><div class="card"><h3>Restrições</h3><ul>${st.restrictions.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>Prioridades</h3><ul>${st.priorities.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>Riscos iniciais</h3><ul>${st.risks.map(x=>`<li>${x}</li>`).join('')}</ul></div></div><div class="tags">${st.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div></div></details>`;
+    }
+    el('studentCards').innerHTML=students.map(renderStudent).join('');
 
     el('teacherSprints').innerHTML='<h3>Observações por Sprint</h3>'+sprints.map(s=>`<details><summary class="sprint-summary"><span class="name">${s.day}</span><span class="title">${s.title}</span><span class="budget purple">Professor</span></summary><div class="detail-body"><p>${s.teacher||'Conduzir a Sprint conectando slides, portal e entrega no Teams.'}</p></div></details>`).join('');
   </script>
