@@ -31,6 +31,12 @@
     .email-thread{display:grid;gap:18px;margin:18px 0}.email-card{border:1px solid var(--line);background:rgba(2,6,23,.34);border-radius:18px;overflow:hidden}.email-card.new{border-color:rgba(34,211,238,.55);box-shadow:0 0 0 1px rgba(34,211,238,.14) inset}.email-card .inbox-head{border-bottom:1px solid var(--line)}.email-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.35);color:#bbf7d0;font-size:12px;font-weight:800}.email-badge.warn{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.35);color:#fde68a}.attachments{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.attachment{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.06);color:var(--muted);padding:6px 10px;border-radius:999px;font-size:13px}
     .students{display:grid;grid-template-columns:1fr;gap:14px;max-width:1220px;margin:0 auto}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}th{background:rgba(34,211,238,.10);color:var(--cyan)}.rubric td:last-child,.rubric th:last-child{text-align:center;width:110px}
     .library-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.footer-note{color:var(--muted);text-align:center;margin-top:20px}.btn-print{position:fixed;right:18px;bottom:18px;background:var(--cyan);color:#03131d;border:none;border-radius:999px;padding:12px 18px;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.35)}footer{text-align:center;color:var(--muted);border-top:1px solid var(--line);padding:28px 18px;background:#020617}
+
+    .transcript-card{border:1px solid rgba(167,139,250,.38);background:rgba(2,6,23,.38);border-radius:18px;overflow:hidden;margin:22px 0}
+    .transcript-card .inbox-head{background:rgba(167,139,250,.12)}
+    .transcript-text{white-space:pre-line;color:#e5e7eb;line-height:1.72}
+    .mission-alert{border:1px solid rgba(236,72,153,.35);background:rgba(236,72,153,.10);border-radius:16px;padding:18px;margin:18px 0}
+
     @media(max-width:1100px){.grid2,.grid3,.grid4,.grid5,.hero,.sprint-grid,.library-grid{grid-template-columns:1fr}details summary,.sprint-summary{grid-template-columns:1fr!important;align-items:flex-start}main{width:min(100% - 24px,1540px)}.btn-print{position:static;margin:18px;width:calc(100% - 36px)}}
     @media print{body{background:white;color:black}header,section,.card,details,footer{background:white!important;color:black!important;box-shadow:none}nav,.btn-print{display:none!important}.tab-panel{display:block!important}section,details,.card{border:1px solid #999;break-inside:avoid}.muted,.client,h2,h3{color:black!important}.pill,.budget{border:1px solid #333;color:black;background:white}}
 
@@ -242,6 +248,7 @@
         <div class="card"><h3>Stakeholders</h3><p>Identifique quem paga, quem usa, quem aprova, quem reclama e quem pode bloquear o projeto.</p></div>
         <div class="card"><h3>Personas e jornada</h3><p>Ajuda a entender rotina, dores, necessidades e momentos críticos do usuário.</p></div>
         <div class="card"><h3>Escopo e MVP</h3><p>Defina o que entra, o que fica fora e o que poderá evoluir no futuro.</p></div>
+        <div class="card"><h3>Extração de requisitos</h3><p>Leia transcrições de reuniões, identifique falas relevantes e classifique requisitos funcionais, não funcionais, regras de negócio e restrições.</p></div>
         <div class="card"><h3>Backlog e MoSCoW</h3><p>Organize demandas e priorize Must, Should, Could e Won't.</p></div>
         <div class="card"><h3>Scrum, Kanban e Scrumban</h3><p>Escolha a abordagem com base no contexto do cliente, equipe e prazo.</p></div>
         <div class="card"><h3>Riscos</h3><p>Liste probabilidade, impacto, prevenção e contingência.</p></div>
@@ -262,7 +269,7 @@
       <p class="muted">Use esta aba como roteiro de condução. Ela não precisa ser projetada para a turma o tempo todo.</p>
       <div class="grid2">
         <div class="card"><h3>Fluxo recomendado por encontro</h3><ol><li>Abrir slides da Sprint.</li><li>Provocar com pergunta ou problema.</li><li>Apresentar conceito mínimo.</li><li>Mandar alunos para o Portal Nexus.</li><li>Tempo de produção.</li><li>Socialização curta.</li><li>Entrega no Teams.</li><li>Fechamento e gancho da próxima Sprint.</li></ol></div>
-        <div class="card"><h3>Perguntas que evitam respostas prontas</h3><ul><li>O que no briefing é fato?</li><li>O que você está supondo?</li><li>Que pergunta validaria essa hipótese?</li><li>O cliente pediu solução ou relatou sintoma?</li><li>Qual decisão você defenderia para o cliente?</li></ul></div>
+        <div class="card"><h3>Perguntas que evitam respostas prontas</h3><ul><li>O que no briefing é fato?</li><li>O que você está supondo?</li><li>Que pergunta validaria essa hipótese?</li><li>O cliente pediu solução ou relatou sintoma?</li><li>Qual decisão você defenderia para o cliente?</li><li>De qual fala da reunião você extraiu esse requisito?</li><li>Isso é requisito funcional, não funcional, regra de negócio ou restrição?</li></ul></div>
       </div>
       <div id="teacherSprints"></div>
     </section>
@@ -270,11 +277,11 @@
   <button class="btn-print" onclick="window.print()">Imprimir ou salvar em PDF</button>
   <footer>Nexus Software House v2 | UC02 | Entregas oficiais pelo Microsoft Teams</footer>
   <script>
-    const currentSprintIndex = 0;
+    const currentSprintIndex = 2;
     const sprints = [
-      {phase:'Discovery',day:'Sprint 01',title:'Descoberta do Problema',status:'Em andamento',time:'4h',xp:'10 XP',coins:'+100 TechCoins',goal:'Compreender profundamente o problema do cliente antes de pensar em qualquer solução tecnológica.',context:'Você acaba de receber seu primeiro cliente. Seu papel não é desenvolver um sistema. Seu papel é compreender o negócio, separar fatos de hipóteses e levantar perguntas relevantes.',demand:'Ler o e-mail do cliente, extrair informações importantes e criar a Matriz CSD.',output:'Matriz CSD, problema aparente, possível problema real e 10 perguntas ao cliente.',concepts:['Briefing','Matriz CSD','Problema x solução','Cliente x usuário'],checklist:['Ler briefing do cliente.','Criar Matriz CSD com Certezas, Suposições e Dúvidas.','Identificar problema aparente.','Levantar hipótese de problema real.','Criar 10 perguntas para entrevista.','Enviar a entrega oficial no Microsoft Teams.'],dod:['Matriz CSD finalizada.','Hipóteses justificadas.','Perguntas elaboradas.','Entrega publicada no Teams.'],acceptance:['A matriz possui certezas baseadas no briefing.','As suposições estão sinalizadas como hipóteses, não como fatos.','As dúvidas são relevantes para continuar o projeto.','Não há proposta de tela, tecnologia ou backlog nesta Sprint.'],tools:['Portal Nexus','Teams','Notion','Miro','FigJam','Excalidraw'],competencies:['Pensamento crítico','Comunicação','Interpretação de briefing','Escuta ativa','Organização'],teacher:'Não deixe o aluno sair direto para solução. Questione: o que é fato, o que é hipótese e o que precisa ser perguntado?' },
-      {phase:'Discovery',day:'Sprint 02',title:'Stakeholders, Personas e Jornada',status:'Bloqueada',time:'4h',xp:'10 XP',coins:'+80 TechCoins',goal:'Mapear pessoas impactadas pelo projeto e compreender a experiência atual do usuário.',context:'O cliente respondeu às primeiras perguntas. Agora o consultor precisa identificar quem influencia, quem usa, quem aprova e quem pode bloquear o projeto.',demand:'Identificar stakeholders, criar personas e mapear a jornada atual do usuário.',output:'Mapa de stakeholders, 2 personas e jornada atual do usuário.',concepts:['Stakeholders','Personas','Jornada','Empatia'],checklist:['Listar stakeholders.','Classificar poder e interesse.','Criar 2 personas.','Mapear jornada atual.','Enviar no Teams.'],dod:['Mapa criado.','Personas coerentes.','Jornada documentada.'],acceptance:['Stakeholders incluem cliente, usuário e afetados.','Personas têm objetivos, dores e contexto.','Jornada mostra antes, durante e depois.'],tools:['Miro','FigJam','Notion','Teams'],competencies:['Empatia','Comunicação','Visão de negócio','Análise'],teacher:'Observe se os alunos confundem cliente com usuário.'},
-      {phase:'Planejamento',day:'Sprint 03',title:'Escopo, MVP e Requisitos',status:'Bloqueada',time:'4h',xp:'15 XP',coins:'+100 TechCoins',goal:'Transformar a descoberta em limites claros de projeto e requisitos iniciais.',context:'Depois de entender o usuário, chegou o momento de definir o que entra e o que não entra no MVP.',demand:'Definir escopo, requisitos funcionais, não funcionais e critérios de aceite.',output:'Escopo dentro, fora, evolução futura, 8 RF, 5 RNF e 3 critérios de aceite.',concepts:['Escopo','MVP','RF','RNF','Critérios de aceite'],checklist:['Definir escopo dentro.','Definir escopo fora.','Listar evoluções futuras.','Criar RF e RNF.','Criar critérios de aceite.'],dod:['Escopo delimitado.','Requisitos coerentes.','Critérios testáveis.'],acceptance:['O MVP resolve o problema central.','O fora de escopo protege prazo e orçamento.','Requisitos são claros e verificáveis.'],tools:['Notion','Docs','Teams'],competencies:['Organização','Visão sistêmica','Comunicação técnica'],teacher:'Corte escopos gigantes. Eles precisam aprender a dizer não.'},
+      {phase:'Discovery',day:'Sprint 01',title:'Descoberta do Problema',status:'Concluída',time:'4h',xp:'10 XP',coins:'+100 TechCoins',goal:'Compreender profundamente o problema do cliente antes de pensar em qualquer solução tecnológica.',context:'Você acaba de receber seu primeiro cliente. Seu papel não é desenvolver um sistema. Seu papel é compreender o negócio, separar fatos de hipóteses e levantar perguntas relevantes.',demand:'Ler o e-mail do cliente, extrair informações importantes e criar a Matriz CSD.',output:'Matriz CSD, problema aparente, possível problema real e 10 perguntas ao cliente.',concepts:['Briefing','Matriz CSD','Problema x solução','Cliente x usuário'],checklist:['Ler briefing do cliente.','Criar Matriz CSD com Certezas, Suposições e Dúvidas.','Identificar problema aparente.','Levantar hipótese de problema real.','Criar 10 perguntas para entrevista.','Enviar a entrega oficial no Microsoft Teams.'],dod:['Matriz CSD finalizada.','Hipóteses justificadas.','Perguntas elaboradas.','Entrega publicada no Teams.'],acceptance:['A matriz possui certezas baseadas no briefing.','As suposições estão sinalizadas como hipóteses, não como fatos.','As dúvidas são relevantes para continuar o projeto.','Não há proposta de tela, tecnologia ou backlog nesta Sprint.'],tools:['Portal Nexus','Teams','Notion','Miro','FigJam','Excalidraw'],competencies:['Pensamento crítico','Comunicação','Interpretação de briefing','Escuta ativa','Organização'],teacher:'Não deixe o aluno sair direto para solução. Questione: o que é fato, o que é hipótese e o que precisa ser perguntado?' },
+      {phase:'Discovery',day:'Sprint 02',title:'Stakeholders, Personas e Jornada',status:'Concluída',time:'4h',xp:'10 XP',coins:'+80 TechCoins',goal:'Mapear pessoas impactadas pelo projeto e compreender a experiência atual do usuário.',context:'O cliente respondeu às primeiras perguntas. Agora o consultor precisa identificar quem influencia, quem usa, quem aprova e quem pode bloquear o projeto.',demand:'Identificar stakeholders, criar personas e mapear a jornada atual do usuário.',output:'Mapa de stakeholders, 2 personas e jornada atual do usuário.',concepts:['Stakeholders','Personas','Jornada','Empatia'],checklist:['Listar stakeholders.','Classificar poder e interesse.','Criar 2 personas.','Mapear jornada atual.','Enviar no Teams.'],dod:['Mapa criado.','Personas coerentes.','Jornada documentada.'],acceptance:['Stakeholders incluem cliente, usuário e afetados.','Personas têm objetivos, dores e contexto.','Jornada mostra antes, durante e depois.'],tools:['Miro','FigJam','Notion','Teams'],competencies:['Empatia','Comunicação','Visão de negócio','Análise'],teacher:'Observe se os alunos confundem cliente com usuário.'},
+      {phase:'Planejamento',day:'Sprint 03',title:'Visão do Produto, MVP e Requisitos Iniciais',status:'Em andamento',time:'4h',xp:'15 XP',coins:'+100 TechCoins',goal:'Transformar as descobertas das Sprints 01 e 02 em uma visão clara de produto, delimitando o MVP e extraindo requisitos iniciais a partir da transcrição da reunião.',context:'Depois de entender o problema, os stakeholders, as personas e o fluxo atual, o consultor precisa decidir qual produto faz sentido, qual valor será entregue primeiro e quais requisitos aparecem na fala real do cliente.',demand:'Ler o e-mail da Sprint 03, analisar a transcrição da reunião, definir visão do produto, delimitar MVP e extrair requisitos funcionais e não funcionais.',output:'Visão do Produto, proposta de valor, MVP, itens fora do MVP, requisitos funcionais, requisitos não funcionais e critérios de aceite iniciais.',concepts:['Visão do Produto','MVP','RF','RNF','Critérios de aceite','Extração de requisitos'],checklist:['Ler o e-mail da Sprint 03.','Analisar a transcrição da reunião.','Definir a visão do produto.','Escrever a proposta de valor.','Delimitar o MVP.','Registrar o que ficará fora da primeira versão.','Extrair requisitos funcionais a partir das falas.','Extrair requisitos não funcionais a partir das falas.','Enviar a entrega oficial no Microsoft Teams.'],dod:['Visão do produto definida.','MVP delimitado e justificado.','Itens fora do MVP registrados.','Requisitos funcionais extraídos da transcrição.','Requisitos não funcionais extraídos da transcrição.','Entrega publicada no Teams.'],acceptance:['A visão mantém coerência com o Discovery anterior.','O MVP resolve o problema central e respeita a redução de orçamento.','Os requisitos foram inferidos da transcrição, não inventados.','RF e RNF estão separados corretamente.','As decisões de exclusão estão justificadas.'],tools:['Portal Nexus','Notion','Miro','FigJam','Docs','Teams'],competencies:['Síntese','Visão de produto','Extração de requisitos','Priorização','Comunicação técnica'],teacher:'Não entregue requisitos prontos. Faça o aluno justificar de qual fala da reunião cada requisito foi extraído.'},
       {phase:'Planejamento',day:'Sprint 04',title:'Backlog e Priorização',status:'Bloqueada',time:'4h',xp:'15 XP',coins:'+100 TechCoins',goal:'Organizar demandas em backlog e decidir o que entra primeiro.',context:'Nem tudo pode ser feito ao mesmo tempo. O consultor precisa priorizar por valor, urgência e esforço.',demand:'Criar backlog e priorizar o MVP.',output:'Backlog com 12 itens e priorização MoSCoW ou esforço x impacto.',concepts:['Backlog','Épicos','User Stories','MoSCoW'],checklist:['Criar 12 itens de backlog.','Aplicar MoSCoW ou esforço x impacto.','Justificar MVP.','Enviar no Teams.'],dod:['Backlog criado.','Prioridade justificada.','MVP coerente.'],acceptance:['Itens são compreensíveis.','Prioridades respeitam problema e restrições.','Há justificativa para itens adiados.'],tools:['Notion','Trello','GitHub Projects','Teams'],competencies:['Priorização','Tomada de decisão','Gestão de valor'],teacher:'Pergunte sempre: por que isso precisa entrar agora?'},
       {phase:'Gestão Ágil',day:'Sprint 05',title:'Metodologia e Ferramenta de Gestão',status:'Bloqueada',time:'4h',xp:'15 XP',coins:'+100 TechCoins',goal:'Escolher uma forma de conduzir o projeto e uma ferramenta de acompanhamento.',context:'Agora que há backlog, é preciso escolher como a equipe acompanhará o trabalho.',demand:'Comparar metodologias e ferramentas, escolhendo as mais adequadas ao cliente.',output:'Metodologia escolhida, ferramenta escolhida e comparação com alternativa descartada.',concepts:['Scrum','Kanban','Scrumban','Ferramentas'],checklist:['Comparar duas abordagens.','Escolher uma metodologia.','Comparar duas ferramentas.','Justificar escolha.'],dod:['Escolha justificada.','Alternativa descartada explicada.','Ferramenta adequada ao contexto.'],acceptance:['A escolha considera equipe, cliente, prazo e maturidade.','Não há escolha genérica sem justificativa.'],tools:['Trello','GitHub Projects','Jira','Notion','ClickUp'],competencies:['Pensamento crítico','Gestão visual','Comunicação'],teacher:'Nem todo projeto precisa de Scrum. Force a justificativa.'},
       {phase:'Gestão Ágil',day:'Sprint 06',title:'Cronograma, Capacidade e Orçamento',status:'Bloqueada',time:'4h',xp:'10 XP',coins:'+80 TechCoins',goal:'Planejar execução considerando prazo, equipe, esforço e orçamento.',context:'O cliente quer previsibilidade. O consultor precisa transformar intenção em plano viável.',demand:'Criar cronograma por etapas ou sprints, estimar esforço e distribuir orçamento.',output:'Cronograma, estimativa de esforço, orçamento e justificativa de viabilidade.',concepts:['Cronograma','Capacidade','Custo','Prazo'],checklist:['Criar cronograma.','Estimar esforço.','Distribuir custos.','Validar prazo.'],dod:['Cronograma completo.','Orçamento respeitado.','Viabilidade defendida.'],acceptance:['Não ultrapassa prazo e orçamento.','Considera equipe disponível.','Prevê validação e ajustes.'],tools:['Sheets','Notion','Teams'],competencies:['Planejamento','Gestão de recursos','Responsabilidade'],teacher:'Questione prazos otimistas demais.'},
@@ -326,6 +333,220 @@
       'Maria Francisca': {from:'Ana Paula, gerente da Farmácia São Lucas', subject:'Pedidos recorrentes e confirmação de entrega', body:'Olá. Alguns clientes pedem os mesmos medicamentos todo mês, mas não queremos automatizar lembretes agora. O problema imediato é saber se o pedido foi separado, saiu para entrega e foi recebido. Também precisamos registrar quem atendeu e quem entregou. Como lidamos com dados sensíveis, não quero que qualquer pessoa veja tudo. O sistema precisa ser simples, porque o atendimento não pode parar.', attachments:['fluxo-entrega.pdf','tipos-pedido.xlsx']}
     };
 
+    const thirdEmails = {
+      "Claudio": {
+            "from": "Mariana Lima, proprietária da PetVille",
+            "subject": "Definição da primeira versão da agenda da PetVille",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de agenda e confirmação de horários. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para controle de agendamentos, tutores, pets e confirmações.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Nereyev": {
+            "from": "Rafael Moura, proprietário da StrongFit",
+            "subject": "Primeira versão para controle de alunos e mensalidades",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de controle de mensalidades e alunos ativos. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para cadastro de alunos, planos, pagamentos e inadimplência.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Jose": {
+            "from": "Dona Celina, gerente do Sabor Caseiro",
+            "subject": "Primeira versão do painel de pedidos",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de organização dos pedidos do almoço. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para registro de pedidos, status e comunicação com a cozinha.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Ronnivon": {
+            "from": "Dra. Patrícia, diretora administrativa",
+            "subject": "Primeira versão para organização da agenda médica",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de agenda e confirmação de consultas. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para agenda por médico, pacientes, status e controle de acesso.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Hudson": {
+            "from": "Amanda Reis, dona da Estilo Urbano",
+            "subject": "Primeira versão para controle de estoque",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de estoque e reservas de peças. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para produtos, variações, reservas e vendas básicas.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Maycon": {
+            "from": "Sérgio, dono da Oficina Roda Forte",
+            "subject": "Primeira versão das ordens de serviço",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de ordens de serviço e histórico por veículo. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para clientes, veículos, status da OS e histórico.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Paulo Victor": {
+            "from": "Direção da Escola Crescer",
+            "subject": "Primeira versão dos comunicados escolares",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de comunicados e confirmação de leitura. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para turmas, responsáveis, comunicados e ciência.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Pedro Augusto": {
+            "from": "Gerência do Hotel Boa Vista",
+            "subject": "Primeira versão para reservas e ocupação",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de reservas e status dos quartos. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para quartos, reservas, check-in, check-out e limpeza.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "João Pedro": {
+            "from": "Bruno, proprietário da Barbearia Dom Corte",
+            "subject": "Primeira versão para agenda dos barbeiros",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de agenda e clientes recorrentes. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para barbeiros, horários, clientes e histórico.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Ricardo": {
+            "from": "Coordenação da ONG Mãos Unidas",
+            "subject": "Primeira versão para campanhas e voluntários",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de campanhas, doações e voluntários. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para voluntários, campanhas, doações e relatórios.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Josue": {
+            "from": "Márcio, gestor do Delivery Rápido Local",
+            "subject": "Primeira versão para controle dos pedidos",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de pedidos e entregadores. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para status dos pedidos, entregadores e confirmação de entrega.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Kaic": {
+            "from": "Larissa, coordenadora do Curso Evoluir",
+            "subject": "Primeira versão para turmas e frequência",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de matrículas, pagamentos e frequência. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para alunos, turmas, pagamentos, presença e relatórios.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Emerson": {
+            "from": "Sócio da Contábil Prime",
+            "subject": "Primeira versão do portal de documentos",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de envio e controle de documentos. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para clientes, competências, documentos, status e permissões.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Marimar": {
+            "from": "Rita, gerente da Agência Viajar Mais",
+            "subject": "Primeira versão para pacotes de viagem",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de pacotes, datas e pagamentos. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para clientes, pacotes, pagamentos e datas importantes.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Caio": {
+            "from": "Henrique, proprietário da TechFix",
+            "subject": "Primeira versão das ordens de reparo",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de ordens de serviço e status de reparo. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para OS, orçamento, status, clientes e histórico.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      },
+      "Maria Francisca": {
+            "from": "Ana Paula, gerente da Farmácia São Lucas",
+            "subject": "Primeira versão para pedidos e entregas",
+            "body": "Bom dia, equipe da Nexus. O levantamento das Sprints anteriores ajudou a esclarecer melhor nossa rotina. Agora preciso que vocês transformem tudo isso em uma direção de produto. Ainda não quero telas bonitas nem uma lista enorme de funcionalidades. Quero entender qual primeira versão faz sentido para resolver o problema de pedidos por WhatsApp e entregas. Também tivemos uma revisão financeira e o orçamento da primeira etapa foi reduzido em aproximadamente 40%. Por isso, precisamos começar menor, com foco no que realmente gera valor. Em anexo deixei a transcrição de uma reunião com a equipe. Usem esse material para extrair requisitos funcionais, requisitos não funcionais, restrições e possíveis regras de negócio. Quero ver uma proposta objetiva de MVP para pedidos, separação, entrega, confirmação e acesso.",
+            "attachments": [
+                  "transcricao-reuniao-sprint03.txt",
+                  "restricao-orcamento-v1.pdf"
+            ]
+      }
+};
+
+    const meetingTranscripts = {
+      "Claudio": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Mariana: O ponto principal é que a agenda precisa parar de depender só do caderno. Quando o cliente liga, a recepção precisa encontrar rapidamente o tutor e os pets dele.\nFernanda: Tem tutor com três ou quatro animais, e hoje a gente anota tudo junto. Quando muda um horário, às vezes esquecemos de remarcar todos.\nJoão: Aos sábados precisamos ver a agenda por horário, porque o banho e a tosa disputam a mesma equipe.\nMariana: Eu preciso saber quem confirmou, quem faltou e quem pediu remarcação. Não quero que qualquer pessoa apague um agendamento sem registro.\nFernanda: O sistema precisa ser fácil, porque no balcão não dá tempo de ficar procurando muitas telas.\nJoão: Seria bom pesquisar pelo nome do tutor, telefone ou nome do pet.\nMariana: WhatsApp automático pode ficar depois. Agora eu quero controlar agenda, cliente, pet, confirmação e histórico de faltas. Também preciso que funcione bem no computador da recepção, que não é novo."
+      },
+      "Nereyev": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Rafael: A recepção precisa cadastrar aluno, plano e vencimento sem depender de várias planilhas.\nCamila: Hoje eu procuro o aluno pelo nome e às vezes não sei se ele está ativo, vencido ou congelado.\nRafael: Temos plano mensal, trimestral e semestral. Alguns pagam no Pix, outros em dinheiro. Preciso visualizar inadimplentes sem expor o aluno na frente de todo mundo.\nCamila: Também seria bom registrar observações, como atestado, viagem ou congelamento.\nRafael: Não quero catraca agora. Quero controle financeiro básico e relatórios simples.\nInstrutor: Vocês precisam de recibo?\nRafael: Pode ser uma evolução. Primeiro quero saber quem pagou, quem deve, qual plano está ativo e quando vence.\nCamila: O sistema precisa ser rápido, porque no horário de pico tem fila. Também precisa ser simples, porque nem todo atendente domina planilha."
+      },
+      "Jose": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Dona Celina: O pedido precisa entrar em uma tela única, com nome do cliente, telefone, itens, observações e forma de pagamento.\nCarlos: A cozinha precisa ver o que está em preparo e o que já está pronto. Não dá para aparecer um monte de informação desnecessária.\nAtendente: Às vezes o cliente muda o endereço depois que pediu. Precisamos registrar alteração sem perder o pedido original.\nDona Celina: Quero status: recebido, em preparo, pronto, saiu para entrega e concluído.\nCarlos: Também precisamos destacar observações como sem cebola ou trocar guarnição.\nDona Celina: Aplicativo para cliente fica para depois. Agora é painel interno.\nAtendente: No almoço o sistema precisa responder rápido, porque se travar ninguém vai usar.\nDona Celina: Quero relatório simples de quantidade de pedidos por dia, mas se não couber na primeira versão, pode ficar para uma segunda etapa."
+      },
+      "Ronnivon": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Dra. Patrícia: A prioridade é agenda. Cada médico precisa visualizar seus horários, mas a recepção precisa ver tudo.\nRecepcionista: Hoje eu marco consulta, retorno e encaixe na mesma planilha. Às vezes dois médicos pedem encaixe no mesmo horário.\nDra. Patrícia: O sistema deve registrar paciente, telefone, médico, data, horário e status da consulta.\nRecepcionista: Preciso marcar confirmado, aguardando atendimento, atendido, faltou e remarcado.\nDr. André: Não quero prontuário completo agora. Só dados mínimos para agenda.\nDra. Patrícia: O acesso precisa ser por perfil. Recepção não deve alterar tudo sem registro.\nRecepcionista: Também preciso pesquisar paciente rapidamente pelo nome ou telefone.\nDra. Patrícia: Como lidamos com dados sensíveis, segurança é indispensável. A interface precisa ser simples e não pode expor informações desnecessárias na tela."
+      },
+      "Hudson": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Amanda: O sistema precisa cadastrar produto com categoria, tamanho, cor e quantidade.\nVendedora: O problema é a reserva pelo Instagram. A cliente pede uma peça, eu separo, mas esqueço de baixar no estoque.\nAmanda: Precisamos de status para peça disponível, reservada e vendida. Reserva deve ter prazo, porque a cliente às vezes some.\nVendedora: Seria bom pesquisar por código, nome ou categoria.\nAmanda: Não quero loja virtual agora. Quero parar de vender produto que acabou.\nVendedora: Algumas peças chegam em grade, tipo P, M e G. Precisa controlar separado.\nAmanda: Quero relatório simples de estoque baixo.\nVendedora: A tela precisa ser fácil no computador da loja. Se ficar complicado, a equipe volta para o caderno."
+      },
+      "Maycon": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Sérgio: A ordem de serviço começa quando o cliente deixa o carro. Precisamos registrar cliente, telefone, placa, modelo e problema relatado.\nMecânico: Depois eu avalio e digo o orçamento. Às vezes o cliente aprova na hora, às vezes só no dia seguinte.\nSérgio: Então o status precisa mostrar aguardando avaliação, aguardando aprovação, em manutenção, aguardando peça e finalizado.\nAtendente: Também precisamos pesquisar por placa, porque o cliente nem sempre lembra a data do serviço.\nMecânico: Quero registrar serviços feitos e peças trocadas, mas estoque completo pode ficar depois.\nSérgio: O sistema precisa funcionar bem mesmo com internet ruim. Pelo menos não pode ser pesado.\nAtendente: Tem que ser simples, porque na oficina ninguém vai preencher vinte campos.\nSérgio: Emissão fiscal não entra agora. O foco é OS, histórico e status."
+      },
+      "Paulo Victor": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Coordenadora: O comunicado precisa ser enviado por turma, aluno ou responsável específico.\nSecretaria: Hoje mandamos no WhatsApp e depois ninguém sabe quem leu.\nDireção: Precisamos registrar título, mensagem, turma, data de envio e confirmação de leitura.\nCoordenação: Alguns avisos são urgentes, como falta de professor ou autorização de passeio.\nSecretaria: Também preciso ver uma lista de responsáveis que ainda não confirmaram.\nDireção: Não queremos chat aberto. Isso vira confusão.\nCoordenação: Como são dados de menores, o acesso precisa ser controlado.\nSecretaria: A tela deve funcionar bem no celular dos responsáveis.\nDireção: Relatórios simples são importantes, mas a primeira versão pode focar em comunicado e confirmação."
+      },
+      "Pedro Augusto": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Gerente: Precisamos controlar quarto, reserva, hóspede, entrada, saída e status do quarto.\nRecepção: Hoje o problema é saber se o quarto está disponível, ocupado, reservado, em limpeza ou bloqueado.\nGovernança: A limpeza precisa avisar quando liberou o quarto, senão a recepção fica ligando.\nGerente: Não quero integração com Booking agora. Quero evitar reserva duplicada.\nRecepção: Preciso pesquisar reserva por nome, data ou número do quarto.\nGerente: Check-in e check-out precisam ser simples.\nGovernança: Seria bom visualizar só os quartos que estão em limpeza.\nGerente: Relatório financeiro fica para depois. A primeira versão deve organizar reserva e ocupação. O sistema deve ser rápido e fácil para a equipe do turno da noite."
+      },
+      "João Pedro": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Bruno: A agenda precisa ser por barbeiro, porque cada um tem seus próprios horários.\nBarbeiro 1: Tem cliente que marca comigo toda semana. Seria bom ver histórico.\nBarbeiro 2: O problema é quando dois clientes ficam no mesmo horário porque cada barbeiro responde seu WhatsApp.\nBruno: Quero cadastrar cliente, telefone, serviço e barbeiro.\nBarbeiro 1: Também precisa marcar confirmado, atendido, faltou e remarcado.\nBruno: Pagamento online não entra agora. App próprio também não.\nBarbeiro 2: Tem que funcionar no celular, porque a gente consulta a agenda entre um corte e outro.\nBruno: Quero algo simples. Se tiver muito campo, ninguém vai usar."
+      },
+      "Ricardo": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Coordenadora: Precisamos organizar campanhas, voluntários e doações.\nVoluntária: Às vezes a pessoa doa alimento, roupa ou dinheiro, e fica tudo anotado em lugares diferentes.\nCoordenadora: Cada campanha precisa ter nome, objetivo, período, itens necessários e status.\nVoluntária: Também precisamos saber quem participou de cada ação.\nParceiro: Para apoiar a ONG, eu preciso receber prestação de contas simples.\nCoordenadora: Não podemos pagar mensalidade alta.\nVoluntária: Muitos acessam pelo celular.\nCoordenadora: Quero relatório de doações recebidas, itens pendentes e voluntários ativos. Se não couber tudo, primeiro vamos organizar cadastro, campanha e doação. O sistema precisa ser simples e transparente."
+      },
+      "Josue": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Márcio: O pedido precisa ter cliente, restaurante, endereço, status e entregador responsável.\nAtendente: Hoje eu mando mensagem para o entregador e depois não sei se ele aceitou.\nEntregador: Preciso ver o pedido no celular, mas não quero preencher coisa demais.\nMárcio: Os status devem ser recebido, em preparo, pronto para coleta, em rota e entregue.\nAtendente: Também precisa registrar se o pagamento é na entrega ou já foi feito.\nMárcio: Mapa em tempo real fica para depois. Agora quero controle interno.\nEntregador: Confirmação de entrega pode ser um botão simples.\nMárcio: O sistema precisa funcionar bem à noite, quando aumenta o volume. Se ficar lento, a equipe volta para o WhatsApp."
+      },
+      "Kaic": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Larissa: O sistema precisa cadastrar aluno, turma, pagamento e presença.\nSecretaria: Hoje a matrícula é em papel e depois eu passo para planilha. Às vezes esqueço de atualizar pagamento.\nProfessor: A frequência precisa ser fácil de marcar, porque a aula não pode parar.\nLarissa: Alguns alunos pagam parcelado. Precisamos ver quem está devendo e quem concluiu.\nSecretaria: Também preciso emitir uma lista de presença e um relatório simples da turma.\nLarissa: Certificado automático fica para depois, mas declaração de participação seria útil se for simples.\nProfessor: O sistema precisa funcionar em computador comum e ser fácil de usar.\nLarissa: Primeiro vamos organizar alunos, turmas, pagamentos e frequência. Portal do aluno fica para outra versão."
+      },
+      "Emerson": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Sócio: O portal precisa organizar cliente, competência mensal e tipo de documento.\nAnalista: Hoje recebemos nota fiscal, extrato, folha e comprovante por WhatsApp, e-mail e pendrive.\nSócio: O cliente precisa enviar documentos e acompanhar se está pendente, recebido ou validado.\nAnalista: Também precisamos saber quem cobrou e quando o documento chegou.\nSócio: Segurança é obrigatória. Um cliente não pode ver documento de outro.\nAnalista: Seria bom filtrar por mês e por cliente.\nSócio: Assinatura digital não entra no MVP.\nAnalista: A tela externa precisa ser simples, porque alguns clientes têm pouca familiaridade.\nSócio: O sistema deve registrar histórico de envio e status dos documentos."
+      },
+      "Marimar": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Rita: Cada pacote tem cliente, destino, datas, fornecedor, valor e status de pagamento.\nAtendente: O problema é que quando um fornecedor muda data ou preço, precisamos avisar vários clientes.\nRita: Quero acompanhar quem pagou entrada, quem parcelou e quem ainda está pendente.\nAtendente: Também preciso ver datas importantes, como vencimento de parcela e data da viagem.\nRita: Venda online não entra agora. Contrato automático também pode ficar depois.\nAtendente: Seria bom pesquisar por cliente ou pacote.\nRita: O sistema precisa ser visual e simples. A equipe é pequena.\nAtendente: Hoje usamos muitas planilhas. Se o sistema não centralizar as informações principais, não resolve."
+      },
+      "Caio": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Henrique: Quando o aparelho chega, abrimos uma OS com cliente, equipamento, defeito relatado e data.\nTécnico: Depois fazemos diagnóstico e enviamos orçamento para aprovação.\nAtendente: O cliente liga perguntando se já avaliou, se aprovou, se a peça chegou ou se ficou pronto.\nHenrique: Os status precisam ser recebido, em diagnóstico, aguardando aprovação, aguardando peça, em reparo e finalizado.\nTécnico: Quero registrar peças utilizadas, mas estoque completo pode ficar para depois.\nAtendente: Preciso pesquisar por cliente, telefone ou número da OS.\nHenrique: Consulta pública de status é interessante, mas não entra agora.\nAtendente: O sistema precisa ser rápido no balcão e registrar quem alterou o status."
+      },
+      "Maria Francisca": {
+            "title": "Transcrição da reunião de definição do MVP e requisitos iniciais",
+            "body": "Ana Paula: O pedido precisa registrar cliente, telefone, medicamento, quantidade, forma de pagamento e endereço de entrega.\nAtendente: Hoje anotamos em papel e depois conferimos estoque. Às vezes o pedido sai incompleto.\nEntregador: Preciso saber quais pedidos estão prontos para rota e quais já foram entregues.\nAna Paula: Os status podem ser recebido, em separação, aguardando item, saiu para entrega e entregue.\nAtendente: Também preciso registrar quem separou o pedido.\nAna Paula: Lembrete automático de medicamento recorrente fica para depois.\nEntregador: Confirmação de recebimento precisa ser simples.\nAna Paula: Como lidamos com dados sensíveis, cada atendente deve ter acesso controlado. O sistema precisa ser rápido porque o balcão não pode parar."
+      }
+};
+
     function el(id){return document.getElementById(id)}
     document.querySelectorAll('nav button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');el(btn.dataset.tab).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}));
 
@@ -339,6 +560,8 @@
 
     function renderStudent(st){
       const mail2 = secondEmails[st.name] || null;
+      const mail3 = thirdEmails[st.name] || null;
+      const transcript = meetingTranscripts[st.name] || null;
       const secondMailHtml = mail2 ? `
         <div class="email-card new">
           <div class="inbox-head"><strong>📧 Novo e-mail recebido</strong><span class="email-badge">Sprint 02</span></div>
@@ -348,7 +571,24 @@
             <div class="attachments">${mail2.attachments.map(a=>`<span class="attachment">📎 ${a}</span>`).join('')}</div>
           </div>
         </div>` : '';
-      return `<details class="student-row"><summary><span class="student-name">${st.name}</span><span class="summary-client">${st.client} | ${st.segment}</span><span class="budget">${st.budget}</span></summary><div class="detail-body"><div class="grid2"><div class="card"><h3>Ficha do Cliente</h3><table><tr><th>Cliente</th><td>${st.client}</td></tr><tr><th>Segmento</th><td>${st.segment}</td></tr><tr><th>Prazo</th><td>${st.deadline}</td></tr><tr><th>Equipe</th><td>${st.team}</td></tr><tr><th>Dificuldade</th><td>${st.difficulty}</td></tr></table></div><div class="card"><h3>Status do Projeto</h3><div class="tags"><span class="pill go">Ativo</span><span class="pill blue">Em descoberta</span><span class="pill hot">Sprint 02 liberada</span></div><p class="muted">O aluno deve interpretar os e-mails e criar seus próprios artefatos. O problema real ainda deve ser validado com perguntas ao cliente.</p></div></div><div class="email-thread"><div class="email-card"><div class="inbox-head"><strong>📥 Caixa de Entrada</strong><span class="email-badge warn">E-mail 01</span></div><div class="inbox-body"><div class="email-meta"><strong>De:</strong> ${st.from}<br><strong>Assunto:</strong> ${st.subject}</div><p>${st.briefing}</p></div></div>${secondMailHtml}</div><div class="highlight purple"><strong>Missão inicial:</strong> leia como analista. Separe certezas, suposições e dúvidas. Não proponha tela, tecnologia ou backlog antes de compreender o problema.</div><h4>Informações de apoio</h4><p><strong>Problema aparente:</strong> ${st.problem}</p><p><strong>Objetivo inicial informado:</strong> ${st.objective}</p><div class="grid3"><div class="card"><h3>Restrições</h3><ul>${st.restrictions.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>Prioridades</h3><ul>${st.priorities.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>Riscos iniciais</h3><ul>${st.risks.map(x=>`<li>${x}</li>`).join('')}</ul></div></div><div class="tags">${st.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div></div></details>`;
+      const thirdMailHtml = mail3 ? `
+        <div class="email-card new">
+          <div class="inbox-head"><strong>📧 Novo e-mail recebido</strong><span class="email-badge">Sprint 03</span></div>
+          <div class="inbox-body">
+            <div class="email-meta"><strong>De:</strong> ${mail3.from}<br><strong>Assunto:</strong> ${mail3.subject}</div>
+            <p>${mail3.body}</p>
+            <div class="attachments">${mail3.attachments.map(a=>`<span class="attachment">📎 ${a}</span>`).join('')}</div>
+          </div>
+        </div>` : '';
+      const transcriptHtml = transcript ? `
+        <div class="transcript-card">
+          <div class="inbox-head"><strong>📄 ${transcript.title}</strong><span class="email-badge warn">Dossiê Sprint 03</span></div>
+          <div class="inbox-body">
+            <p class="muted">Leia como analista. A transcrição não traz requisitos prontos. Extraia falas que indiquem funções do sistema, qualidades esperadas, restrições, regras de negócio e riscos.</p>
+            <div class="transcript-text">${transcript.body}</div>
+          </div>
+        </div>` : '';
+      return `<details class="student-row"><summary><span class="student-name">${st.name}</span><span class="summary-client">${st.client} | ${st.segment}</span><span class="budget">${st.budget}</span></summary><div class="detail-body"><div class="grid2"><div class="card"><h3>Ficha do Cliente</h3><table><tr><th>Cliente</th><td>${st.client}</td></tr><tr><th>Segmento</th><td>${st.segment}</td></tr><tr><th>Prazo</th><td>${st.deadline}</td></tr><tr><th>Equipe</th><td>${st.team}</td></tr><tr><th>Dificuldade</th><td>${st.difficulty}</td></tr></table></div><div class="card"><h3>Status do Projeto</h3><div class="tags"><span class="pill go">Ativo</span><span class="pill blue">Sprint 03 liberada</span><span class="pill hot">Visão + MVP + Requisitos iniciais</span></div><p class="muted">O aluno deve interpretar os e-mails, a transcrição e os anexos simulados para criar seus próprios artefatos. O portal não entrega requisitos prontos.</p></div></div><div class="email-thread"><div class="email-card"><div class="inbox-head"><strong>📥 Caixa de Entrada</strong><span class="email-badge warn">E-mail 01</span></div><div class="inbox-body"><div class="email-meta"><strong>De:</strong> ${st.from}<br><strong>Assunto:</strong> ${st.subject}</div><p>${st.briefing}</p></div></div>${secondMailHtml}${thirdMailHtml}</div>${transcriptHtml}<div class="mission-alert"><strong>Missão da Sprint 03:</strong> transforme as descobertas em visão de produto, delimite o MVP e extraia requisitos funcionais e não funcionais a partir da transcrição. Não invente requisito sem evidência na fala do cliente.</div><h4>Informações de apoio</h4><p><strong>Problema aparente:</strong> ${st.problem}</p><p><strong>Objetivo inicial informado:</strong> ${st.objective}</p><div class="grid3"><div class="card"><h3>Restrições</h3><ul>${st.restrictions.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>Prioridades</h3><ul>${st.priorities.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>Riscos iniciais</h3><ul>${st.risks.map(x=>`<li>${x}</li>`).join('')}</ul></div></div><div class="tags">${st.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div></div></details>`;
     }
     el('studentCards').innerHTML=students.map(renderStudent).join('');
 
