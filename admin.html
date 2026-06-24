@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexus | Central de Controle</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .admin-shell{margin-left:0;max-width:1180px}
+    .login-card{max-width:520px;margin:7vh auto 0}
+    .admin-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 24px}
+    .admin-tabs button{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);padding:10px 14px;border-radius:999px;font-weight:800;cursor:pointer}
+    .admin-tabs button.active{background:rgba(34,211,238,.14);color:var(--cyan);border-color:rgba(34,211,238,.38)}
+    .admin-panel{display:none}.admin-panel.active{display:block}
+    .security-note{font-size:13px;color:var(--muted)}
+    .supabase-status{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.12);padding:7px 12px;border-radius:999px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <main class="app admin-shell">
+    <header class="topbar">
+      <div>
+        <span class="eyebrow">Nexus Software House</span>
+        <h1>Central de Controle</h1>
+        <p>Área restrita para configurar a Sprint atual, liberar conteúdo, controlar eventos e consultar o guia do professor.</p>
+      </div>
+      <div class="top-actions">
+        <a class="admin-link" href="index.html">Voltar ao portal</a>
+      </div>
+    </header>
+
+    <section id="loginPanel" class="panel login-card">
+      <div class="section-title">
+        <h2>Acesso restrito</h2>
+        <p>Digite o PIN administrativo para acessar as configurações.</p>
+      </div>
+      <div class="form-panel">
+        <div class="form-row">
+          <label for="pinInput">PIN</label>
+          <input id="pinInput" type="password" inputmode="numeric" placeholder="Digite o PIN" autocomplete="off" />
+        </div>
+        <div id="loginStatus" class="status-message">PIN incorreto.</div>
+        <div class="form-actions">
+          <button class="primary" id="loginBtn" type="button">Entrar</button>
+          <a class="button-link" href="index.html">Cancelar</a>
+        </div>
+        <p class="security-note">Observação: em um site apenas front-end, o PIN funciona como bloqueio leve de interface. Para segurança real, use autenticação e regras RLS no Supabase.</p>
+      </div>
+    </section>
+
+    <section id="adminPanel" class="panel" style="display:none">
+      <div class="section-title">
+        <h2>Nexus Control Center</h2>
+        <p>As alterações ficam salvas no navegador por localStorage. Se o Supabase for configurado e habilitado, você também pode salvar a configuração remotamente.</p>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="active" data-admin-tab="config" type="button">Configuração</button>
+        <button data-admin-tab="professor" type="button">Professor</button>
+        <button data-admin-tab="supabase" type="button">Supabase</button>
+      </div>
+
+      <div id="config" class="admin-panel active">
+        <div class="form-panel">
+          <div class="grid cols-2">
+            <div class="form-row">
+              <label for="currentSprint">Sprint atual</label>
+              <select id="currentSprint"></select>
+            </div>
+            <div class="form-row">
+              <label for="deliveryChannel">Canal de entrega</label>
+              <input id="deliveryChannel" value="Microsoft Teams" />
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="unlockedSprints">Sprints liberadas</label>
+            <input id="unlockedSprints" placeholder="Exemplo: 1,2,3,4,5,6,7" />
+          </div>
+          <div class="grid cols-3">
+            <div class="form-row">
+              <label for="showFutureSprints">Mostrar Sprints futuras?</label>
+              <select id="showFutureSprints"><option value="true">Sim</option><option value="false">Não</option></select>
+            </div>
+            <div class="form-row">
+              <label for="showProfessorMode">Mostrar guia do professor nesta central?</label>
+              <select id="showProfessorMode"><option value="true">Sim</option><option value="false">Não</option></select>
+            </div>
+            <div class="form-row">
+              <label for="showEventCards">Mostrar Eventos?</label>
+              <select id="showEventCards"><option value="true">Sim</option><option value="false">Não</option></select>
+            </div>
+          </div>
+          <div class="grid cols-2">
+            <div class="form-row">
+              <label for="useSupabase">Usar Supabase para configuração remota?</label>
+              <select id="useSupabase"><option value="false">Não</option><option value="true">Sim</option></select>
+            </div>
+            <div class="form-row">
+              <label for="supabaseConfigTable">Tabela de configuração</label>
+              <input id="supabaseConfigTable" value="nexus_config" />
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="configPreview">Prévia da configuração</label>
+            <textarea id="configPreview" readonly></textarea>
+          </div>
+          <div id="status" class="status-message">Configuração salva.</div>
+          <div class="form-actions">
+            <button class="primary" id="saveBtn" type="button">Salvar localmente</button>
+            <button id="saveRemoteBtn" type="button">Salvar no Supabase</button>
+            <button id="loadRemoteBtn" type="button">Carregar do Supabase</button>
+            <button id="resetBtn" type="button">Restaurar padrão</button>
+            <button id="copyBtn" type="button">Copiar JSON</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="professor" class="admin-panel">
+        <div class="section-title">
+          <h2>Guia do Professor</h2>
+          <p>Roteiro interno de condução das Sprints. Esta área não aparece no menu dos alunos.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="card"><h3>Fluxo de cada encontro</h3><ol><li>Abrir slides da Sprint.</li><li>Provocar com pergunta ou problema.</li><li>Apresentar conceito mínimo.</li><li>Conectar com Portal/Jira.</li><li>Tempo de produção.</li><li>Socialização curta.</li><li>Entrega no Teams.</li><li>Fechamento e gancho.</li></ol></div>
+          <div class="card"><h3>Perguntas-chave</h3><ul><li>De qual evidência saiu essa decisão?</li><li>Isso é fato, hipótese ou dúvida?</li><li>Qual requisito originou essa Story?</li><li>Por que essa Story entra nesta Sprint?</li><li>Como o Jira comprova o andamento?</li></ul></div>
+        </div>
+        <div id="teacherSprints"></div>
+      </div>
+
+      <div id="supabase" class="admin-panel">
+        <div class="section-title">
+          <h2>Supabase</h2>
+          <p>Edite o arquivo <code>supabase.js</code> para inserir sua URL e sua anon key.</p>
+        </div>
+        <div class="card">
+          <h3>Status</h3>
+          <p><span id="supabaseStatus" class="supabase-status">Verificando...</span></p>
+          <pre><code>const SUPABASE_URL = 'COLE_AQUI_A_URL_DO_SUPABASE';
+const SUPABASE_ANON_KEY = 'COLE_AQUI_A_ANON_KEY_DO_SUPABASE';</code></pre>
+          <p class="security-note">A anon key pode ser pública quando as políticas de segurança do Supabase estiverem corretamente configuradas. Não coloque service role key no front-end.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="data/sprints.js"></script>
+  <script>
+    const base = window.NEXUS_CONFIG || {};
+    const sprints = window.NEXUS_SPRINTS || [];
+    const $ = (id)=>document.getElementById(id);
+    const bool = (v)=> v === true || v === 'true';
+    function getLocal(){ try{return JSON.parse(localStorage.getItem('NEXUS_ADMIN_CONFIG')||'{}')}catch(e){return{}} }
+    function getConfig(){ return {...base, ...getLocal()}; }
+    function showMessage(text){ const box=$('status'); box.textContent=text; box.classList.add('show'); setTimeout(()=>box.classList.remove('show'),2600); }
+    function authenticate(){
+      const cfg = getConfig();
+      if($('pinInput').value === String(cfg.adminPin || '2026')){
+        sessionStorage.setItem('NEXUS_ADMIN_AUTH','true');
+        $('loginPanel').style.display='none'; $('adminPanel').style.display='block'; hydrate(); renderTeacher();
+      } else {
+        $('loginStatus').classList.add('show'); setTimeout(()=>$('loginStatus').classList.remove('show'),2200);
+      }
+    }
+    function hydrate(){
+      const cfg = getConfig();
+      $('currentSprint').innerHTML = sprints.map((s,i)=>`<option value="${i+1}">${String(i+1).padStart(2,'0')} · ${s.title}</option>`).join('');
+      $('currentSprint').value = cfg.currentSprint || 1;
+      $('deliveryChannel').value = cfg.deliveryChannel || 'Microsoft Teams';
+      $('unlockedSprints').value = (cfg.unlockedSprints || []).join(',');
+      $('showFutureSprints').value = String(cfg.showFutureSprints ?? true);
+      $('showProfessorMode').value = String(cfg.showProfessorMode ?? true);
+      $('showEventCards').value = String(cfg.showEventCards ?? true);
+      $('useSupabase').value = String(cfg.useSupabase ?? false);
+      $('supabaseConfigTable').value = cfg.supabaseConfigTable || 'nexus_config';
+      $('supabaseStatus').textContent = window.NEXUS_SUPABASE?.enabled ? 'Supabase configurado' : 'Supabase não configurado';
+      updatePreview();
+    }
+    function collect(){
+      const basePin = getConfig().adminPin || '2026';
+      return {
+        currentSprint: Number($('currentSprint').value),
+        unlockedSprints: $('unlockedSprints').value.split(',').map(x=>Number(x.trim())).filter(Boolean),
+        showFutureSprints: bool($('showFutureSprints').value),
+        showProfessorMode: bool($('showProfessorMode').value),
+        showEventCards: bool($('showEventCards').value),
+        deliveryChannel: $('deliveryChannel').value.trim() || 'Microsoft Teams',
+        adminPin: basePin,
+        useSupabase: bool($('useSupabase').value),
+        supabaseConfigTable: $('supabaseConfigTable').value.trim() || 'nexus_config'
+      };
+    }
+    function updatePreview(){ $('configPreview').value = JSON.stringify(collect(), null, 2); }
+    function renderTeacher(){
+      const cfg = getConfig();
+      $('teacherSprints').innerHTML = (cfg.showProfessorMode === false ? '<div class="highlight warning"><strong>Guia oculto:</strong> habilite na configuração para visualizar.</div>' : '') + sprints.map((s,i)=>`<details><summary><strong>${s.day}</strong><span class="summary-title">${s.title}</span><span class="budget">Professor</span></summary><div class="detail-body"><p>${s.teacher || 'Conduzir conectando slides, portal, Jira e Teams.'}</p><div class="highlight"><strong>Ferramenta central:</strong> ${s.tool || 'Portal Nexus'}</div></div></details>`).join('');
+    }
+    document.querySelectorAll('.admin-tabs button').forEach(btn=>btn.addEventListener('click',()=>{
+      document.querySelectorAll('.admin-tabs button').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active'); $(btn.dataset.adminTab).classList.add('active');
+    }));
+    ['currentSprint','deliveryChannel','unlockedSprints','showFutureSprints','showProfessorMode','showEventCards','useSupabase','supabaseConfigTable'].forEach(id=>$(id).addEventListener('input', ()=>{updatePreview(); renderTeacher();}));
+    $('loginBtn').addEventListener('click', authenticate);
+    $('pinInput').addEventListener('keydown', e=>{ if(e.key==='Enter') authenticate(); });
+    $('saveBtn').addEventListener('click', ()=>{ localStorage.setItem('NEXUS_ADMIN_CONFIG', JSON.stringify(collect())); showMessage('Configuração salva localmente.'); });
+    $('resetBtn').addEventListener('click', ()=>{ localStorage.removeItem('NEXUS_ADMIN_CONFIG'); hydrate(); renderTeacher(); showMessage('Configuração restaurada.'); });
+    $('copyBtn').addEventListener('click', async ()=>{ await navigator.clipboard.writeText($('configPreview').value); showMessage('JSON copiado.'); });
+    $('saveRemoteBtn').addEventListener('click', async ()=>{ const cfg=collect(); localStorage.setItem('NEXUS_ADMIN_CONFIG', JSON.stringify(cfg)); const result = await nexusSaveRemoteConfig(cfg, cfg.supabaseConfigTable); showMessage(result.ok ? 'Configuração salva no Supabase.' : 'Supabase: '+result.reason); });
+    $('loadRemoteBtn').addEventListener('click', async ()=>{ const cfg=getConfig(); const remote=await nexusLoadRemoteConfig(cfg.supabaseConfigTable); if(remote){ localStorage.setItem('NEXUS_ADMIN_CONFIG', JSON.stringify(remote)); hydrate(); renderTeacher(); showMessage('Configuração carregada do Supabase.'); } else showMessage('Nenhuma configuração remota carregada.'); });
+    if(sessionStorage.getItem('NEXUS_ADMIN_AUTH')==='true'){
+      $('loginPanel').style.display='none'; $('adminPanel').style.display='block'; hydrate(); renderTeacher();
+    }
+  </script>
+</body>
+</html>

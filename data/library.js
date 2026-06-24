@@ -1,0 +1,27 @@
+
+window.NEXUS_LIBRARY = [
+ {cat:'Discovery',title:'Matriz CSD',text:'Separar Certezas, Suposições e Dúvidas antes de propor solução.'},
+ {cat:'Discovery',title:'Stakeholders',text:'Identificar quem paga, usa, aprova, influencia, reclama ou bloqueia o projeto.'},
+ {cat:'Discovery',title:'Personas e Jornada',text:'Entender contexto, dores, objetivos e momentos críticos do usuário.'},
+ {cat:'Produto',title:'Visão do Produto',text:'Direção estratégica: por que o produto existe e qual valor entrega.'},
+ {cat:'Produto',title:'Roadmap',text:'Planejamento macro da evolução do produto ao longo do tempo.'},
+ {cat:'Produto',title:'MVP',text:'Menor versão capaz de entregar valor e validar a solução.'},
+ {cat:'Requisitos',title:'Engenharia de Requisitos',text:'Transformar evidências em requisitos, regras, premissas e restrições.'},
+ {cat:'Backlog',title:'Épicos',text:'Grandes agrupamentos de trabalho relacionados a módulos ou capacidades.'},
+ {cat:'Backlog',title:'Features',text:'Funcionalidades relevantes derivadas dos épicos.'},
+ {cat:'Backlog',title:'User Stories',text:'Pequenas entregas de valor escritas pela perspectiva do usuário.'},
+ {cat:'Backlog',title:'Critérios de Aceite',text:'Condições verificáveis para saber se uma Story foi atendida.'},
+ {cat:'Backlog',title:'Tasks e Subtasks',text:'Atividades técnicas necessárias para implementar Stories.'},
+ {cat:'Ágil',title:'Scrum',text:'Framework com papéis, eventos e artefatos para entrega incremental.'},
+ {cat:'Ágil',title:'Kanban',text:'Sistema visual de fluxo com controle de WIP e melhoria contínua.'},
+ {cat:'Ágil',title:'Sprint Planning',text:'Evento para definir Sprint Goal e selecionar itens do Sprint Backlog.'},
+ {cat:'Ágil',title:'Daily Scrum',text:'Sincronização curta para inspecionar progresso e impedimentos.'},
+ {cat:'Ágil',title:'Definition of Ready',text:'Critérios para uma Story estar pronta para entrar na Sprint.'},
+ {cat:'Ágil',title:'Definition of Done',text:'Critérios para considerar uma entrega realmente concluída.'},
+ {cat:'Métricas',title:'Burndown e Burnup',text:'Gráficos para acompanhar progresso, escopo e tendência da Sprint.'},
+ {cat:'Ferramentas',title:'Jira',text:'Ferramenta oficial da Nexus a partir da Sprint 06 para backlog, sprints, issues e boards.'},
+ {cat:'Ferramentas',title:'Azure DevOps',text:'Alternativa corporativa forte para boards, repos, pipelines, testes e artefatos.'},
+ {cat:'Ferramentas',title:'GitHub Projects',text:'Alternativa integrada ao GitHub para issues, boards e automações simples.'},
+ {cat:'Ferramentas',title:'ClickUp, Trello, Linear e YouTrack',text:'Ferramentas equivalentes para entender que os conceitos são transferíveis.'},
+ {cat:'IA',title:'IA com responsabilidade',text:'Usar IA para revisar e questionar, nunca para substituir análise própria.'}
+];
