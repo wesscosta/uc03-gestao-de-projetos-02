@@ -72,3 +72,7 @@ code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px;color:#e
 .topic-item{display:flex;gap:10px;align-items:flex-start;border:1px solid rgba(255,255,255,.08);background:rgba(2,6,23,.28);border-radius:12px;padding:10px}
 .topic-item strong{color:var(--cyan);min-width:28px}
 @media(max-width:900px){.topic-grid{grid-template-columns:1fr}.workshop-flow span,.workshop-flow strong{width:100%;text-align:center}}
+
+
+/* v4.0 — Eventos Nexus City e consistência narrativa */
+.flow-note{margin-top:14px;max-width:980px}.event-card .highlight{margin-bottom:0}.event-card{min-height:240px}.event-card h3{margin-top:12px}.event-card.high{box-shadow:0 0 0 1px rgba(239,68,68,.12) inset}.event-card.medium{box-shadow:0 0 0 1px rgba(167,139,250,.10) inset}

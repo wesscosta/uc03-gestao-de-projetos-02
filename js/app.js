@@ -121,6 +121,11 @@ function sectionTitle(title, text){return `<div class="section-title"><h2>${titl
 function pill(text, cls=''){return `<span class="pill ${cls}">${text}</span>`}
 function checklist(items=[]){return `<div class="checklist">${items.map(i=>`<div class="check"><span class="box"></span><span>${i}</span></div>`).join('')}</div>`}
 function list(items=[]){return `<ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`}
+
+function transitionFlow(active='Workshop'){
+  const items = ['Discovery','Produto','Requisitos','Backlog','Refinamento','Workshop','Nexus City'];
+  return `<div class="workshop-flow">${items.map(i => i === active ? `<strong>${i}</strong>` : `<span>${i}</span>`).join('')}</div>`;
+}
 function lockNotice(s){
   if(s.status !== 'Bloqueada') return '';
   return `<div class="highlight warning"><strong>Sprint bloqueada:</strong> esta Sprint ainda não está liberada. Altere o arquivo <code>config.js</code> ou use o painel de configuração para habilitá-la.</div>`;
@@ -140,7 +145,7 @@ function renderDashboard(){
   <div class="metric"><small>XP</small><strong>${c.xp}</strong><span>${c.coins}</span></div>
   <div class="metric"><small>Entrega</small><strong>${config.deliveryChannel}</strong><span>Atividade da Sprint</span></div>
  </div>
- <div class="panel"><h3>Trilha da UC02</h3><div class="workshop-flow dashboard-flow"><span>Discovery</span><span>Produto</span><span>Requisitos</span><span>Backlog</span><span>Refinamento</span><strong>Workshop</strong><span>Nexus City</span></div></div>
+ <div class="panel"><h3>Linha de transição oficial</h3>${transitionFlow((currentIndex + 1) >= 9 ? 'Nexus City' : (currentIndex + 1) >= 8 ? 'Workshop' : 'Refinamento')}<p class="muted flow-note">A fase de consultoria foi concluída. O Workshop consolida metodologias e abre o ciclo operacional da Nexus City.</p></div>
  <div class="panel"><h3>Linha do tempo das Sprints</h3><div class="timeline">${sprints.map((s,i)=>`<div class="timeline-item ${i<currentIndex?'done':i===currentIndex?'active':unlockedSet.has(i+1)?'unlocked':'locked'}"><strong>${String(i+1).padStart(2,'0')}</strong><span>${s.phase}</span></div>`).join('')}</div></div>
  <div class="grid cols-2"><div class="card"><h3>Sprint Goal atual</h3><p>${c.goal}</p></div><div class="card"><h3>Entrega oficial</h3><p>${c.output}</p><div class="highlight"><strong>Canal:</strong> ${config.deliveryChannel}, com evidências do Jira/Minecraft quando aplicável.</div></div></div>`;
 }
@@ -194,7 +199,7 @@ function renderWorkshop(){
     <div class="metric"><small>Entrega</small><strong>Teams</strong><span>Slides + mapa mental</span></div>
     <div class="metric"><small>Próximo ciclo</small><strong>Nexus City</strong><span>Execução prática</span></div>
   </div>
-  <div class="panel transition-panel"><h3>Linha de transição</h3><div class="workshop-flow"><span>Discovery</span><span>Produto</span><span>Requisitos</span><span>Backlog</span><span>Refinamento</span><strong>Workshop</strong><span>Nexus City</span></div></div>
+  <div class="panel transition-panel"><h3>Linha de transição</h3>${transitionFlow('Workshop')}<p class="muted flow-note">Este Workshop é a ponte entre a fase de consultoria e o início da execução colaborativa na Nexus City.</p></div>
   <div class="grid cols-2 workshop-section-gap">
     <div class="card"><h3>Dinâmica</h3><ol><li>Pesquisa orientada e organização do material.</li><li>Construção da apresentação e mapa mental.</li><li>Defesa técnica da metodologia diante da turma.</li><li>Comparação com outras abordagens.</li><li>Decisão final: a Nexus adotaria essa abordagem?</li><li>Se houver ausência, a equipe presente assume a defesa e o professor garante a síntese do tema.</li></ol></div>
     <div class="card"><h3>Entregáveis</h3>${checklist(['Apresentação em PowerPoint, Canva ou Google Slides.','Mapa mental em PDF ou imagem.','Referências utilizadas.','Defesa oral com comparação crítica.','Entrega oficial pelo Microsoft Teams.'])}</div>
@@ -221,8 +226,11 @@ function renderWorkshop(){
 
 function renderEvents(){
  if(!config.showEventCards){ qs('#eventos').innerHTML = ''; return; }
- qs('#eventos').innerHTML = sectionTitle('Eventos da Diretoria','Cartas de evento para usar principalmente entre as Sprints 07 e 12. Elas tornam o Jira vivo e forçam adaptação, negociação e registro de decisão.')+
- `<div class="grid cols-3">${events.map(e=>`<div class="card event-card ${e.level}"><div class="pill-row">${pill('Sprint '+e.sprint,'blue')}${pill(e.level==='high'?'Alto impacto':'Médio impacto','hot')}</div><h3>${e.title}</h3><p>${e.text}</p></div>`).join('')}</div>`;
+ const byPhase = events.reduce((acc,e)=>{ (acc[e.sprint] ||= []).push(e); return acc; }, {});
+ qs('#eventos').innerHTML = sectionTitle('Eventos da Diretoria e da Prefeitura','Cartas de evento atualizadas para o novo ciclo: Workshop, Kickoff e execução da Nexus City. Use durante as Sprints para provocar análise de impacto, repriorização, qualidade e comunicação executiva.')+
+ `<div class="panel transition-panel"><h3>Linha de transição</h3>${transitionFlow((currentIndex + 1) >= 9 ? 'Nexus City' : 'Workshop')}<p class="muted flow-note">Os eventos antigos de clientes individuais foram substituídos por situações corporativas da Nexus City.</p></div>`+
+ `<div class="grid cols-3">${events.map(e=>`<div class="card event-card ${e.level}"><div class="pill-row">${pill('Sprint '+e.sprint,'blue')}${pill(e.category || 'Evento')}${pill(e.level==='high'?'Alto impacto':'Médio impacto','hot')}</div><h3>${e.title}</h3><p>${e.text}</p>${e.action?`<div class="highlight"><strong>Ação esperada:</strong> ${e.action}</div>`:''}</div>`).join('')}</div>`+
+ `<div class="panel"><h3>Como usar os eventos</h3><div class="grid cols-3"><div class="card"><h3>1. Ler</h3><p>Apresente o evento como comunicado da Diretoria, Prefeitura ou stakeholder.</p></div><div class="card"><h3>2. Decidir</h3><p>A equipe avalia impacto em escopo, prazo, qualidade, riscos e backlog.</p></div><div class="card"><h3>3. Registrar</h3><p>A decisão precisa aparecer no Jira, no relatório ou na entrega do Teams.</p></div></div></div>`;
 }
 function renderLibrary(){
  qs('#biblioteca').innerHTML = sectionTitle('Biblioteca do Consultor','Glossário vivo da UC02. Use como referência rápida durante as Sprints, sem transformar a aula em leitura teórica.')+
