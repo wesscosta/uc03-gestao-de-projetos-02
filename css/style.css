@@ -46,3 +46,29 @@ details{overflow:hidden;margin:20px 0}summary{list-style:none;cursor:pointer;pad
 .status-message.show{display:block}
 .timeline-item.unlocked{border-color:rgba(167,139,250,.45);background:rgba(167,139,250,.10)}
 code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px;color:#e0f2fe}
+
+
+/* Workshop Corporativo Nexus */
+.workshop-hero{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:center;margin-bottom:24px;background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(236,72,153,.08)),rgba(15,23,42,.86)}
+.workshop-hero h3{font-size:clamp(28px,3.4vw,44px);margin:8px 0 12px;color:var(--text)}
+.workshop-metrics{margin:24px 0}.workshop-flow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.workshop-flow span,.workshop-flow strong{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:999px;padding:9px 12px;color:var(--muted)}.workshop-flow strong{background:rgba(34,211,238,.16);border-color:rgba(34,211,238,.42);color:var(--cyan)}
+.block-title{margin:32px 0 18px;color:var(--cyan);font-size:24px}.team-card{margin:0}.team-card summary{grid-template-columns:90px 1fr auto}.team-card summary strong{display:inline-grid;place-items:center;width:48px;height:36px;border-radius:10px;background:var(--pink);color:white}.team-card .card{box-shadow:none;background:rgba(2,6,23,.24)}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.topic-item{display:flex;gap:10px;align-items:flex-start;border:1px solid rgba(255,255,255,.08);background:rgba(2,6,23,.28);border-radius:13px;padding:11px 12px}.topic-item strong{color:var(--cyan);min-width:28px}.topic-item span{color:var(--muted)}
+@media(max-width:1100px){.workshop-hero{grid-template-columns:1fr}.team-card summary{grid-template-columns:1fr}.topic-grid{grid-template-columns:1fr}}
+
+/* v3.1 — Workshop + Nexus City + Supabase remoto */
+.dashboard-flow{margin-top:18px}
+.transition-panel{margin:32px 0 28px!important}
+.workshop-section-gap{margin-top:28px!important}
+.workshop-flow{row-gap:14px!important;column-gap:12px!important}
+.workshop-flow span,.workshop-flow strong{margin-bottom:0;line-height:1.2}
+#workshop .grid.cols-2{align-items:stretch}
+#workshop .card{min-height:100%}
+#workshop .checklist{gap:12px;margin-top:18px}
+#workshop .block-title{margin-top:38px;margin-bottom:18px;color:var(--cyan)}
+.team-card{margin:0!important}
+.team-card summary{min-height:92px}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.topic-item{display:flex;gap:10px;align-items:flex-start;border:1px solid rgba(255,255,255,.08);background:rgba(2,6,23,.28);border-radius:12px;padding:10px}
+.topic-item strong{color:var(--cyan);min-width:28px}
+@media(max-width:900px){.topic-grid{grid-template-columns:1fr}.workshop-flow span,.workshop-flow strong{width:100%;text-align:center}}

@@ -1,14 +1,14 @@
 // Configuração central da plataforma Nexus Software House
 // Altere estes valores para liberar novas Sprints sem editar o código da aplicação.
 window.NEXUS_CONFIG = {
-  currentSprint: 7,
-  unlockedSprints: [1, 2, 3, 4, 5, 6, 7],
+  currentSprint: 8,
+  unlockedSprints: [1, 2, 3, 4, 5, 6, 7, 8],
   showFutureSprints: true,
   showProfessorMode: true,
   showEventCards: true,
   deliveryChannel: 'Microsoft Teams',
   adminPin: '2026',
-  useSupabase: false,
+  useSupabase: true,
   supabaseConfigTable: 'nexus_config',
   officialToolBySprint: {
     1: 'Portal Nexus + Teams',
@@ -18,13 +18,13 @@ window.NEXUS_CONFIG = {
     5: 'Slides + Portal + Jira',
     6: 'Jira',
     7: 'Jira',
-    8: 'Jira',
-    9: 'Jira',
-    10: 'Jira',
-    11: 'Jira + Apresentação',
-    12: 'Miro/Jira',
-    13: 'Jira + Alternativas',
+    8: 'Workshop + Teams',
+    9: 'Minecraft Education + Jira',
+    10: 'Minecraft Education + Jira',
+    11: 'Jira + Portal Nexus',
+    12: 'Minecraft Education + Jira',
+    13: 'Miro/FigJam + Jira',
     14: 'Canva/Figma',
-    15: 'Banca'
+    15: 'Banca + Nexus City'
   }
 };

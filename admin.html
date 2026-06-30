@@ -51,7 +51,7 @@
     <section id="adminPanel" class="panel" style="display:none">
       <div class="section-title">
         <h2>Nexus Control Center</h2>
-        <p>As alterações ficam salvas no navegador por localStorage. Se o Supabase for configurado e habilitado, você também pode salvar a configuração remotamente.</p>
+        <p>As alterações podem ser salvas no Supabase para valerem para todos os alunos. O localStorage fica apenas como cache do navegador.</p>
       </div>
 
       <div class="admin-tabs">
@@ -106,8 +106,8 @@
           </div>
           <div id="status" class="status-message">Configuração salva.</div>
           <div class="form-actions">
-            <button class="primary" id="saveBtn" type="button">Salvar localmente</button>
-            <button id="saveRemoteBtn" type="button">Salvar no Supabase</button>
+            <button class="primary" id="saveRemoteBtn" type="button">Salvar para todos no Supabase</button>
+            <button id="saveBtn" type="button">Salvar apenas neste navegador</button>
             <button id="loadRemoteBtn" type="button">Carregar do Supabase</button>
             <button id="resetBtn" type="button">Restaurar padrão</button>
             <button id="copyBtn" type="button">Copiar JSON</button>
@@ -137,7 +137,7 @@
           <p><span id="supabaseStatus" class="supabase-status">Verificando...</span></p>
           <pre><code>const SUPABASE_URL = 'COLE_AQUI_A_URL_DO_SUPABASE';
 const SUPABASE_ANON_KEY = 'COLE_AQUI_A_ANON_KEY_DO_SUPABASE';</code></pre>
-          <p class="security-note">A anon key pode ser pública quando as políticas de segurança do Supabase estiverem corretamente configuradas. Não coloque service role key no front-end.</p>
+          <p class="security-note">A anon key pode ser pública quando as políticas RLS estiverem configuradas. Não coloque service role key no front-end. Para todos os alunos receberem a mesma configuração, salve pela opção <strong>Salvar para todos no Supabase</strong>.</p>
         </div>
       </div>
     </section>
@@ -154,12 +154,23 @@ const SUPABASE_ANON_KEY = 'COLE_AQUI_A_ANON_KEY_DO_SUPABASE';</code></pre>
     const bool = (v)=> v === true || v === 'true';
     function getLocal(){ try{return JSON.parse(localStorage.getItem('NEXUS_ADMIN_CONFIG')||'{}')}catch(e){return{}} }
     function getConfig(){ return {...base, ...getLocal()}; }
+    async function tryLoadRemoteIntoLocal(){
+      const cfg = getConfig();
+      if(cfg.useSupabase && window.NEXUS_SUPABASE?.enabled && typeof nexusLoadRemoteConfig === 'function'){
+        const remote = await nexusLoadRemoteConfig(cfg.supabaseConfigTable || 'nexus_config');
+        if(remote && typeof remote === 'object'){
+          localStorage.setItem('NEXUS_ADMIN_CONFIG', JSON.stringify(remote));
+          return true;
+        }
+      }
+      return false;
+    }
     function showMessage(text){ const box=$('status'); box.textContent=text; box.classList.add('show'); setTimeout(()=>box.classList.remove('show'),2600); }
     function authenticate(){
       const cfg = getConfig();
       if($('pinInput').value === String(cfg.adminPin || '2026')){
         sessionStorage.setItem('NEXUS_ADMIN_AUTH','true');
-        $('loginPanel').style.display='none'; $('adminPanel').style.display='block'; hydrate(); renderTeacher();
+        $('loginPanel').style.display='none'; $('adminPanel').style.display='block'; tryLoadRemoteIntoLocal().then(()=>{ hydrate(); renderTeacher(); });
       } else {
         $('loginStatus').classList.add('show'); setTimeout(()=>$('loginStatus').classList.remove('show'),2200);
       }
@@ -211,7 +222,7 @@ const SUPABASE_ANON_KEY = 'COLE_AQUI_A_ANON_KEY_DO_SUPABASE';</code></pre>
     $('saveRemoteBtn').addEventListener('click', async ()=>{ const cfg=collect(); localStorage.setItem('NEXUS_ADMIN_CONFIG', JSON.stringify(cfg)); const result = await nexusSaveRemoteConfig(cfg, cfg.supabaseConfigTable); showMessage(result.ok ? 'Configuração salva no Supabase.' : 'Supabase: '+result.reason); });
     $('loadRemoteBtn').addEventListener('click', async ()=>{ const cfg=getConfig(); const remote=await nexusLoadRemoteConfig(cfg.supabaseConfigTable); if(remote){ localStorage.setItem('NEXUS_ADMIN_CONFIG', JSON.stringify(remote)); hydrate(); renderTeacher(); showMessage('Configuração carregada do Supabase.'); } else showMessage('Nenhuma configuração remota carregada.'); });
     if(sessionStorage.getItem('NEXUS_ADMIN_AUTH')==='true'){
-      $('loginPanel').style.display='none'; $('adminPanel').style.display='block'; hydrate(); renderTeacher();
+      $('loginPanel').style.display='none'; $('adminPanel').style.display='block'; tryLoadRemoteIntoLocal().then(()=>{ hydrate(); renderTeacher(); });
     }
   </script>
 </body>
