@@ -83,6 +83,77 @@ const workshopTeams = [
 const workshopStandardTopics = ['O que é?','Quem criou?','Ano de criação','Contexto histórico','Problema que pretendia resolver','Como funciona?','Fluxograma do processo','Principais características','Vantagens','Limitações','Quando utilizar?','Quando evitar?','Empresas que utilizam','Como influenciou a Engenharia de Software','Comparação com outras metodologias','A Nexus Software House adotaria essa abordagem? Justifique.'];
 
 
+
+const nexusCityFacts = [
+  'População estimada: 50.000 habitantes na primeira fase de expansão.',
+  'A Prefeitura deseja validar a Fase 1 antes de avançar para obras completas.',
+  'O ambiente de validação será o Minecraft Education, usado como simulação tridimensional.',
+  'A gestão operacional deverá acontecer no Jira, com evidências e movimentação real dos cards.',
+  'A entrega final será um MVP demonstrável, não a cidade completa.'
+];
+const nexusCityDemands = [
+  'Qualidade de vida e acesso a serviços essenciais.',
+  'Mobilidade urbana eficiente e vias compreensíveis.',
+  'Educação, saúde e segurança como serviços mínimos.',
+  'Áreas verdes e cuidado ambiental.',
+  'Iluminação e infraestrutura básica.',
+  'Uso inteligente de tecnologia para melhorar a vida do cidadão.',
+  'Crescimento futuro sem expansão desordenada.',
+  'Acessibilidade nos principais equipamentos públicos.'
+];
+const nexusCityOpenPoints = [
+  'Qual será o MVP realista para os encontros restantes?',
+  'Quais demandas entram agora e quais ficam para versões futuras?',
+  'Como dividir a turma em squads ou frentes de trabalho?',
+  'Quem será PO, Scrum Master, Devs e QA?',
+  'Quais áreas da cidade têm maior valor para a Prefeitura?',
+  'Quais dependências existem entre vias, prédios, áreas verdes e serviços?',
+  'Como garantir qualidade sem perder prazo?',
+  'Como registrar decisões e mudanças no Jira?'
+];
+const nexusCityConstraints = [
+  'Tempo reduzido: ciclo final de 4 encontros.',
+  'Não construir a cidade inteira: entregar apenas um MVP coerente.',
+  'Toda construção deve nascer de uma demanda registrada no Jira.',
+  'Mudanças da Prefeitura devem passar por análise de impacto.',
+  'O Minecraft Education é ambiente de execução, não o objetivo da atividade.',
+  'A Daily Nexus deve encerrar cada encontro com avanços, dificuldades e próximos passos.'
+];
+const nexusCityRoles = [
+  {role:'Product Owner', text:'Representa a Prefeitura, ajuda a priorizar demandas, valida entregas e negocia mudanças com base no valor do projeto.'},
+  {role:'Scrum Master', text:'Conduz o fluxo de trabalho, organiza a Daily Nexus, registra impedimentos e ajuda a equipe a manter foco e transparência.'},
+  {role:'Developers', text:'Executam as demandas priorizadas no Minecraft Education, mantendo o Jira atualizado com progresso e evidências.'},
+  {role:'QA', text:'Valida se as entregas atendem aos critérios definidos, registra não conformidades e evita que itens sejam concluídos sem evidência.'}
+];
+const nexusCityArchitecture = [
+  'Definir uma área central de referência para o MVP: praça, centro administrativo ou eixo principal.',
+  'Separar zonas mínimas: residencial, serviços públicos, mobilidade, área verde e tecnologia/infraestrutura.',
+  'Criar eixos de circulação antes dos prédios principais para evitar construções isoladas.',
+  'Usar placas no Minecraft para identificar áreas, responsáveis e entregas concluídas.',
+  'Manter escala coerente entre prédios, ruas, áreas verdes e equipamentos públicos.',
+  'Evitar decoração sem função: cada construção precisa ter motivo ligado ao projeto.',
+  'Registrar no Jira qual issue originou cada construção relevante.',
+  'Deixar espaço para expansão futura, mesmo que não seja construída agora.'
+];
+const nexusCityDossier = [
+  {title:'1. Carta de Abertura', body:'A Prefeitura Municipal de Nexus City contratou a Nexus Software House para conduzir a Fase 1 de um projeto de cidade inteligente. A contratação não solicita uma cidade completa, mas um MVP viável que demonstre como a cidade poderá ser planejada, priorizada, executada e evoluída.'},
+  {title:'2. Contexto do Problema', body:'Nexus City deverá receber cerca de 50.000 habitantes. A Prefeitura quer evitar erros comuns de cidades que cresceram sem planejamento: congestionamentos, bairros desconectados, ausência de áreas verdes, serviços públicos mal distribuídos, baixa acessibilidade e desperdício de recursos.'},
+  {title:'3. Demanda Central', body:'Transformar uma necessidade ampla em um projeto executável. A equipe deverá interpretar informações, eleger prioridades, organizar o trabalho no Jira e validar uma primeira versão no Minecraft Education.'},
+  {title:'4. Demandas Documentadas', body:'Foram citadas necessidades de moradia, mobilidade, saúde, educação, segurança, iluminação, áreas verdes, tecnologia, acessibilidade, saneamento básico, espaços de convivência e capacidade de expansão. Nem tudo caberá no MVP.'},
+  {title:'5. Conflitos de Prioridade', body:'A Prefeitura deseja inovação e sustentabilidade. A população cobra serviços essenciais. Empresários querem área comercial. Moradores pedem segurança e mobilidade. O PO deverá ajudar a equipe a tomar decisões de prioridade sem tentar atender tudo ao mesmo tempo.'},
+  {title:'6. Restrições', body:'O projeto possui tempo limitado, equipe reduzida, necessidade de entrega incremental e obrigação de registrar decisões. A equipe terá que escolher o que entra na Fase 1 e justificar o que ficará para depois.'},
+  {title:'7. Ambiente de Simulação', body:'O Minecraft Education será utilizado como ambiente de execução e validação visual do MVP. Ele não substitui o gerenciamento do projeto. O Jira será a fonte principal de acompanhamento das demandas, responsáveis, status e impedimentos.'},
+  {title:'8. Resultado Esperado', body:'Ao final do ciclo, a Prefeitura espera ver um MVP coerente da Nexus City e entender como a equipe gerenciou o projeto: papéis, prioridades, backlog, mudanças, decisões, dificuldades e aprendizados.'}
+];
+const nexusCitySprints = [
+  {sprint:'Encontro 1', title:'Kickoff, leitura do dossiê e organização no Jira', items:['Ler o dossiê da Prefeitura','Eleger PO e Scrum Master','Dividir squads/frentes de trabalho','Definir MVP possível','Transformar demandas em épicos/issues no Jira','Planejar a primeira execução'], daily:'O que entendemos do problema? O que decidimos priorizar? Quais dúvidas ou impedimentos existem?'},
+  {sprint:'Encontro 2', title:'Execução do MVP no Minecraft Education', items:['Abrir ambiente de simulação','Executar issues priorizadas','Atualizar board do Jira','Registrar evidências','Tratar dependências entre squads','Manter foco no MVP'], daily:'O que foi concluído? O que está em andamento? O que bloqueou o time? O que faremos no próximo encontro?'},
+  {sprint:'Encontro 3', title:'Ofícios, mudanças, qualidade e Review parcial', items:['Receber ofício da Prefeitura','Avaliar impacto da mudança','Repriorizar backlog quando necessário','Corrigir não conformidades','Realizar Review parcial','Registrar decisões no Jira'], daily:'O que mudou? Como reagimos? O que será ajustado? Quais riscos ainda permanecem?'},
+  {sprint:'Encontro 4', title:'Demo Day e prestação de contas', items:['Finalizar MVP','Organizar evidências do Jira','Preparar defesa executiva','Demonstrar Nexus City no Minecraft','Responder perguntas','Registrar lições aprendidas'], daily:'O que entregamos? Quais decisões foram mais importantes? O que aprendemos como equipe?'}
+];
+
+
+
 function sprintStatus(index){
   const n = index + 1;
   if(index < currentIndex) return 'Concluída';
@@ -224,6 +295,62 @@ function renderWorkshop(){
   <div class="card"><h3>Fechamento do Workshop</h3><p>Após as apresentações, a Diretoria da Nexus consolidará as lições aprendidas e anunciará a transição para o projeto <strong>Nexus City — Smart City Program</strong>.</p><div class="highlight success"><strong>Próxima etapa:</strong> Kickoff da Nexus City, formação das equipes de desenvolvimento, definição de papéis, backlog inicial e execução no Minecraft Education.</div></div>`;
 }
 
+
+
+function renderNexusCity(){
+ const panel = qs('#nexus-city');
+ if(!panel) return;
+ panel.innerHTML = sectionTitle('Nexus City','Projeto Integrador da UC02. A equipe deverá transformar um dossiê amplo da Prefeitura em execução organizada, usando Jira para gestão e Minecraft Education para validar o MVP.')+
+ `<div class="workshop-hero card">
+    <div>
+      <span class="eyebrow">Projeto Integrador · Fase 1</span>
+      <h3>Nexus City — Smart City MVP</h3>
+      <p>O foco não é preencher vários documentos. O foco é executar um projeto com gestão: interpretar o dossiê, separar demandas, dividir equipes, priorizar, acompanhar no Jira, adaptar-se a mudanças e demonstrar o MVP no Minecraft Education.</p>
+      <div class="pill-row">${pill('Cliente: Prefeitura Municipal','blue')}${pill('Execução: Minecraft Education','go')}${pill('Gestão: Jira','hot')}${pill('Ciclo final: 4 encontros')}</div>
+    </div>
+    <div class="highlight success"><strong>Regra de ouro:</strong> cada construção relevante precisa estar vinculada a uma demanda ou issue no Jira. Minecraft é execução; Jira é gestão.</div>
+  </div>
+
+  <div class="panel transition-panel"><h3>Fluxo oficial</h3>${transitionFlow('Nexus City')}<p class="muted flow-note">A fase de consultoria terminou. A Nexus City inicia a fase prática: transformar demanda realista em execução acompanhada.</p></div>
+
+  <div class="grid cols-5">
+    <div class="metric"><small>Fase atual</small><strong>Execução</strong><span>Projeto Integrador</span></div>
+    <div class="metric"><small>Cliente</small><strong>Prefeitura</strong><span>Nexus City</span></div>
+    <div class="metric"><small>Produto</small><strong>MVP</strong><span>Smart City</span></div>
+    <div class="metric"><small>Gestão</small><strong>Jira</strong><span>Backlog e board</span></div>
+    <div class="metric"><small>Ambiente</small><strong>Minecraft</strong><span>Simulação visual</span></div>
+  </div>
+
+  <details open class="city-briefing"><summary><strong>📄 Dossiê Técnico da Prefeitura</strong><span class="summary-title">Processo Administrativo nº 014/2032</span><span class="budget">Ler</span></summary><div class="detail-body">
+    <div class="highlight"><strong>Uso do dossiê:</strong> este documento não entrega backlog pronto. Ele apresenta demandas, problemas, conflitos e restrições. O PO e o Scrum Master deverão conduzir a equipe para transformar essas informações em execução no Jira.</div>
+    <div class="grid cols-2">${nexusCityDossier.map(d=>`<div class="card"><h3>${d.title}</h3><p>${d.body}</p></div>`).join('')}</div>
+  </div></details>
+
+  <div class="grid cols-2">
+    <div class="card"><h3>Fatos já informados pela Prefeitura</h3>${checklist(nexusCityFacts)}</div>
+    <div class="card"><h3>Demandas documentadas</h3>${checklist(nexusCityDemands)}</div>
+  </div>
+
+  <div class="grid cols-2 city-section-gap">
+    <div class="card"><h3>Pontos que a equipe precisa decidir</h3>${list(nexusCityOpenPoints)}<div class="highlight warning"><strong>Atenção:</strong> não existe resposta única. Toda decisão deverá ter justificativa.</div></div>
+    <div class="card"><h3>Restrições de projeto</h3>${list(nexusCityConstraints)}</div>
+  </div>
+
+  <div class="panel city-section-gap"><h3>Arquitetura mínima no Minecraft Education</h3><p class="muted">A arquitetura abaixo não é um desenho pronto. É um conjunto de princípios para evitar construções desconectadas e manter o MVP coerente.</p><div class="grid cols-2">${nexusCityArchitecture.map(i=>`<div class="check"><span class="box"></span><span>${i}</span></div>`).join('')}</div></div>
+
+  <h3 class="block-title">Papéis obrigatórios da equipe</h3>
+  <div class="grid cols-4">${nexusCityRoles.map(r=>`<div class="card"><h3>${r.role}</h3><p>${r.text}</p></div>`).join('')}</div>
+
+  <div class="panel city-section-gap"><h3>Plano enxuto dos 4 encontros</h3><p class="muted">A atividade foi reduzida para priorizar execução, acompanhamento e tomada de decisão, evitando excesso de documentos.</p><div class="grid cols-2">${nexusCitySprints.map(s=>`<div class="card"><div class="pill-row">${pill(s.sprint,'blue')}${pill('Daily Nexus','go')}</div><h3>${s.title}</h3>${checklist(s.items)}<div class="highlight"><strong>Daily Nexus:</strong> ${s.daily}</div></div>`).join('')}</div></div>
+
+  <div class="grid cols-2">
+    <div class="card"><h3>Entregáveis mínimos</h3>${checklist(['Jira atualizado com demandas, responsáveis e status.','MVP demonstrável no Minecraft Education.','Registro das decisões e mudanças principais.','Daily Nexus ao final de cada encontro.','Defesa executiva no Demo Day.'])}</div>
+    <div class="card"><h3>O que será avaliado</h3>${list(['Gestão do projeto e clareza dos papéis.','Qualidade da priorização e do backlog no Jira.','Execução coerente do MVP no Minecraft.','Capacidade de lidar com mudanças.','Comunicação, colaboração e defesa das decisões.'])}</div>
+  </div>
+
+  <div class="card city-section-gap"><h3>Mensagem da Diretoria</h3><blockquote>Grandes cidades, assim como grandes sistemas, começam com boas decisões. A Prefeitura não espera uma cidade completa em quatro encontros. Espera uma equipe capaz de entender demandas, priorizar valor, executar com transparência e defender tecnicamente suas escolhas. A partir de agora, o projeto da Nexus City está oficialmente em execução.</blockquote></div>`;
+}
+
 function renderEvents(){
  if(!config.showEventCards){ qs('#eventos').innerHTML = ''; return; }
  const byPhase = events.reduce((acc,e)=>{ (acc[e.sprint] ||= []).push(e); return acc; }, {});
@@ -260,6 +387,6 @@ async function initNexus(){
     }catch(e){ console.warn('Falha ao carregar configuração remota:', e); }
   }
   applyVisibilityConfig();
-  renderDashboard();renderSprints();renderClients();renderWorkshop();renderEvents();renderLibrary();renderEvaluation();
+  renderDashboard();renderSprints();renderClients();renderWorkshop();renderNexusCity();renderEvents();renderLibrary();renderEvaluation();
 }
 initNexus();
