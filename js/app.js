@@ -75,9 +75,9 @@ const workshopTeams = [
   },
   {
     id:'E08', title:'Ecossistema de Ferramentas', members:['Maria Francisca'],
-    themes:['Jira','Azure DevOps','GitHub Projects','Trello','ClickUp','Linear'],
-    description:'Comparar ferramentas modernas de gestão ágil, mostrando que a interface muda, mas os conceitos centrais permanecem: backlog, board, issue, sprint e dashboard.',
-    focus:['Backlog nas ferramentas','Board e fluxo','Issue, Epic, Story e Task','Dashboards e relatórios','Quando escolher cada ferramenta']
+    themes:['Jira','Microsoft Planner','Azure DevOps','GitHub Projects','Trello','ClickUp','Linear'],
+    description:'Comparar ferramentas modernas de gestão ágil, incluindo Microsoft Planner por causa do acesso institucional Microsoft, mostrando que a interface muda, mas os conceitos centrais permanecem: backlog, board, issue, sprint, responsáveis, evidências e dashboard.',
+    focus:['Backlog nas ferramentas','Board e fluxo','Issue, Epic, Story e Task','Planner e acesso institucional Microsoft','Dashboards e relatórios','Quando escolher cada ferramenta']
   }
 ];
 const workshopStandardTopics = ['O que é?','Quem criou?','Ano de criação','Contexto histórico','Problema que pretendia resolver','Como funciona?','Fluxograma do processo','Principais características','Vantagens','Limitações','Quando utilizar?','Quando evitar?','Empresas que utilizam','Como influenciou a Engenharia de Software','Comparação com outras metodologias','A Nexus Software House adotaria essa abordagem? Justifique.'];
@@ -88,7 +88,7 @@ const nexusCityFacts = [
   'População estimada: 50.000 habitantes na primeira fase de expansão.',
   'A Prefeitura deseja validar a Fase 1 antes de avançar para obras completas.',
   'O ambiente de validação será o Minecraft Education, usado como simulação tridimensional.',
-  'A gestão operacional deverá acontecer no Jira, com evidências e movimentação real dos cards.',
+  'A gestão operacional deverá acontecer em uma ferramenta escolhida pela equipe, preferencialmente Jira, Microsoft Planner ou Azure DevOps, com evidências e movimentação real dos cards/tarefas.',
   'A entrega final será um MVP demonstrável, não a cidade completa.'
 ];
 const nexusCityDemands = [
@@ -109,12 +109,12 @@ const nexusCityOpenPoints = [
   'Quais áreas da cidade têm maior valor para a Prefeitura?',
   'Quais dependências existem entre vias, prédios, áreas verdes e serviços?',
   'Como garantir qualidade sem perder prazo?',
-  'Como registrar decisões e mudanças no Jira?'
+  'Como registrar decisões e mudanças na ferramenta de gestão?'
 ];
 const nexusCityConstraints = [
   'Tempo reduzido: ciclo final de 4 encontros.',
   'Não construir a cidade inteira: entregar apenas um MVP coerente.',
-  'Toda construção deve nascer de uma demanda registrada no Jira.',
+  'Toda construção deve nascer de uma demanda registrada na ferramenta de gestão.',
   'Mudanças da Prefeitura devem passar por análise de impacto.',
   'O Minecraft Education é ambiente de execução, não o objetivo da atividade.',
   'A Daily Nexus deve encerrar cada encontro com avanços, dificuldades e próximos passos.'
@@ -311,15 +311,15 @@ function renderWorkshop(){
 function renderNexusCity(){
  const panel = qs('#nexus-city');
  if(!panel) return;
- panel.innerHTML = sectionTitle('Nexus City','Projeto Integrador da UC02. A equipe deverá transformar um dossiê amplo da Prefeitura em execução organizada, usando Jira para gestão e Minecraft Education para validar o MVP.')+
+ panel.innerHTML = sectionTitle('Nexus City','Projeto Integrador da UC02. A equipe deverá transformar um dossiê amplo da Prefeitura em execução organizada, usando uma ferramenta de gestão escolhida pela equipe (Jira, Microsoft Planner ou Azure DevOps) e Minecraft Education para validar o MVP.')+
  `<div class="workshop-hero card">
     <div>
       <span class="eyebrow">Projeto Integrador · Fase 1</span>
       <h3>Nexus City — Smart City MVP</h3>
-      <p>O foco não é preencher vários documentos. O foco é executar um projeto com gestão: interpretar o dossiê, separar demandas, dividir equipes, priorizar, acompanhar no Jira, adaptar-se a mudanças e demonstrar o MVP no Minecraft Education.</p>
-      <div class="pill-row">${pill('Cliente: Prefeitura Municipal','blue')}${pill('Execução: Minecraft Education','go')}${pill('Gestão: Jira','hot')}${pill('Ciclo final: 4 encontros')}</div>
+      <p>O foco não é preencher vários documentos. O foco é executar um projeto com gestão: interpretar o dossiê, separar demandas, dividir equipes, priorizar, acompanhar na ferramenta de gestão, adaptar-se a mudanças e demonstrar o MVP no Minecraft Education.</p>
+      <div class="pill-row">${pill('Cliente: Prefeitura Municipal','blue')}${pill('Execução: Minecraft Education','go')}${pill('Gestão: Jira / Planner / Azure DevOps / Planner / Azure DevOps','hot')}${pill('Ciclo final: 4 encontros')}</div>
     </div>
-    <div class="highlight success"><strong>Regra de ouro:</strong> cada construção relevante precisa estar vinculada a uma demanda ou issue no Jira. Minecraft é execução; Jira é gestão.</div>
+    <div class="highlight success"><strong>Regra de ouro:</strong> cada construção relevante precisa estar vinculada a uma demanda ou issue no Jira. Minecraft é execução; a ferramenta de gestão é o controle do projeto.</div>
   </div>
 
   <div class="panel transition-panel"><h3>Fluxo oficial</h3>${transitionFlow('Nexus City')}<p class="muted flow-note">A fase de consultoria terminou. A Nexus City inicia a fase prática: transformar demanda realista em execução acompanhada.</p></div>
@@ -333,7 +333,7 @@ function renderNexusCity(){
   </div>
 
   <details open class="city-briefing"><summary><strong>📄 Dossiê Técnico da Prefeitura</strong><span class="summary-title">Processo Administrativo nº 014/2032</span><span class="budget">Ler</span></summary><div class="detail-body">
-    <div class="highlight"><strong>Uso do dossiê:</strong> este documento não entrega backlog pronto. Ele apresenta demandas, problemas, conflitos e restrições. O PO, o Scrum Master, o Tech Lead, o QA e o UX/Urbanista deverão conduzir a equipe para transformar essas informações em execução no Jira e no Minecraft Education.</div>
+    <div class="highlight"><strong>Uso do dossiê:</strong> este documento não entrega backlog pronto. Ele apresenta demandas, problemas, conflitos e restrições. O PO, o Scrum Master, o Tech Lead, o QA e o UX/Urbanista deverão conduzir a equipe para transformar essas informações em execução na ferramenta de gestão escolhida e no Minecraft Education.</div>
     <div class="grid cols-2">${nexusCityDossier.map(d=>`<div class="card"><h3>${d.title}</h3><p>${d.body}</p></div>`).join('')}</div>
   </div></details>
 
@@ -357,8 +357,8 @@ function renderNexusCity(){
   <div class="panel city-section-gap"><h3>Plano enxuto dos 4 encontros</h3><p class="muted">A atividade foi reduzida para priorizar execução, acompanhamento e tomada de decisão, evitando excesso de documentos.</p><div class="grid cols-2">${nexusCitySprints.map(s=>`<div class="card"><div class="pill-row">${pill(s.sprint,'blue')}${pill('Daily Nexus','go')}</div><h3>${s.title}</h3>${checklist(s.items)}<div class="highlight"><strong>Daily Nexus:</strong> ${s.daily}</div></div>`).join('')}</div></div>
 
   <div class="grid cols-2">
-    <div class="card"><h3>Entregáveis mínimos</h3>${checklist(['Jira atualizado com demandas, responsáveis e status.','MVP demonstrável no Minecraft Education.','Registro das decisões e mudanças principais.','Daily Nexus ao final de cada encontro.','Defesa executiva no Demo Day.'])}</div>
-    <div class="card"><h3>O que será avaliado</h3>${list(['Gestão do projeto e clareza dos papéis.','Qualidade da priorização e do backlog no Jira.','Execução coerente do MVP no Minecraft.','Capacidade de lidar com mudanças.','Comunicação, colaboração e defesa das decisões.'])}</div>
+    <div class="card"><h3>Entregáveis mínimos</h3>${checklist(['Ferramenta de gestão atualizada com demandas, responsáveis e status.','MVP demonstrável no Minecraft Education.','Registro das decisões e mudanças principais.','Daily Nexus ao final de cada encontro.','Defesa executiva no Demo Day.'])}</div>
+    <div class="card"><h3>O que será avaliado</h3>${list(['Gestão do projeto e clareza dos papéis.','Qualidade da priorização e do quadro de gestão.','Execução coerente do MVP no Minecraft.','Capacidade de lidar com mudanças.','Comunicação, colaboração e defesa das decisões.'])}</div>
   </div>
 
   <div class="card city-section-gap"><h3>Mensagem da Diretoria</h3><blockquote>Grandes cidades, assim como grandes sistemas, começam com boas decisões. A Prefeitura não espera uma cidade completa em quatro encontros. Espera uma equipe capaz de entender demandas, priorizar valor, executar com transparência e defender tecnicamente suas escolhas. A partir de agora, o projeto da Nexus City está oficialmente em execução.</blockquote></div>`;
@@ -373,12 +373,13 @@ function renderEvents(){
  `<div class="panel"><h3>Como usar os eventos</h3><div class="grid cols-3"><div class="card"><h3>1. Ler</h3><p>Apresente o evento como comunicado da Diretoria, Prefeitura ou stakeholder.</p></div><div class="card"><h3>2. Decidir</h3><p>A equipe avalia impacto em escopo, prazo, qualidade, riscos e backlog.</p></div><div class="card"><h3>3. Registrar</h3><p>A decisão precisa aparecer no Jira, no relatório ou na entrega do Teams.</p></div></div></div>`;
 }
 function renderLibrary(){
- qs('#biblioteca').innerHTML = sectionTitle('Biblioteca do Consultor','Glossário vivo da UC02. Use como referência rápida durante as Sprints, sem transformar a aula em leitura teórica.')+
- `<div class="grid cols-3">${library.map(l=>`<div class="card"><div class="pill-row">${pill(l.cat,'blue')}</div><h3>${l.title}</h3><p>${l.text}</p></div>`).join('')}</div>`;
+ qs('#biblioteca').innerHTML = sectionTitle('Biblioteca do Consultor','Guia de consulta da Nexus Software House. Conceitos com definição, uso prático, erros comuns e exemplos aplicados à Nexus City.')+
+ `<div class="panel"><h3>Ferramenta de gestão: a equipe pode escolher</h3><p>O Jira continua sendo uma opção forte, mas a equipe também poderá utilizar Microsoft Planner ou Azure DevOps, especialmente porque todos possuem acesso institucional Microsoft. A escolha deve ser justificada pelo PO e pelo Scrum Master.</p><div class="highlight"><strong>Regra:</strong> a ferramenta escolhida precisa permitir demandas, responsáveis, status, prioridades, evidências, impedimentos e acompanhamento do progresso.</div></div>`+
+ `<div class="grid cols-2">${library.map(l=>`<details class="library-detail"><summary><strong>${l.title}</strong><span class="summary-title">${l.text}</span><span class="budget">${l.cat}</span></summary><div class="detail-body">${l.details || `<p>${l.text}</p>`}</div></details>`).join('')}</div>`;
 }
 function renderEvaluation(){
  qs('#avaliacao').innerHTML = sectionTitle('Avaliação e Gamificação','Avaliação contínua por processo, decisão, organização e defesa técnica. XP e TechCoins reforçam a experiência, mas não substituem critérios pedagógicos.')+
- `<div class="grid cols-2"><div class="card"><h3>Critérios gerais</h3><table><tr><th>Critério</th><th>XP</th></tr><tr><td>Discovery, CSD e problema</td><td>10</td></tr><tr><td>Stakeholders, personas e jornada</td><td>10</td></tr><tr><td>Visão, MVP e requisitos</td><td>15</td></tr><tr><td>Escopo e engenharia de requisitos</td><td>15</td></tr><tr><td>Metodologias, Scrum/Kanban e Jira</td><td>15</td></tr><tr><td>Product Backlog e Sprint Planning</td><td>15</td></tr><tr><td>Execução, mudanças, review e retrospectiva</td><td>15</td></tr><tr><td>Defesa final</td><td>5</td></tr><tr><th>Total</th><th>100</th></tr></table></div><div class="card"><h3>TechCoins</h3><ul><li>Entrega no prazo: +80</li><li>Boa decisão técnica: +60</li><li>Jira organizado: +70</li><li>Evento bem tratado: +100</li><li>Uso inadequado de IA: -80</li><li>Board desatualizado: -50</li><li>Escopo sem controle: -70</li></ul><div class="highlight warning"><strong>Defesa oral:</strong> o professor pode selecionar qualquer Story, evento ou decisão e pedir rastreabilidade.</div></div></div>`;
+ `<div class="grid cols-2"><div class="card"><h3>Critérios gerais</h3><table><tr><th>Critério</th><th>XP</th></tr><tr><td>Discovery, CSD e problema</td><td>10</td></tr><tr><td>Stakeholders, personas e jornada</td><td>10</td></tr><tr><td>Visão, MVP e requisitos</td><td>15</td></tr><tr><td>Escopo e engenharia de requisitos</td><td>15</td></tr><tr><td>Metodologias, Scrum/Kanban e Jira</td><td>15</td></tr><tr><td>Product Backlog e Sprint Planning</td><td>15</td></tr><tr><td>Execução, mudanças, review e retrospectiva</td><td>15</td></tr><tr><td>Defesa final</td><td>5</td></tr><tr><th>Total</th><th>100</th></tr></table></div><div class="card"><h3>TechCoins</h3><ul><li>Entrega no prazo: +80</li><li>Boa decisão técnica: +60</li><li>Quadro organizado: +70</li><li>Evento bem tratado: +100</li><li>Uso inadequado de IA: -80</li><li>Quadro desatualizado: -50</li><li>Escopo sem controle: -70</li></ul><div class="highlight warning"><strong>Defesa oral:</strong> o professor pode selecionar qualquer Story, evento ou decisão e pedir rastreabilidade.</div></div></div>`;
 }
 function renderProfessor(){
  const panel = qs('#professor');
