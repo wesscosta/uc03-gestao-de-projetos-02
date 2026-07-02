@@ -372,10 +372,60 @@ function renderEvents(){
  `<div class="grid cols-3">${events.map(e=>`<div class="card event-card ${e.level}"><div class="pill-row">${pill('Sprint '+e.sprint,'blue')}${pill(e.category || 'Evento')}${pill(e.level==='high'?'Alto impacto':'Médio impacto','hot')}</div><h3>${e.title}</h3><p>${e.text}</p>${e.action?`<div class="highlight"><strong>Ação esperada:</strong> ${e.action}</div>`:''}</div>`).join('')}</div>`+
  `<div class="panel"><h3>Como usar os eventos</h3><div class="grid cols-3"><div class="card"><h3>1. Ler</h3><p>Apresente o evento como comunicado da Diretoria, Prefeitura ou stakeholder.</p></div><div class="card"><h3>2. Decidir</h3><p>A equipe avalia impacto em escopo, prazo, qualidade, riscos e backlog.</p></div><div class="card"><h3>3. Registrar</h3><p>A decisão precisa aparecer no Jira, no relatório ou na entrega do Teams.</p></div></div></div>`;
 }
+
+function escapeHtml(value){
+  return String(value ?? '').replace(/[&<>'\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
+}
+function stripHtml(value){
+  return String(value || '').replace(/<[^>]*>/g,' ');
+}
+function libraryCategories(){
+  return ['Todos', ...Array.from(new Set(library.map(l=>l.cat))).sort((a,b)=>a.localeCompare(b,'pt-BR'))];
+}
+function libraryMatches(item, query, category){
+  const q = String(query || '').trim().toLowerCase();
+  const catOk = !category || category === 'Todos' || item.cat === category;
+  if(!catOk) return false;
+  if(!q) return true;
+  const haystack = [item.cat,item.title,item.text,stripHtml(item.details)].join(' ').toLowerCase();
+  return haystack.includes(q);
+}
+function highlightText(value, query){
+  const safe = escapeHtml(value);
+  const q = String(query || '').trim();
+  if(!q) return safe;
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return safe.replace(new RegExp(`(${escaped})`,'ig'), '<mark>$1</mark>');
+}
+function renderLibraryCards(query='', category='Todos'){
+  const items = library.filter(l=>libraryMatches(l, query, category));
+  const container = qs('#library-results');
+  const count = qs('#library-count');
+  if(count) count.innerHTML = `<strong>${items.length}</strong> conceito(s) encontrado(s)`;
+  if(!container) return;
+  if(!items.length){
+    container.innerHTML = `<div class="library-empty">Nenhum conceito encontrado. Tente buscar por termos como <strong>daily</strong>, <strong>backlog</strong>, <strong>requisitos</strong>, <strong>Jira</strong> ou <strong>Planner</strong>.</div>`;
+    return;
+  }
+  container.innerHTML = items.map(l=>`<details class="library-detail"><summary><span><strong>${highlightText(l.title, query)}</strong><span class="summary-title">${highlightText(l.text, query)}</span></span><span class="budget">${escapeHtml(l.cat)}</span></summary><div class="detail-body">${l.details || `<p>${escapeHtml(l.text)}</p>`}</div></details>`).join('');
+}
+window.nexusLibraryFilter = function(category){
+  qsa('.library-filter').forEach(b=>b.classList.toggle('active', b.dataset.category === category));
+  const input = qs('#library-search');
+  renderLibraryCards(input?.value || '', category);
+};
+window.nexusLibrarySearch = function(){
+  const active = qs('.library-filter.active')?.dataset.category || 'Todos';
+  const input = qs('#library-search');
+  renderLibraryCards(input?.value || '', active);
+};
 function renderLibrary(){
- qs('#biblioteca').innerHTML = sectionTitle('Biblioteca do Consultor','Guia de consulta da Nexus Software House. Conceitos com definição, uso prático, erros comuns e exemplos aplicados à Nexus City.')+
+ const cats = libraryCategories();
+ qs('#biblioteca').innerHTML = sectionTitle('Biblioteca do Consultor','Base de conhecimento da Nexus Software House. Pesquise conceitos, filtre por categoria e consulte exemplos aplicados à Nexus City durante o projeto.')+
  `<div class="panel"><h3>Ferramenta de gestão: a equipe pode escolher</h3><p>O Jira continua sendo uma opção forte, mas a equipe também poderá utilizar Microsoft Planner ou Azure DevOps, especialmente porque todos possuem acesso institucional Microsoft. A escolha deve ser justificada pelo PO e pelo Scrum Master.</p><div class="highlight"><strong>Regra:</strong> a ferramenta escolhida precisa permitir demandas, responsáveis, status, prioridades, evidências, impedimentos e acompanhamento do progresso.</div></div>`+
- `<div class="grid cols-2">${library.map(l=>`<details class="library-detail"><summary><strong>${l.title}</strong><span class="summary-title">${l.text}</span><span class="budget">${l.cat}</span></summary><div class="detail-body">${l.details || `<p>${l.text}</p>`}</div></details>`).join('')}</div>`;
+ `<div class="panel library-toolbar"><h3>Pesquisar na Biblioteca</h3><input id="library-search" class="library-search" type="search" placeholder="Buscar por Daily, requisitos, backlog, PO, Jira, Planner..." oninput="nexusLibrarySearch()"><div class="library-filters">${cats.map((c,i)=>`<button type="button" class="library-filter ${i===0?'active':''}" data-category="${escapeHtml(c)}" onclick="nexusLibraryFilter('${escapeHtml(c)}')">${escapeHtml(c)}</button>`).join('')}</div><p id="library-count" class="library-count"></p></div>`+
+ `<div id="library-results" class="grid cols-2"></div>`;
+ renderLibraryCards('', 'Todos');
 }
 function renderEvaluation(){
  qs('#avaliacao').innerHTML = sectionTitle('Avaliação e Gamificação','Avaliação contínua por processo, decisão, organização e defesa técnica. XP e TechCoins reforçam a experiência, mas não substituem critérios pedagógicos.')+
