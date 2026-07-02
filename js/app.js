@@ -105,7 +105,7 @@ const nexusCityOpenPoints = [
   'Qual será o MVP realista para os encontros restantes?',
   'Quais demandas entram agora e quais ficam para versões futuras?',
   'Como dividir a turma em squads ou frentes de trabalho?',
-  'Quem será PO, Scrum Master, Devs e QA?',
+  'Quem será PO, Scrum Master, Tech Lead, Devs, QA e UX/Urbanista?',
   'Quais áreas da cidade têm maior valor para a Prefeitura?',
   'Quais dependências existem entre vias, prédios, áreas verdes e serviços?',
   'Como garantir qualidade sem perder prazo?',
@@ -120,10 +120,21 @@ const nexusCityConstraints = [
   'A Daily Nexus deve encerrar cada encontro com avanços, dificuldades e próximos passos.'
 ];
 const nexusCityRoles = [
-  {role:'Product Owner', text:'Representa a Prefeitura, ajuda a priorizar demandas, valida entregas e negocia mudanças com base no valor do projeto.'},
-  {role:'Scrum Master', text:'Conduz o fluxo de trabalho, organiza a Daily Nexus, registra impedimentos e ajuda a equipe a manter foco e transparência.'},
-  {role:'Developers', text:'Executam as demandas priorizadas no Minecraft Education, mantendo o Jira atualizado com progresso e evidências.'},
-  {role:'QA', text:'Valida se as entregas atendem aos critérios definidos, registra não conformidades e evita que itens sejam concluídos sem evidência.'}
+  {role:'Product Owner', text:'Representa a Prefeitura, prioriza demandas, negocia mudanças, valida entregas e protege o valor do MVP. Não deve tentar construir tudo: deve decidir o que gera mais valor.'},
+  {role:'Scrum Master', text:'Facilita o fluxo de trabalho, conduz a Daily Nexus, registra impedimentos, organiza combinados e ajuda a equipe a manter foco, transparência e ritmo.'},
+  {role:'Tech Lead', text:'Orienta tecnicamente os Developers, define padrões de construção, cuida da integração entre áreas da cidade e apoia decisões de arquitetura no Minecraft Education.'},
+  {role:'Developers', text:'Executam as demandas priorizadas no Minecraft Education, atualizam o Jira, registram evidências, comunicam impedimentos e constroem apenas o que está alinhado ao MVP.'},
+  {role:'QA', text:'Valida critérios de aceite, verifica se as entregas atendem ao planejado, registra não conformidades e evita que itens sejam marcados como concluídos sem evidência.'},
+  {role:'UX / Urbanista Digital', text:'Avalia a experiência do cidadão, acessibilidade, mobilidade, coerência urbana, distribuição dos serviços públicos e capacidade de expansão futura da Nexus City.'}
+];
+const nexusCityTeamAssignments = [
+  {role:'Diretor de Projetos / PMO', names:['Professor'], note:'Governança, ofícios, auditoria, feedback e representação eventual da Prefeitura.'},
+  {role:'Product Owner', names:['Nureyev Santos'], note:'Voz da Prefeitura, priorização e aceite das entregas.'},
+  {role:'Scrum Master', names:['Cláudio de Araújo Pereira Rodrigues'], note:'Daily Nexus, impedimentos, Jira e cadência da equipe.'},
+  {role:'Tech Lead', names:['Kaic Daniel Vieira Cavalcante'], note:'Padrões técnicos, integração das áreas e apoio aos Developers.'},
+  {role:'QA', names:['José Flávio Miranda de Sousa'], note:'Validação dos critérios de aceite e registro de não conformidades.'},
+  {role:'UX / Urbanista Digital', names:['Ronnivon Alves Lima'], note:'Coerência urbana, acessibilidade, mobilidade e experiência do cidadão.'},
+  {role:'Developers', names:['Caio Carlos Nascimento Costa','Emerson Alves Dos Santos Lima','Hudson Miranda Ferreira','João Pedro Abreu de Sousa','Josué Santos Oliveira','Maria Francisca de Paula da Silva','Marimar Barros de Oliveira','Maycon Anderson Germano do Vale','Paulo Victor das Neves Souza','Pedro Augusto Macêdo dos Santos','Ricardo Da Paz Gomes'], note:'Execução das demandas priorizadas no Minecraft Education e atualização das issues no Jira.'}
 ];
 const nexusCityArchitecture = [
   'Definir uma área central de referência para o MVP: praça, centro administrativo ou eixo principal.',
@@ -146,7 +157,7 @@ const nexusCityDossier = [
   {title:'8. Resultado Esperado', body:'Ao final do ciclo, a Prefeitura espera ver um MVP coerente da Nexus City e entender como a equipe gerenciou o projeto: papéis, prioridades, backlog, mudanças, decisões, dificuldades e aprendizados.'}
 ];
 const nexusCitySprints = [
-  {sprint:'Encontro 1', title:'Kickoff, leitura do dossiê e organização no Jira', items:['Ler o dossiê da Prefeitura','Eleger PO e Scrum Master','Dividir squads/frentes de trabalho','Definir MVP possível','Transformar demandas em épicos/issues no Jira','Planejar a primeira execução'], daily:'O que entendemos do problema? O que decidimos priorizar? Quais dúvidas ou impedimentos existem?'},
+  {sprint:'Encontro 1', title:'Kickoff, leitura do dossiê e organização no Jira', items:['Ler o dossiê da Prefeitura','Confirmar PO, Scrum Master, Tech Lead, QA e UX/Urbanista','Distribuir Developers por frentes de trabalho','Definir MVP possível','Transformar demandas em épicos/issues no Jira','Planejar a primeira execução'], daily:'O que entendemos do problema? O que decidimos priorizar? Quais dúvidas ou impedimentos existem?'},
   {sprint:'Encontro 2', title:'Execução do MVP no Minecraft Education', items:['Abrir ambiente de simulação','Executar issues priorizadas','Atualizar board do Jira','Registrar evidências','Tratar dependências entre squads','Manter foco no MVP'], daily:'O que foi concluído? O que está em andamento? O que bloqueou o time? O que faremos no próximo encontro?'},
   {sprint:'Encontro 3', title:'Ofícios, mudanças, qualidade e Review parcial', items:['Receber ofício da Prefeitura','Avaliar impacto da mudança','Repriorizar backlog quando necessário','Corrigir não conformidades','Realizar Review parcial','Registrar decisões no Jira'], daily:'O que mudou? Como reagimos? O que será ajustado? Quais riscos ainda permanecem?'},
   {sprint:'Encontro 4', title:'Demo Day e prestação de contas', items:['Finalizar MVP','Organizar evidências do Jira','Preparar defesa executiva','Demonstrar Nexus City no Minecraft','Responder perguntas','Registrar lições aprendidas'], daily:'O que entregamos? Quais decisões foram mais importantes? O que aprendemos como equipe?'}
@@ -322,7 +333,7 @@ function renderNexusCity(){
   </div>
 
   <details open class="city-briefing"><summary><strong>📄 Dossiê Técnico da Prefeitura</strong><span class="summary-title">Processo Administrativo nº 014/2032</span><span class="budget">Ler</span></summary><div class="detail-body">
-    <div class="highlight"><strong>Uso do dossiê:</strong> este documento não entrega backlog pronto. Ele apresenta demandas, problemas, conflitos e restrições. O PO e o Scrum Master deverão conduzir a equipe para transformar essas informações em execução no Jira.</div>
+    <div class="highlight"><strong>Uso do dossiê:</strong> este documento não entrega backlog pronto. Ele apresenta demandas, problemas, conflitos e restrições. O PO, o Scrum Master, o Tech Lead, o QA e o UX/Urbanista deverão conduzir a equipe para transformar essas informações em execução no Jira e no Minecraft Education.</div>
     <div class="grid cols-2">${nexusCityDossier.map(d=>`<div class="card"><h3>${d.title}</h3><p>${d.body}</p></div>`).join('')}</div>
   </div></details>
 
@@ -339,7 +350,9 @@ function renderNexusCity(){
   <div class="panel city-section-gap"><h3>Arquitetura mínima no Minecraft Education</h3><p class="muted">A arquitetura abaixo não é um desenho pronto. É um conjunto de princípios para evitar construções desconectadas e manter o MVP coerente.</p><div class="grid cols-2">${nexusCityArchitecture.map(i=>`<div class="check"><span class="box"></span><span>${i}</span></div>`).join('')}</div></div>
 
   <h3 class="block-title">Papéis obrigatórios da equipe</h3>
-  <div class="grid cols-4">${nexusCityRoles.map(r=>`<div class="card"><h3>${r.role}</h3><p>${r.text}</p></div>`).join('')}</div>
+  <div class="grid cols-3">${nexusCityRoles.map(r=>`<div class="card"><h3>${r.role}</h3><p>${r.text}</p></div>`).join('')}</div>
+
+  <div class="panel city-section-gap"><h3>Organização oficial da equipe</h3><p class="muted">Distribuição recomendada para o ciclo final da Nexus City. O professor atua como Diretor de Projetos/PMO e, em momentos específicos, como representante da Prefeitura.</p><div class="grid cols-2">${nexusCityTeamAssignments.map(t=>`<div class="card"><div class="pill-row">${pill(t.role,'blue')}</div><h3>${t.names.join('<br>')}</h3><p>${t.note}</p></div>`).join('')}</div><div class="highlight warning"><strong>Importante:</strong> os papéis não são títulos simbólicos. Cada responsável deverá atuar durante as cerimônias, manter evidências no Jira e defender decisões no Demo Day.</div></div>
 
   <div class="panel city-section-gap"><h3>Plano enxuto dos 4 encontros</h3><p class="muted">A atividade foi reduzida para priorizar execução, acompanhamento e tomada de decisão, evitando excesso de documentos.</p><div class="grid cols-2">${nexusCitySprints.map(s=>`<div class="card"><div class="pill-row">${pill(s.sprint,'blue')}${pill('Daily Nexus','go')}</div><h3>${s.title}</h3>${checklist(s.items)}<div class="highlight"><strong>Daily Nexus:</strong> ${s.daily}</div></div>`).join('')}</div></div>
 
