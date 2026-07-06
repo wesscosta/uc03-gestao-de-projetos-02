@@ -94,12 +94,14 @@ const nexusCityFacts = [
 const nexusCityDemands = [
   'Qualidade de vida e acesso a serviços essenciais.',
   'Mobilidade urbana eficiente e vias compreensíveis.',
+  'Eixo rodoviário principal: uma BR deverá atravessar a cidade, conectando as principais regiões.',
   'Educação, saúde e segurança como serviços mínimos.',
+  'Centro de Aprendizagem Profissional inspirado no Senac, com salas, laboratórios e área de convivência.',
   'Áreas verdes e cuidado ambiental.',
   'Iluminação e infraestrutura básica.',
   'Uso inteligente de tecnologia para melhorar a vida do cidadão.',
   'Crescimento futuro sem expansão desordenada.',
-  'Acessibilidade nos principais equipamentos públicos.'
+  'Acessibilidade nos principais equipamentos públicos, vias, pontes e acessos.'
 ];
 const nexusCityOpenPoints = [
   'Qual será o MVP realista para os encontros restantes?',
@@ -117,6 +119,9 @@ const nexusCityConstraints = [
   'Toda construção deve nascer de uma demanda registrada na ferramenta de gestão.',
   'Mudanças da Prefeitura devem passar por análise de impacto.',
   'O Minecraft Education é ambiente de execução, não o objetivo da atividade.',
+  'Construções devem respeitar princípios básicos de sustentação: nada deve ficar suspenso no ar sem apoio adequado.',
+  'Pontes e viadutos são permitidos, mas precisam ter estrutura, apoio, entrada, saída e justificativa no planejamento.',
+  'Acessibilidade é obrigatória: rotas principais, entradas, ruas e pontes devem evitar desníveis desnecessários ou possuir rampas/passagens adequadas.',
   'A Daily Nexus deve encerrar cada encontro com avanços, dificuldades e próximos passos.'
 ];
 const nexusCityRoles = [
@@ -138,23 +143,31 @@ const nexusCityTeamAssignments = [
 ];
 const nexusCityArchitecture = [
   'Definir uma área central de referência para o MVP: praça, centro administrativo ou eixo principal.',
-  'Separar zonas mínimas: residencial, serviços públicos, mobilidade, área verde e tecnologia/infraestrutura.',
+  'Planejar a BR-001 Nexus como eixo rodoviário principal, atravessando a cidade e conectando zonas estratégicas.',
+  'Separar zonas mínimas: residencial, serviços públicos, mobilidade, área verde, aprendizagem profissional e tecnologia/infraestrutura.',
   'Criar eixos de circulação antes dos prédios principais para evitar construções isoladas.',
+  'Implantar o Centro de Aprendizagem Profissional em local acessível, conectado à malha viária e aos serviços públicos.',
+  'Garantir fundações ou apoios visíveis para edificações, passarelas, viadutos e pontes.',
+  'Não permitir construções flutuando no ar; exceções precisam ser pontes/viadutos com estrutura coerente.',
+  'Priorizar acessibilidade: rotas contínuas, entradas no mesmo nível quando possível, rampas quando houver desnível e pontes com acesso seguro.',
   'Usar placas no Minecraft para identificar áreas, responsáveis e entregas concluídas.',
   'Manter escala coerente entre prédios, ruas, áreas verdes e equipamentos públicos.',
   'Evitar decoração sem função: cada construção precisa ter motivo ligado ao projeto.',
-  'Registrar no Jira qual issue originou cada construção relevante.',
+  'Registrar na ferramenta de gestão qual issue originou cada construção relevante.',
   'Deixar espaço para expansão futura, mesmo que não seja construída agora.'
 ];
 const nexusCityDossier = [
   {title:'1. Carta de Abertura', body:'A Prefeitura Municipal de Nexus City contratou a Nexus Software House para conduzir a Fase 1 de um projeto de cidade inteligente. A contratação não solicita uma cidade completa, mas um MVP viável que demonstre como a cidade poderá ser planejada, priorizada, executada e evoluída.'},
-  {title:'2. Contexto do Problema', body:'Nexus City deverá receber cerca de 50.000 habitantes. A Prefeitura quer evitar erros comuns de cidades que cresceram sem planejamento: congestionamentos, bairros desconectados, ausência de áreas verdes, serviços públicos mal distribuídos, baixa acessibilidade e desperdício de recursos.'},
-  {title:'3. Demanda Central', body:'Transformar uma necessidade ampla em um projeto executável. A equipe deverá interpretar informações, eleger prioridades, organizar o trabalho no Jira e validar uma primeira versão no Minecraft Education.'},
-  {title:'4. Demandas Documentadas', body:'Foram citadas necessidades de moradia, mobilidade, saúde, educação, segurança, iluminação, áreas verdes, tecnologia, acessibilidade, saneamento básico, espaços de convivência e capacidade de expansão. Nem tudo caberá no MVP.'},
-  {title:'5. Conflitos de Prioridade', body:'A Prefeitura deseja inovação e sustentabilidade. A população cobra serviços essenciais. Empresários querem área comercial. Moradores pedem segurança e mobilidade. O PO deverá ajudar a equipe a tomar decisões de prioridade sem tentar atender tudo ao mesmo tempo.'},
-  {title:'6. Restrições', body:'O projeto possui tempo limitado, equipe reduzida, necessidade de entrega incremental e obrigação de registrar decisões. A equipe terá que escolher o que entra na Fase 1 e justificar o que ficará para depois.'},
-  {title:'7. Ambiente de Simulação', body:'O Minecraft Education será utilizado como ambiente de execução e validação visual do MVP. Ele não substitui o gerenciamento do projeto. O Jira será a fonte principal de acompanhamento das demandas, responsáveis, status e impedimentos.'},
-  {title:'8. Resultado Esperado', body:'Ao final do ciclo, a Prefeitura espera ver um MVP coerente da Nexus City e entender como a equipe gerenciou o projeto: papéis, prioridades, backlog, mudanças, decisões, dificuldades e aprendizados.'}
+  {title:'2. Contexto do Problema', body:'Nexus City deverá receber cerca de 50.000 habitantes. A Prefeitura quer evitar erros comuns de cidades que cresceram sem planejamento: congestionamentos, bairros desconectados, ausência de áreas verdes, serviços públicos mal distribuídos, baixa acessibilidade, obras sem sustentação e desperdício de recursos.'},
+  {title:'3. Demanda Central', body:'Transformar uma necessidade ampla em um projeto executável. A equipe deverá interpretar informações, eleger prioridades, organizar o trabalho na ferramenta de gestão escolhida e validar uma primeira versão no Minecraft Education.'},
+  {title:'4. Demandas Documentadas', body:'Foram citadas necessidades de moradia, mobilidade, saúde, educação, segurança, iluminação, áreas verdes, tecnologia, acessibilidade, saneamento básico, espaços de convivência, capacidade de expansão, BR principal atravessando a cidade e Centro de Aprendizagem Profissional inspirado no Senac. Nem tudo caberá no MVP.'},
+  {title:'5. Diretrizes de Mobilidade', body:'A Prefeitura deseja uma BR principal, chamada BR-001 Nexus, atravessando a cidade. O traçado deve conectar as regiões estratégicas sem destruir a lógica urbana. A equipe deverá decidir por onde a via passa, quais acessos cria e que impactos gera em segurança, mobilidade, áreas verdes e expansão futura.'},
+  {title:'6. Diretrizes de Educação Profissional', body:'A cidade deverá prever um Centro de Aprendizagem Profissional inspirado no Senac. A estrutura deverá contemplar, quando possível, salas de aula, laboratórios, biblioteca, área administrativa e convivência. A localização deve facilitar o acesso da população e estar conectada à malha viária.'},
+  {title:'7. Diretrizes Técnicas e Acessibilidade', body:'Todas as construções devem respeitar princípios básicos de sustentação. Não serão aceitas estruturas flutuando no ar sem apoio coerente. Pontes, viadutos e passarelas são permitidos quando tiverem estrutura, entrada, saída e justificativa. As rotas principais devem priorizar acessibilidade, evitando desníveis desnecessários ou utilizando rampas e passagens adequadas.'},
+  {title:'8. Conflitos de Prioridade', body:'A Prefeitura deseja inovação e sustentabilidade. A população cobra serviços essenciais. Empresários querem área comercial. Moradores pedem segurança e mobilidade. A Secretaria de Educação solicita formação profissional. O PO deverá ajudar a equipe a tomar decisões de prioridade sem tentar atender tudo ao mesmo tempo.'},
+  {title:'9. Restrições', body:'O projeto possui tempo limitado, equipe reduzida, necessidade de entrega incremental e obrigação de registrar decisões. A equipe terá que escolher o que entra na Fase 1 e justificar o que ficará para depois.'},
+  {title:'10. Ambiente de Simulação', body:'O Minecraft Education será utilizado como ambiente de execução e validação visual do MVP. Ele não substitui o gerenciamento do projeto. A ferramenta escolhida pela equipe será a fonte principal de acompanhamento das demandas, responsáveis, status e impedimentos.'},
+  {title:'11. Resultado Esperado', body:'Ao final do ciclo, a Prefeitura espera ver um MVP coerente da Nexus City e entender como a equipe gerenciou o projeto: papéis, prioridades, backlog, mudanças, decisões, dificuldades, acessibilidade, qualidade estrutural e aprendizados.'}
 ];
 const nexusCitySprints = [
   {sprint:'Encontro 1', title:'Kickoff, leitura do dossiê e organização no Jira', items:['Ler o dossiê da Prefeitura','Confirmar PO, Scrum Master, Tech Lead, QA e UX/Urbanista','Distribuir Developers por frentes de trabalho','Definir MVP possível','Transformar demandas em épicos/issues no Jira','Planejar a primeira execução'], daily:'O que entendemos do problema? O que decidimos priorizar? Quais dúvidas ou impedimentos existem?'},
@@ -317,7 +330,7 @@ function renderNexusCity(){
       <span class="eyebrow">Projeto Integrador · Fase 1</span>
       <h3>Nexus City — Smart City MVP</h3>
       <p>O foco não é preencher vários documentos. O foco é executar um projeto com gestão: interpretar o dossiê, separar demandas, dividir equipes, priorizar, acompanhar na ferramenta de gestão, adaptar-se a mudanças e demonstrar o MVP no Minecraft Education.</p>
-      <div class="pill-row">${pill('Cliente: Prefeitura Municipal','blue')}${pill('Execução: Minecraft Education','go')}${pill('Gestão: Jira / Planner / Azure DevOps / Planner / Azure DevOps','hot')}${pill('Ciclo final: 4 encontros')}</div>
+      <div class="pill-row">${pill('Cliente: Prefeitura Municipal','blue')}${pill('Execução: Minecraft Education','go')}${pill('Gestão: Jira / Planner / Azure DevOps','hot')}${pill('Ciclo final: 4 encontros')}</div>
     </div>
     <div class="highlight success"><strong>Regra de ouro:</strong> cada construção relevante precisa estar vinculada a uma demanda ou issue no Jira. Minecraft é execução; a ferramenta de gestão é o controle do projeto.</div>
   </div>
