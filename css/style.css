@@ -100,3 +100,20 @@ code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px;color:#e
 .library-detail summary .summary-title{display:block;margin-top:6px;max-width:980px}
 .library-detail .budget{justify-self:end}
 @media(max-width:700px){.library-detail summary{grid-template-columns:1fr}.library-detail .budget{justify-self:start}.library-filters{gap:8px}.library-filter{width:100%;text-align:center}}
+
+/* v5.4 — Pitch Final Nexus City */
+#menu button[data-tab="pitch-final"]{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.08)}
+#menu button[data-tab="pitch-final"].active{background:rgba(245,158,11,.18);color:#fde68a}
+#pitch-final .pitch-section{margin-top:28px}
+#pitch-final .pitch-hero{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(34,211,238,.08)),rgba(15,23,42,.86)}
+.evidence-image{width:100%;border-radius:18px;border:1px solid rgba(255,255,255,.14);box-shadow:0 22px 60px rgba(0,0,0,.28);display:block;margin-top:16px}
+.pitch-slides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.slide-card{display:flex;gap:14px;border:1px solid rgba(255,255,255,.10);background:rgba(2,6,23,.30);border-radius:16px;padding:16px;min-height:128px}
+.slide-card>strong{display:grid;place-items:center;min-width:44px;height:44px;border-radius:12px;background:rgba(245,158,11,.18);color:#fde68a;border:1px solid rgba(245,158,11,.30)}
+.slide-card h4{margin:0 0 8px;color:var(--text)}.slide-card p{margin:0;color:var(--muted);line-height:1.55}
+.evidence-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.evidence-grid div,.evidence-slot{border:1px dashed rgba(255,255,255,.22);background:rgba(255,255,255,.04);border-radius:12px;padding:10px 12px;color:var(--muted);display:block}
+.evidence-grid strong{display:block;color:#fde68a;margin-bottom:4px}.evidence-grid span{font-size:13px;line-height:1.35}
+.table-scroll{overflow:auto;border-radius:18px;border:1px solid rgba(255,255,255,.10);margin-top:18px}.table-scroll table{min-width:1180px;margin:0;border:0}.trace-table small{display:block;color:var(--muted);margin-top:4px}.trace-table td{vertical-align:top}.sprint-evidence-card{min-height:100%}
+#pitch-final blockquote{margin:0;padding:22px 24px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);border-radius:16px;color:var(--text);font-size:1.05rem;line-height:1.7}
+@media(max-width:1100px){.pitch-slides{grid-template-columns:1fr}.evidence-grid{grid-template-columns:1fr}}

@@ -29,6 +29,7 @@ const thirdEmails = window.NEXUS_THIRD_EMAILS || {};
 const meetingTranscripts = window.NEXUS_MEETING_TRANSCRIPTS || {};
 const library = window.NEXUS_LIBRARY || [];
 const events = window.NEXUS_EVENTS || [];
+const jiraItems = window.NEXUS_JIRA_ITEMS || [];
 
 const workshopTeams = [
   {
@@ -377,6 +378,103 @@ function renderNexusCity(){
   <div class="card city-section-gap"><h3>Mensagem da Diretoria</h3><blockquote>Grandes cidades, assim como grandes sistemas, começam com boas decisões. A Prefeitura não espera uma cidade completa em quatro encontros. Espera uma equipe capaz de entender demandas, priorizar valor, executar com transparência e defender tecnicamente suas escolhas. A partir de agora, o projeto da Nexus City está oficialmente em execução.</blockquote></div>`;
 }
 
+
+function cleanJiraText(value){
+  return String(value || '')
+    .replace(/\*([^*]+)\*/g,'$1')
+    .replace(/h3\.\s*/g,'')
+    .replace(/\n+/g,' ')
+    .trim();
+}
+function jiraTypeCount(type){ return jiraItems.filter(i => i.type === type).length; }
+function jiraSprintGroups(){
+  return jiraItems
+    .filter(i => i.sprint)
+    .reduce((acc,i)=>{ (acc[i.sprint] ||= []).push(i); return acc; }, {});
+}
+function jiraStories(){ return jiraItems.filter(i => i.type === 'História'); }
+function jiraSubtasksFor(parentKey){ return jiraItems.filter(i => i.type === 'Subtask' && i.parentKey === parentKey); }
+function renderJiraTraceRows(){
+  const stories = jiraStories().sort((a,b)=>{
+    const sa = Number((a.sprint||'').match(/\d+/)?.[0] || 99);
+    const sb = Number((b.sprint||'').match(/\d+/)?.[0] || 99);
+    return sa - sb || a.key.localeCompare(b.key, 'pt-BR', {numeric:true});
+  });
+  if(!stories.length) return '<tr><td colspan="6">Nenhuma história importada do Jira.csv.</td></tr>';
+  return stories.slice(0, 40).map(st=>{
+    const subtasks = jiraSubtasksFor(st.key).map(t=>`${t.key} · ${t.summary}`).slice(0,4).join('<br>') || 'Sem subtarefas importadas';
+    const acceptance = cleanJiraText(st.description).replace(/^Como /,'Como ').slice(0,190) || 'Critérios a validar no Jira';
+    return `<tr><td><strong>${st.sprint || 'Backlog'}</strong></td><td>${st.key}<br><small>${st.parentSummary || 'Sem épico vinculado'}</small></td><td>${st.summary}</td><td>${subtasks}</td><td>${acceptance}</td><td><span class="evidence-slot">Print Jira + foto Minecraft</span></td></tr>`;
+  }).join('');
+}
+function renderSprintEvidenceCards(){
+  const groups = jiraSprintGroups();
+  const names = Object.keys(groups).sort((a,b)=>Number(a.match(/\d+/)?.[0]||99)-Number(b.match(/\d+/)?.[0]||99));
+  return names.map(name=>{
+    const stories = groups[name].filter(i=>i.type==='História');
+    const subtasks = groups[name].filter(i=>i.type==='Subtask');
+    const top = stories.slice(0,5).map(i=>`${i.key} · ${i.summary}`);
+    return `<div class="card sprint-evidence-card"><div class="pill-row">${pill(name,'blue')}${pill(`${stories.length} histórias`,'go')}${pill(`${subtasks.length} subtarefas`)}</div><h3>${name} — evidências obrigatórias</h3>${list(top.length?top:['Itens ainda não vinculados'])}<div class="evidence-grid"><div><strong>Print 1</strong><span>Backlog/Board da Sprint no Jira</span></div><div><strong>Print 2</strong><span>Entrega equivalente no Minecraft</span></div><div><strong>Validação</strong><span>Critérios de aceite ou Done</span></div></div></div>`;
+  }).join('');
+}
+function renderPitchFinal(){
+ const panel = qs('#pitch-final');
+ if(!panel) return;
+ const sprintGroups = jiraSprintGroups();
+ const sprintCount = Object.keys(sprintGroups).length;
+ panel.innerHTML = sectionTitle('Pitch Final da Nexus City','Roteiro de apresentação para uma única equipe demonstrar a correlação entre Sprints no Jira, entregas no Minecraft Education e evidências do produto final.')+
+ `<div class="workshop-hero card pitch-hero">
+    <div>
+      <span class="eyebrow">Sprint Review + Demo Day</span>
+      <h3>Da gestão no Jira à entrega da cidade</h3>
+      <p>A apresentação final deve provar rastreabilidade: cada construção relevante precisa nascer de um épico, história, task ou subtask; cada item concluído precisa ter evidência visual; cada decisão precisa estar conectada ao MVP da Prefeitura.</p>
+      <div class="pill-row">${pill('Equipe única','blue')}${pill('Jira como fonte de controle','hot')}${pill('Minecraft como evidência visual','go')}${pill('Teams como entrega oficial')}</div>
+    </div>
+    <div class="highlight success"><strong>Tese da apresentação:</strong> a Nexus City não foi apenas construída; ela foi planejada, priorizada, executada, acompanhada e validada Sprint a Sprint.</div>
+  </div>
+
+  <div class="grid cols-5">
+    <div class="metric"><small>Épicos</small><strong>${jiraTypeCount('Epic')}</strong><span>macroentregas</span></div>
+    <div class="metric"><small>Histórias</small><strong>${jiraTypeCount('História')}</strong><span>funcionalidades</span></div>
+    <div class="metric"><small>Subtasks</small><strong>${jiraTypeCount('Subtask')}</strong><span>execução</span></div>
+    <div class="metric"><small>Sprints no Jira</small><strong>${sprintCount}</strong><span>ciclos</span></div>
+    <div class="metric"><small>Produto</small><strong>MVP</strong><span>Nexus City</span></div>
+  </div>
+
+  <div class="panel pitch-section"><h3>Print-base do Jira</h3><p class="muted">Use este tipo de evidência na apresentação: o público deve enxergar Sprint, User Story, Épico, status e vínculo com a entrega.</p><img class="evidence-image" src="assets/jira-backlog.png" alt="Print do backlog da Nexus City no Jira"></div>
+
+  <div class="panel pitch-section"><h3>Estrutura recomendada da apresentação</h3><div class="pitch-slides">
+    ${[
+      ['01','Capa e contexto','Nome do projeto, turma, integrantes e imagem final da Nexus City.'],
+      ['02','Problema da Prefeitura','Qual demanda originou o projeto e quais restrições existiam.'],
+      ['03','Solução proposta','MVP da cidade e valor entregue para o cidadão.'],
+      ['04','Como organizamos o trabalho','Fluxo: Dossiê → Épicos → Stories → Tasks/Subtasks → Sprint → Entrega.'],
+      ['05','Jira como fonte de verdade','Mostrar backlog, épicos, sprints e board.'],
+      ['06','Sprint 0 / Fundação','Área, padrões urbanos, prioridades, Definition of Ready e plano inicial.'],
+      ['07','Sprint 1 — Infraestrutura inicial','Sistema viário, centro administrativo, iluminação e prints comparativos.'],
+      ['08','Sprint 2 — Serviços públicos','UBS, escola municipal e evidências de acesso/conexão.'],
+      ['09','Sprint 3 — Habitação e convivência','Área residencial, praça central e justificativa de valor.'],
+      ['10','Sprint 4+ — Expansão e ajustes','Demais entregas, mudanças e decisões de priorização.'],
+      ['11','Matriz de rastreabilidade','Tabela ligando Jira, critérios de aceite e fotos/evidências.'],
+      ['12','Demonstração ao vivo','Abrir o Minecraft e navegar pela cidade na ordem das Sprints.'],
+      ['13','Indicadores e status','Itens planejados, concluídos, pendentes, bloqueios e decisões.'],
+      ['14','Retrospectiva','O que funcionou, o que não funcionou e o que faríamos diferente.'],
+      ['15','Encerramento executivo','Valor entregue, próximos passos e defesa final do MVP.']
+    ].map(s=>`<div class="slide-card"><strong>${s[0]}</strong><div><h4>${s[1]}</h4><p>${s[2]}</p></div></div>`).join('')}
+  </div></div>
+
+  <div class="panel pitch-section"><h3>Roteiro de fala por Sprint</h3><p class="muted">Para cada Sprint, a equipe deve repetir o mesmo padrão: planejado, executado, evidência e validação.</p><div class="grid cols-2">${renderSprintEvidenceCards()}</div></div>
+
+  <div class="panel pitch-section"><h3>Matriz de rastreabilidade Jira → Entrega → Evidência</h3><p class="muted">Use esta tabela como base para a apresentação. Antes da aula, substituam o campo de evidência por prints reais do Jira e fotos do Minecraft Education.</p><div class="table-scroll"><table class="trace-table"><tr><th>Sprint</th><th>Jira</th><th>Entrega</th><th>Tasks/Subtasks</th><th>Critério/descrição</th><th>Evidência</th></tr>${renderJiraTraceRows()}</table></div></div>
+
+  <div class="grid cols-2 pitch-section">
+    <div class="card"><h3>Checklist final antes de apresentar</h3>${checklist(['Todas as histórias relevantes possuem print no Jira.','Cada entrega no Minecraft possui foto ou vídeo curto.','As evidências estão nomeadas por Sprint e US.','Itens não concluídos possuem justificativa.','A equipe consegue abrir o Jira e mostrar o vínculo ao vivo.','A apresentação mostra gestão do projeto, não apenas construções.'])}</div>
+    <div class="card"><h3>Critérios de avaliação da apresentação</h3><table><tr><th>Critério</th><th>Peso</th></tr><tr><td>Correlação Jira ↔ entrega</td><td>30%</td></tr><tr><td>Qualidade das evidências</td><td>20%</td></tr><tr><td>Clareza da narrativa executiva</td><td>15%</td></tr><tr><td>Demonstração do MVP</td><td>15%</td></tr><tr><td>Aplicação de Scrum/Jira</td><td>10%</td></tr><tr><td>Retrospectiva e aprendizado</td><td>10%</td></tr></table></div>
+  </div>
+
+  <div class="card pitch-section"><h3>Frase de fechamento sugerida</h3><blockquote>O Jira registrou a intenção, o planejamento e o acompanhamento. O Minecraft demonstrou a entrega. A matriz de rastreabilidade conecta os dois e comprova que a Nexus City evoluiu Sprint a Sprint com gestão, evidência e valor para o cliente.</blockquote></div>`;
+}
+
 function renderEvents(){
  if(!config.showEventCards){ qs('#eventos').innerHTML = ''; return; }
  const byPhase = events.reduce((acc,e)=>{ (acc[e.sprint] ||= []).push(e); return acc; }, {});
@@ -464,6 +562,6 @@ async function initNexus(){
     }catch(e){ console.warn('Falha ao carregar configuração remota:', e); }
   }
   applyVisibilityConfig();
-  renderDashboard();renderSprints();renderClients();renderWorkshop();renderNexusCity();renderEvents();renderLibrary();renderEvaluation();
+  renderDashboard();renderSprints();renderClients();renderWorkshop();renderNexusCity();renderPitchFinal();renderEvents();renderLibrary();renderEvaluation();
 }
 initNexus();
